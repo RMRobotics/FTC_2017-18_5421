@@ -64,6 +64,7 @@ public class BasicTeleOp extends OpMode {
         double forward = -gamepad1.left_stick_y;
         double rotate = gamepad1.right_stick_x;
 
+        // mecanum drive calculations of joystick movement
         List l = new ArrayList<>();
         l.add(Math.abs(forward + rotate));
         l.add(Math.abs(forward - rotate));
@@ -71,14 +72,15 @@ public class BasicTeleOp extends OpMode {
             max = (double) Collections.max(l);
         }
 
+        // if dpad is activated, robot moves at half speed for fine-tune movements
         if (gamepad1.dpad_up) {
-            setDrive(1, 1, 1, 1);
+            setDrive(.5);
         } else if (gamepad1.dpad_down) {
-            setDrive(-1, -1, -1, -1);
+            setDrive(-.5);
         } else if (gamepad1.dpad_left) {
-            setDrive(-1, 1, 1, -1);
+            setDrive(-.5, .5, .5, -.5);
         } else if (gamepad1.dpad_right) {
-            setDrive(1, -1, -1, 1);
+            setDrive(.5, -.5, -.5, .5);
         } else {
             FL.setPower((forward + rotate) / max);
             BL.setPower((forward + rotate) / max);
@@ -88,8 +90,7 @@ public class BasicTeleOp extends OpMode {
         }
 
 
-
-        // INDEXER
+        // relic hand
         if (gamepad2.left_bumper){
             relicHand.setPosition(.5);
         } else {
@@ -106,4 +107,10 @@ public class BasicTeleOp extends OpMode {
         BR.setPower(p4);
     }
 
+    protected void setDrive(double p) {
+        FL.setPower(p);
+        FR.setPower(p);
+        BL.setPower(p);
+        BR.setPower(p);
+    }
 }
