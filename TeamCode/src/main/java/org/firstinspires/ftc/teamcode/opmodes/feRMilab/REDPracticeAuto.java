@@ -18,6 +18,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+import org.firstinspires.ftc.teamcode.core.FeRMiLinear;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -26,7 +27,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous(name = "Concept: VuMark Id", group = "Concept")
 //@Disabled
-public class REDPracticeAuto {
+public class REDPracticeAuto extends FeRMiLinear {
 
     public static final String TAG = "RED1 Auto";
     private DcMotor BR;
@@ -96,9 +97,10 @@ public class REDPracticeAuto {
         while (opModeIsActive()) {
             driveEncoder(200, 0.5);
             liftHold.setPosition(-0.93);
+            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
             while (vuMark == RelicRecoveryVuMark.UNKNOWN) {
                 telemetry.addData("VuMark", "not visible");
-                RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+                vuMark = RelicRecoveryVuMark.from(relicTemplate);
             }
             telemetry.addData("VuMark", "%s visible", vuMark);
 
