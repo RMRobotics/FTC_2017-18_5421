@@ -77,7 +77,12 @@ public class TurnOp extends FeRMiLinear {
         while (opModeIsActive()) {
             //Drive forward to line up with the jewel holder
             driveEncoder(200, 0.5);
+            //Drop the servo in the middle of the jewels
             liftHold.setPosition(-0.93);
+            //Turn and stop for a few miliseconds
+            //Turn back
+
+            //Read the Vuforia Stuff
             RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
             while (vuMark == RelicRecoveryVuMark.UNKNOWN) {
                 telemetry.addData("VuMark", "not visible");
@@ -99,6 +104,10 @@ public class TurnOp extends FeRMiLinear {
                 telemetry.addData("Rot", rX + ", " + rY + ", " + rZ);
             }
             telemetry.update();
+
+            //Store the column number in the variables
+            //Drive forward to the column that the cryptograph specified
+            //Turn function HERE
 
         }
     }
