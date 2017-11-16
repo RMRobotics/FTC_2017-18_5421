@@ -4,11 +4,11 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.rmrobotics.core.FeRMiLinear;
-import org.firstinspires.ftc.rmrobotics.util.enums.Color;
-import org.firstinspires.ftc.rmrobotics.util.enums.Direction;
+import org.firstinspires.ftc.teamcode.core.FeRMiLinear;
+import org.firstinspires.ftc.teamcode.util.enums.Color;
+import org.firstinspires.ftc.teamcode.util.enums.Direction;
 
-import static org.firstinspires.ftc.rmrobotics.util.enums.Drive.TIME;
+import static org.firstinspires.ftc.teamcode.util.enums.Drive.TIME;
 
 /**
  * Created by Simon on 3/17/17.

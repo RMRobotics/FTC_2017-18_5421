@@ -4,11 +4,11 @@ import com.kauailabs.navx.ftc.AHRS;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.rmrobotics.hardware.crservo;
-import org.firstinspires.ftc.rmrobotics.hardware.i2csensor;
-import org.firstinspires.ftc.rmrobotics.hardware.motor;
-import org.firstinspires.ftc.rmrobotics.hardware.servo;
-import org.firstinspires.ftc.rmrobotics.util.enums.Op;
+import org.firstinspires.ftc.teamcode.hardware.crservo;
+import org.firstinspires.ftc.teamcode.hardware.i2csensor;
+import org.firstinspires.ftc.teamcode.hardware.motor;
+import org.firstinspires.ftc.teamcode.hardware.servo;
+import org.firstinspires.ftc.teamcode.util.enums.Op;
 
 import java.util.ArrayList;
 
