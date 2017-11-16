@@ -21,11 +21,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 
 @Autonomous(name = "Concept: VuMark Id", group = "Concept")
 //@Disabled
-public class ConceptVuMarkIdentification {
+public class REDPracticeAuto {
 
     public static final String TAG = "RED1 Auto";
     private DcMotor BR;
