@@ -80,6 +80,37 @@ public class TurnOp extends FeRMiLinear {
             //Drop the servo in the middle of the jewels
             liftHold.setPosition(-0.93);
             //Turn and stop for a few miliseconds
+
+            //turn right
+            setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            while (Math.abs(navx.getYaw() - 12) > 2 && opModeIsActive()) {
+                int scale;
+                if (navx.getYaw() - 12 > 0) {
+                    scale = -1;
+                } else {
+                    scale = 1;
+                }
+                if (Math.abs(navx.getYaw()) < 20) {
+                    setDrive(scale * 0.4, 0);
+                } else {
+                    setDrive(scale * 0.07, 0);
+                }
+            }
+
+            //turn left
+            while (Math.abs(navx.getYaw() + 12) > 2 && opModeIsActive()) {
+                int scale;
+                if (navx.getYaw() + 12 > 0) {
+                    scale = -1;
+                } else {
+                    scale = 1;
+                }
+                if (Math.abs(navx.getYaw()) < 20) {
+                    setDrive(scale * 0.4, 0);
+                } else {
+                    setDrive(scale * 0.07, 0);
+                }
+            }
             //Turn back
 
             //Read the Vuforia Stuff
@@ -108,6 +139,10 @@ public class TurnOp extends FeRMiLinear {
             //Store the column number in the variables
             //Drive forward to the column that the cryptograph specified
             //Turn function HERE
+            //Drive forward
+            //Turn compliant wheels to insert the glyph
+            //Turn compliant wheels the other way to eject the glyph
+            //Park and stop
 
         }
     }
