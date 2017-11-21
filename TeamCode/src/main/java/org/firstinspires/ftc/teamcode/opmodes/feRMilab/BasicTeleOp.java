@@ -28,6 +28,7 @@ public class BasicTeleOp extends OpMode {
     private DcMotor relicGrabber;
     private Servo relicHand;
     private Servo relicArm;
+
     //private Servo;
 
     public void init(){

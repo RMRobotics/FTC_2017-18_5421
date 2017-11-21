@@ -50,7 +50,7 @@ public abstract class GeRMLinear extends LinearOpMode{
 
     protected Color left;
     protected Color right;
-    protected Direction beacon;
+    protected Direction jewel;
 
     public void initialize(Color c, DcMotor.RunMode r, Direction direction) {
         // motor initialization
