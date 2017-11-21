@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes.feRMilab;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.I2cDevice;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -66,6 +67,14 @@ public class SenseOp extends GeRMLinear {
         }
     }
 
+    public void getGlyph() {
+        glyphGrabber.setDirection(DcMotor.Direction.FORWARD);
+        glyphGrabber.setPower(0.8);
+    }
 
+    public void pushGlyph() {
+        glyphGrabber.setDirection(DcMotor.Direction.REVERSE);
+        glyphGrabber.setPower(0.8);
+    }
 
 }
