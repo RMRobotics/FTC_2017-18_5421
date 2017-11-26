@@ -17,109 +17,59 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.core.FeRMiLinear;
+import org.firstinspires.ftc.teamcode.core.GeRMLinear;
+import org.firstinspires.ftc.teamcode.util.enums.Color;
+
+import static org.firstinspires.ftc.teamcode.util.enums.Direction.BACKWARD;
+import static org.firstinspires.ftc.teamcode.util.enums.Direction.FORWARD;
+import static org.firstinspires.ftc.teamcode.util.enums.Direction.LEFT;
+import static org.firstinspires.ftc.teamcode.util.enums.Direction.RIGHT;
+import static org.firstinspires.ftc.teamcode.util.enums.Drive.ENCODER;
+import static org.firstinspires.ftc.teamcode.util.enums.Drive.TIME;
 
 /**
  * Created by tina on 11/16/17.
  */
 
 @Autonomous(name = "RED: Auto")
-public class DriveOp extends FeRMiLinear{
-
-    VuforiaLocalizer vuforia;
-
-    public void driveEncoder(int value, double power) {
-        double mag = Math.abs(power);
-        value = value * scale;
-        double dir = Math.signum(value - FL.getCurrentPosition());
-        setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//                setEnc(val);
-        int shift = 0;
-        // TODO: check to see if acceleration code functions properly
-        while (Math.abs(FL.getCurrentPosition() - value) > 5 && opModeIsActive()) {
-            telemetry.addData("current Encoder value: ", FL.getCurrentPosition());
-            telemetry.update();
-            if (shift * 0.02 < mag) {
-                setDrive(scale * dir * shift * 0.05);
-                shift++;
-                sleep(200);
-            } else {
-                setDrive(scale * dir * mag);
-            }
-        }
-    }
+public class DriveOp extends GeRMLinear{
 
     @Override
     public void runOpMode() {
-
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
-
-        // OR...  Do Not Activate the Camera Monitor View, to save power
-        // VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
-
-        parameters.vuforiaLicenseKey = "AY77tqP/////AAAAGfLr0EwiUEvBgqYkqzIkmW1s7GIs/g3aXlDXMXvvOAN8V1hF4ZLx8qOibfX//3q6tSGlobO4cnOU27ue2pwMeg5Z10jgtWm2S01GM1FcFYr1LFSl/MGT/2KJ+zTv0051h3MvcY8/o9pKTGsTuBA9gJ1Cfm48BLNp8kbftffjMPpuCQZapAstwIF5KsZZ2WY6JDdUNiJfU6YcML5Q+DSRM+wF8zf5iiKavSG2WW6jP1f8RukTPjFGdRJsoz05ktSJ/xi6sKh+vTlLU92K7yO38pwJ3nfPOQJrtoE8OBgzRLMvWz9UwaswWps0NJPyr8iOTGsixtWO35lZjUzP5hDkNLhzl1DFRLJUQPnltmhBif5c";
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
-        this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
-
-        VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
-        VuforiaTrackable relicTemplate = relicTrackables.get(0);
-        //relicTemplate.setName("relicVuMarkTemplate");
-
-        telemetry.addData(">", "Press Play to start");
-        telemetry.update();
-        waitForStart();
-
-        relicTrackables.activate();
-
-        while (opModeIsActive()) {
-            driveEncoder(200, 0.5);
-            liftHold.setPosition(-0.93);
-            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-            while (vuMark == RelicRecoveryVuMark.UNKNOWN) {
-                telemetry.addData("VuMark", "not visible");
-                vuMark = RelicRecoveryVuMark.from(relicTemplate);
+        super.initialize(Color.RED, DcMotor.RunMode.RUN_USING_ENCODER, FORWARD);
+//          Jewel
+//        Drive forward to align arm
+        drive(ENCODER, 1200, 0.5);
+//        Turn servo to let down jewel arm
+//        Detect color of jewel to the right of arm
+//        Scan pictograph using Vuforia; store position
+//        Turn robot depending on jewel color
+//          Glyphs 45
+//        Turn 90 towards cryptoboxes
+//        Drive distance according to pictograph position (use predetermined distances or vuforia to detect three column
+        RelicRecoveryVuMark vuMark = null;
+        switch (vuMark){
+            case LEFT:{ //largest amount
+                drive(ENCODER, 1200, 0.5);
+                break;
             }
-            telemetry.addData("VuMark", "%s visible", vuMark);
-
-            OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) relicTemplate.getListener()).getPose();
-            //telemetry.addData("Pose", format(pose));
-                /* For fun, we also exhibit the navigational pose. In the Relic Recovery game,
-                 * it is perhaps unlikely that you will actually need to act on this pose information, but
-                 * we illustrate it nevertheless, for completeness. */
-
-                /* We further illustrate how to decompose the pose into useful rotational and
-                 * translational components */
-            if (pose != null) {
-                VectorF trans = pose.getTranslation();
-                Orientation rot = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
-
-                // Extract the X, Y, and Z components of the offset of the target relative to the robot
-//                    double tX = trans.get(0);
-//                    double tY = trans.get(1);
-//                    double tZ = trans.get(2);
-                int tX = (int) trans.get(0);
-                int tY = (int) trans.get(1);
-                int tZ = (int) trans.get(2);
-                telemetry.addData("Trans", tX + ", " + tY + ", " + tZ);
-                // X is side to side
-                // Y is up and down
-                // Z is towards and away, normal distance to pictograph
-
-                // Extract the rotational components of the target relative to the robot
-//                    double rX = rot.firstAngle;
-//                    double rY = rot.secondAngle;
-//                    double rZ = rot.thirdAngle;
-                int rX = (int) rot.firstAngle;
-                int rY = (int) rot.secondAngle;
-                int rZ = (int) rot.thirdAngle;
-                telemetry.addData("Rot", rX + ", " + rY + ", " + rZ);
+            case RIGHT: { //smallest amount
+                drive(ENCODER, 1200, 0.5);
+                break;
             }
-            telemetry.update();
-
+            case CENTER: { //middle amount
+                drive(ENCODER, 1200, 0.5);
+                break;
+            }
+            case UNKNOWN:{ //middle amount
+                drive(ENCODER, 1200, 0.5);
+                break;
+            }
         }
-    }
-
-    String format(OpenGLMatrix transformationMatrix) {
-        return (transformationMatrix != null) ? transformationMatrix.formatAsTransform() : "null";
+//        Turn 90 to face boxes
+//        Turn compression wheels to push glyph into correct column
+//          Park
+//        Drive forward to park in safety triangle
+        drive(ENCODER, 1200, 0.5);
     }
 }
