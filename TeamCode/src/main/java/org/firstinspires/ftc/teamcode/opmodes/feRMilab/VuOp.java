@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes.feRMilab;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.vuforia.HINT;
 import com.vuforia.Vuforia;
 
@@ -12,6 +13,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.R;
 import org.firstinspires.ftc.teamcode.core.GeRMLinear;
+import org.firstinspires.ftc.teamcode.util.enums.Color;
+
+import static org.firstinspires.ftc.teamcode.util.enums.Direction.FORWARD;
 
 /**
  * Created by Daniel on 11/21/17.
@@ -20,28 +24,11 @@ import org.firstinspires.ftc.teamcode.core.GeRMLinear;
 public class VuOp extends GeRMLinear {
     @Override
     public void runOpMode() throws InterruptedException{
-
-        VuforiaTrackables trackables = vuforia.loadTrackablesFromAsset("RelicVuMark");
-        VuforiaTrackable trackableTemplate = trackables.get(0);
+        super.initialize(Color.RED, DcMotor.RunMode.RUN_USING_ENCODER, FORWARD);
+        relicTrackables.activate();
         while (opModeIsActive()) {
-            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(trackableTemplate);
-            if(vuMark != RelicRecoveryVuMark.UNKNOWN){
-                switch (vuMark){
-                    case LEFT:{
-
-                    }
-                        break;
-                    case RIGHT: {
-
-                    }
-                        break;
-                    case CENTER: {
-
-                    }
-                        break;
-
-                }
-            }
+            sleep(2000);
+            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
         }
     }
 }

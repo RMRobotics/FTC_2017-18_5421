@@ -17,6 +17,12 @@ import com.vuforia.HINT;
 import com.vuforia.Vuforia;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
@@ -59,6 +65,10 @@ public abstract class GeRMLinear extends LinearOpMode{
     protected Color left;
     protected Color right;
     protected Direction jewel;
+
+    protected VuforiaLocalizer vuforia;
+    protected VuforiaTrackable relicTemplate;
+    protected VuforiaTrackables relicTrackables;
 
     public void initialize(Color c, DcMotor.RunMode r, Direction direction) {
         // motor initialization
@@ -104,10 +114,11 @@ public abstract class GeRMLinear extends LinearOpMode{
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters params = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
         params.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
-
         params.vuforiaLicenseKey = "AY77tqP/////AAAAGfLr0EwiUEvBgqYkqzIkmW1s7GIs/g3aXlDXMXvvOAN8V1hF4ZLx8qOibfX//3q6tSGlobO4cnOU27ue2pwMeg5Z10jgtWm2S01GM1FcFYr1LFSl/MGT/2KJ+zTv0051h3MvcY8/o9pKTGsTuBA9gJ1Cfm48BLNp8kbftffjMPpuCQZapAstwIF5KsZZ2WY6JDdUNiJfU6YcML5Q+DSRM+wF8zf5iiKavSG2WW6jP1f8RukTPjFGdRJsoz05ktSJ/xi6sKh+vTlLU92K7yO38pwJ3nfPOQJrtoE8OBgzRLMvWz9UwaswWps0NJPyr8iOTGsixtWO35lZjUzP5hDkNLhzl1DFRLJUQPnltmhBif5c";
         params.cameraMonitorFeedback = VuforiaLocalizer.Parameters.CameraMonitorFeedback.AXES;
-
+        this.vuforia = ClassFactory.createVuforiaLocalizer(params);
+        relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+        relicTemplate = relicTrackables.get(0);
 
         // set LED to alliance color
         switch (c) {
@@ -157,6 +168,26 @@ public abstract class GeRMLinear extends LinearOpMode{
 
         // initialize servo positions
         jewelArm.setPosition(0.33);
+    }
+
+    protected void poseTelemetry(OpenGLMatrix pose){
+        VectorF trans = pose.getTranslation();
+        Orientation rot = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+
+        // Extract the X, Y, and Z components of the offset of the target relative to the robot
+        int tX = (int) trans.get(0);
+        int tY = (int) trans.get(1);
+        int tZ = (int) trans.get(2);
+        telemetry.addData("Trans", tX + ", " + tY + ", " + tZ);
+        // X is side to side
+        // Y is up and down
+        // Z is towards and away, normal distance to pictograph
+
+        // Extract the rotational components of the target relative to the robot
+        int rX = (int) rot.firstAngle;
+        int rY = (int) rot.secondAngle;
+        int rZ = (int) rot.thirdAngle;
+        telemetry.addData("Rot", rX + ", " + rY + ", " + rZ);
     }
 
     protected void driveStop(Drive type, int val, double power) {
