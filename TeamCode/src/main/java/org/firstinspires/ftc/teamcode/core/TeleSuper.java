@@ -9,16 +9,17 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
  */
 
 public abstract class TeleSuper extends OpMode {
-    private DcMotor FL;
-    private DcMotor FR;
-    private DcMotor BL;
-    private DcMotor BR;
-    private DcMotor glyphGrabber;
+    protected DcMotor FL;
+    protected DcMotor FR;
+    protected DcMotor BL;
+    protected DcMotor BR;
+    protected DcMotor glyphGrabber;
 
-    private DcMotor liftL;
-    private DcMotor liftR;
+    protected DcMotor liftL;
+    protected DcMotor liftR;
 
-    public void initialize() {
+    @Override
+    public void init() {
         FL = hardwareMap.dcMotor.get("FL");
         FR = hardwareMap.dcMotor.get("FR");
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
