@@ -77,9 +77,20 @@ public class BLUEAuto1 extends GeRMLinear{
                 break;
             }
         }
+
+        jewelArm.setPosition(0);
+
+        switch (jewel){
+            case LEFT:{ //largest amount
+                turn(CENTER, -12, .4);
+                break;
+            }
+            case RIGHT: { //smallest amount
+                turn(CENTER, 12, .4);
+                break;
+            }
+        }
 //          Glyphs 45
-//        Turn 90 towards cryptoboxes
-        turn(CENTER, -90, .4);
 //        Drive distance according to pictograph position (use predetermined distances or vuforia to detect three column
         switch (vuMark){
             case LEFT:{ //largest amount
