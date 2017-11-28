@@ -68,13 +68,11 @@ public class SenseOp extends GeRMLinear {
     }
 
     public void getGlyph() {
-        glyphGrabber.setDirection(DcMotor.Direction.FORWARD);
         glyphGrabber.setPower(0.8);
     }
 
     public void pushGlyph() {
-        glyphGrabber.setDirection(DcMotor.Direction.REVERSE);
-        glyphGrabber.setPower(0.8);
+        glyphGrabber.setPower(-0.8);
     }
 
 }

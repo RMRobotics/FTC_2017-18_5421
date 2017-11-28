@@ -90,15 +90,12 @@ public class BasicTeleOp extends OpMode {
 
         }
 
-
         // relic hand
         if (gamepad2.left_bumper){
             relicHand.setPosition(.5);
         } else {
             relicHand.setPosition(.12);
         }
-
-
     }
 
     protected void setDrive(double p1, double p2, double p3, double p4) {

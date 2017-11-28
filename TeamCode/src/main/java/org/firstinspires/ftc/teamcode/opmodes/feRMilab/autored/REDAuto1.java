@@ -43,46 +43,24 @@ public class REDAuto1 extends GeRMLinear{
         driveStop(ENCODER, 1200, 0.5);
 //        Turn servo to let down jewel arm
         jewelArm.setPosition(-0.93);
+
 //        Detect jewel color
         boolean detected = false;
         double initTime = runtime.milliseconds();
         while (runtime.milliseconds() - initTime < 200 && opModeIsActive()) {
             if (Math.abs(colorSensorReader.read(0x04, 1)[0] - 10) <= 1) {
-                //0x04 is color number
-                //10 is red
-                left = Color.RED;
-                right = Color.BLUE;
+                //0x04 is color number, 10 is red
+                jewel = LEFT;
+                detected = true;
             } else if (Math.abs(colorSensorReader.read(0x04, 1)[0] - 3) <= 1) {
                 //3 is blue
-                left = Color.BLUE;
-                right = Color.RED;
-            } else {
-                left = Color.NEITHER;
-            }
-
-            // determine side with correct color
-            if (left == Color.RED && right == Color.BLUE) {
-                detected = true;
                 jewel = RIGHT;
-                telemetry.addData("SURE", jewel.toString());
-            } else if (left == Color.BLUE && right == Color.RED) {
                 detected = true;
-                jewel = LEFT;
-                telemetry.addData("SURE", jewel.toString());
             } else {
-                if (left == Color.RED || right == Color.BLUE) {
-                    detected = true;
-                    jewel = RIGHT;
-                } else if (left == Color.BLUE || right == Color.RED) {
-                    detected = true;
-                    jewel = LEFT;
-                }
-                // output probable side with correct color
-                telemetry.addData("UNSURE:", jewel.toString());
+                detected = false;
             }
-            if (detected == true) {
-                jewelArm.setPosition(0.8);
-            }
+            telemetry.addData(Boolean.toString(detected), jewel.toString());
+
             telemetry.update();
         }
 //        Scan pictograph using Vuforia; store position
@@ -133,4 +111,3 @@ public class REDAuto1 extends GeRMLinear{
         driveStop(ENCODER, 1200, 0.5);
     }
 }
-
