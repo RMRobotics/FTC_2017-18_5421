@@ -33,7 +33,7 @@ import static org.firstinspires.ftc.teamcode.util.enums.Drive.TIME;
  */
 
 @Autonomous(name = "BLUE: Auto")
-public class BLUEAuto1 extends GeRMLinear{
+public class BLUEAuto2 extends GeRMLinear{
 
     @Override
     public void runOpMode() {
@@ -110,8 +110,10 @@ public class BLUEAuto1 extends GeRMLinear{
                 break;
             }
         }
-//        Turn 90 to face boxes
+//        Turn 90 to face boxes, drive left, turn 90
         turn(CENTER, -90, .4);
+        drive(ENCODER, 500,0.5);
+        turn(CENTER, -90, 0.5);
 //        Turn compression wheels to push glyph into correct column
         initTime = runtime.milliseconds();
         glyphGrabber.setPower(0.8);
