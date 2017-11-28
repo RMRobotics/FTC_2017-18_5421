@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes.feRMilab;
+package org.firstinspires.ftc.teamcode.opmodes.feRMilab.autored;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -86,6 +86,7 @@ public class REDAuto1 extends GeRMLinear{
             telemetry.update();
         }
 //        Scan pictograph using Vuforia; store position
+        relicTrackables.activate();
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
 //        Turn robot depending on jewel color
         switch (jewel){

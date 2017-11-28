@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes.feRMilab.autored;
+package org.firstinspires.ftc.teamcode.opmodes.feRMilab.Archive.autoblue;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -16,17 +16,17 @@ import static org.firstinspires.ftc.teamcode.util.enums.Drive.TIME;
 /**
  * Created by Simon on 1/6/16.
  */
-// RED TEAM
+// BLUE TEAM
 
-@Autonomous(name = "RED: Beacon")
+@Autonomous(name = "BLUE: Beacon")
 public class BeaconCap extends FeRMiLinear {
 
     @Override
     public void runOpMode() {
         super.initialize(Color.RED, DcMotor.RunMode.RUN_USING_ENCODER, BACKWARD);
 
-        // turn left towards first beacon
-        turn(LEFT, -37, 0.4);
+        // turn right towards first beacon
+        turn(RIGHT, 37, 0.4);
 
         // drive forward until center color sensor detects line
         double initPos = Math.abs(FL.getCurrentPosition());
@@ -51,11 +51,11 @@ public class BeaconCap extends FeRMiLinear {
             setDrive(0.07);
         }
 
-        // turn left towards beacon
-        turn(CENTER, -87, 0.2); // TODO: find correct turning angle
+        // turn right towards beacon
+        turn(CENTER, 87, 0.2); // TODO: find correct turning angle
 
         // drive forward until close enough to beacon
-        driveStop(RANGE, 12, 0.1); // or 10
+        driveStop(RANGE, 14, 0.1); // or 10
 
         // detect colors
         boolean detected = false;
@@ -80,19 +80,19 @@ public class BeaconCap extends FeRMiLinear {
             if (left == Color.RED && right == Color.BLUE) {
                 //left is red, right is blue
                 detected = true;
-                beacon = LEFT;
+                beacon = RIGHT;
                 telemetry.addData("SURE", beacon.toString());
             } else if (left == Color.BLUE && right == Color.RED) {
                 detected = true;
-                beacon = RIGHT;
+                beacon = LEFT;
                 telemetry.addData("SURE", beacon.toString());
             } else {
                 if (left == Color.RED || right == Color.BLUE) {
                     detected = true;
-                    beacon = LEFT;
+                    beacon = RIGHT;
                 } else if (left == Color.BLUE || right == Color.RED) {
                     detected = true;
-                    beacon = RIGHT;
+                    beacon = LEFT;
                 }
                 // output probable side with correct color
                 telemetry.addData("UNSURE:", beacon.toString());
@@ -121,16 +121,16 @@ public class BeaconCap extends FeRMiLinear {
         }
         sleep(70);
 
-        // begin flywheel spin up
-        flyL.setPower(1.0);
-        flyR.setPower(1.0);
-
         // back away from beacon
-        driveStop(RANGE, 45, 0.2);
+        driveStop(RANGE, 50, 0.2);
 
         // FIRST BEACON DONE
 
         initTime = runtime.milliseconds();
+
+        // begin flywheel spin up
+        flyL.setPower(1.0);
+        flyR.setPower(1.0);
 
         // retract beacon pusher motors
         if (beacon == LEFT) {
@@ -141,15 +141,15 @@ public class BeaconCap extends FeRMiLinear {
         }
 
         // SHOOTING
-        turn(CENTER, -92, 0.2);
-        while(runtime.milliseconds()-initTime < 3000 && opModeIsActive()) {
-            if (runtime.milliseconds() - initTime > 500) {
+        turn(CENTER, 84, 0.2);
+        while(runtime.milliseconds()-initTime < 4000 && opModeIsActive()) {
+            if (runtime.milliseconds() - initTime > 2300) {
                 index.setPosition(.5);
-                belt.setPower(1.0);
-            } else if (runtime.milliseconds() - initTime > 1500) {
+                belt.setPower(0.5);
+            } else if (runtime.milliseconds() - initTime > 2800) {
                 index.setPosition(.5);
                 belt.setPower(0);
-            } else if (runtime.milliseconds() - initTime > 2000) {
+            } else if (runtime.milliseconds() - initTime > 3300) {
                 index.setPosition(.5);
                 belt.setPower(1);
             }
@@ -166,8 +166,8 @@ public class BeaconCap extends FeRMiLinear {
         flyR.setPower(0);
         liftHold.setPosition(0.03);
 
-        // turn left towards second line
-        turn(CENTER, -10, 0.15);
+        // turn right towards second line
+        turn(CENTER, 13, 0.15);
 
         // drive forward slightly to move center color sensor off the first line
         drive(TIME, 500, -0.6);
@@ -198,8 +198,8 @@ public class BeaconCap extends FeRMiLinear {
         }
         setDrive(0);
 
-        // turn left towards beacon
-        turn(CENTER, -89, 0.2);
+        // turn right towards beacon
+        turn(CENTER, 87, 0.2);
 
         // drive forward until close enough to beacon
         drive(TIME, 200, -0.1);
@@ -228,19 +228,19 @@ public class BeaconCap extends FeRMiLinear {
             if (left == Color.RED && right == Color.BLUE) {
                 //left is red, right is blue
                 detected = true;
-                beacon = LEFT;
+                beacon = RIGHT;
                 telemetry.addData("SURE", beacon.toString());
             } else if (left == Color.BLUE && right == Color.RED) {
                 detected = true;
-                beacon = RIGHT;
+                beacon = LEFT;
                 telemetry.addData("SURE", beacon.toString());
             } else {
                 if (left == Color.RED || right == Color.BLUE) {
                     detected = true;
-                    beacon = LEFT;
+                    beacon = RIGHT;
                 } else if (left == Color.BLUE || right == Color.RED) {
                     detected = true;
-                    beacon = RIGHT;
+                    beacon = LEFT;
                 }
                 // output probable side with correct color
                 telemetry.addData("UNSURE:", beacon.toString());
@@ -276,7 +276,7 @@ public class BeaconCap extends FeRMiLinear {
         // SECOND BEACON DONE
 
         // turn towards center goal
-        turn(CENTER, -50, 0.4);
+        turn(CENTER, 50, 0.4);
 
         initTime = runtime.milliseconds();
 
@@ -302,7 +302,7 @@ public class BeaconCap extends FeRMiLinear {
         }
 
         while (opModeIsActive()) {
-            telemetry.addData("RED", "WINS");
+            telemetry.addData("BLUE", "WINS");
             telemetry.update();
         }
 
