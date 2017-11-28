@@ -21,6 +21,7 @@ import org.firstinspires.ftc.teamcode.core.GeRMLinear;
 import org.firstinspires.ftc.teamcode.util.enums.Color;
 
 import static org.firstinspires.ftc.teamcode.util.enums.Direction.BACKWARD;
+import static org.firstinspires.ftc.teamcode.util.enums.Direction.CENTER;
 import static org.firstinspires.ftc.teamcode.util.enums.Direction.FORWARD;
 import static org.firstinspires.ftc.teamcode.util.enums.Direction.LEFT;
 import static org.firstinspires.ftc.teamcode.util.enums.Direction.RIGHT;
@@ -39,15 +40,68 @@ public class DriveOp extends GeRMLinear{
         super.initialize(Color.RED, DcMotor.RunMode.RUN_USING_ENCODER, FORWARD);
 //          Jewel
 //        Drive forward to align arm
-        drive(ENCODER, 1200, 0.5);
+        driveStop(ENCODER, 1200, 0.5);
 //        Turn servo to let down jewel arm
-//        Detect color of jewel to the right of arm
+        jewelArm.setPosition(-0.93);
+//        Detect jewel color
+        boolean detected = false;
+        double initTime = runtime.milliseconds();
+        while (runtime.milliseconds() - initTime < 200 && opModeIsActive()) {
+            if (Math.abs(colorSensorReader.read(0x04, 1)[0] - 10) <= 1) {
+                //0x04 is color number
+                //10 is red
+                left = Color.RED;
+                right = Color.BLUE;
+            } else if (Math.abs(colorSensorReader.read(0x04, 1)[0] - 3) <= 1) {
+                //3 is blue
+                left = Color.BLUE;
+                right = Color.RED;
+            } else {
+                left = Color.NEITHER;
+            }
+
+            // determine side with correct color
+            if (left == Color.RED && right == Color.BLUE) {
+                detected = true;
+                jewel = RIGHT;
+                telemetry.addData("SURE", jewel.toString());
+            } else if (left == Color.BLUE && right == Color.RED) {
+                detected = true;
+                jewel = LEFT;
+                telemetry.addData("SURE", jewel.toString());
+            } else {
+                if (left == Color.RED || right == Color.BLUE) {
+                    detected = true;
+                    jewel = RIGHT;
+                } else if (left == Color.BLUE || right == Color.RED) {
+                    detected = true;
+                    jewel = LEFT;
+                }
+                // output probable side with correct color
+                telemetry.addData("UNSURE:", jewel.toString());
+            }
+            if (detected == true) {
+                jewelArm.setPosition(0.8);
+            }
+            telemetry.update();
+        }
 //        Scan pictograph using Vuforia; store position
+        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
 //        Turn robot depending on jewel color
+        switch (jewel){
+            case LEFT:{ //largest amount
+                turn(CENTER, 12, .4);
+                break;
+            }
+            case RIGHT: { //smallest amount
+                turn(CENTER, -12, .4);
+                break;
+            }
+        }
 //          Glyphs 45
 //        Turn 90 towards cryptoboxes
+        turn(CENTER, 90, .4);
 //        Drive distance according to pictograph position (use predetermined distances or vuforia to detect three column
-        RelicRecoveryVuMark vuMark = null;
         switch (vuMark){
             case LEFT:{ //largest amount
                 drive(ENCODER, 1200, 0.5);
@@ -67,9 +121,15 @@ public class DriveOp extends GeRMLinear{
             }
         }
 //        Turn 90 to face boxes
+        turn(CENTER, 90, .4);
 //        Turn compression wheels to push glyph into correct column
+        initTime = runtime.milliseconds();
+        glyphGrabber.setPower(0.8);
+        sleep(200);
+        glyphGrabber.setPower(0);
 //          Park
 //        Drive forward to park in safety triangle
-        drive(ENCODER, 1200, 0.5);
+        driveStop(ENCODER, 1200, 0.5);
     }
 }
+
