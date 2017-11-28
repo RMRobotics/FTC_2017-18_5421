@@ -48,8 +48,6 @@ public abstract class GeRMLinear extends LinearOpMode{
 
     protected AHRS navx;
 
-    protected VoltageSensor flyMC;
-
     protected I2cDevice colorSensor;
     protected I2cDeviceSynch colorSensorReader;
 
@@ -95,9 +93,6 @@ public abstract class GeRMLinear extends LinearOpMode{
             telemetry.addData("Status", !navx.isCalibrating());
             telemetry.update();
         }
-
-        // voltage sensor initialization
-        flyMC = hardwareMap.voltageSensor.get("Flywheel Controller 1");
 
         // center color sensor
         colorSensor = hardwareMap.i2cDevice.get("colorCenter");
@@ -154,8 +149,6 @@ public abstract class GeRMLinear extends LinearOpMode{
 
         left = Color.NEITHER;
         right = Color.NEITHER;
-
-        voltage = flyMC.getVoltage();
 
         telemetry.addData("Voltage", voltage);
         telemetry.addData("Status", "Initialized");
