@@ -33,7 +33,7 @@ import static org.firstinspires.ftc.teamcode.util.enums.Drive.TIME;
  */
 
 @Autonomous(name = "RED: Auto")
-public class DriveOp extends GeRMLinear{
+public class REDAuto1 extends GeRMLinear{
 
     @Override
     public void runOpMode() {
