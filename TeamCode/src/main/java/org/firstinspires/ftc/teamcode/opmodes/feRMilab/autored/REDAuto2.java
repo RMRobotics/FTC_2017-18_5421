@@ -40,8 +40,7 @@ public class REDAuto2 extends GeRMLinear{
             } else {
                 detected = false;
             }
-            telemetry.addData(Boolean.toString(detected), jewel.toString());
-
+            telemetry.addData("detected " + Boolean.toString(detected), jewel.toString());
             telemetry.update();
         }
 //        Scan pictograph using Vuforia; store position
@@ -49,19 +48,22 @@ public class REDAuto2 extends GeRMLinear{
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
 //        Turn robot depending on jewel color
         switch (jewel){
-            case LEFT:{ //largest amount
+            case LEFT:{
+                turn(CENTER, -12, .4);
+                jewelArm.setPosition(0);
                 turn(CENTER, 12, .4);
                 break;
             }
-            case RIGHT: { //smallest amount
+            case RIGHT: {
+                turn(CENTER, 12, .4);
+                jewelArm.setPosition(0);
                 turn(CENTER, -12, .4);
                 break;
             }
         }
-        jewelArm.setPosition(0);
 //          Glyphs 45
-//        Turn 90 towards cryptoboxes
-        turn(CENTER, 90, .4);
+//        Turn 90 degrees
+        turn(CENTER, -90, .4);
 //        Drive distance according to pictograph position (use predetermined distances or vuforia to detect three column
         switch (vuMark){
             case LEFT:{ //largest amount
@@ -81,10 +83,11 @@ public class REDAuto2 extends GeRMLinear{
                 break;
             }
         }
-//        Turn 90 to face boxes
-        turn(CENTER, 90, .4);
+//        Turn 90 towards cryptoboxes
+        turn(CENTER, 0, .4);
+//        Drive closer to boxes
+        driveStop(ENCODER, 500, 0.5);
 //        Turn compression wheels to push glyph into correct column
-        initTime = runtime.milliseconds();
         glyphGrabber.setPower(0.8);
         sleep(200);
         glyphGrabber.setPower(0);
