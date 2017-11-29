@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.core;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * Created by poofs on 11/28/2017.
@@ -14,6 +15,8 @@ public abstract class TeleSuper extends OpMode {
     protected DcMotor BL;
     protected DcMotor BR;
     protected DcMotor glyphGrabber;
+    protected Servo relicGrabber;
+    protected Servo relicArm;
 
     protected DcMotor liftL;
     protected DcMotor liftR;
@@ -38,6 +41,11 @@ public abstract class TeleSuper extends OpMode {
         liftR = hardwareMap.dcMotor.get("liftR");
         liftR.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        relicGrabber = hardwareMap.servo.get("relicGrabber");
+        relicGrabber.setPosition(0);
+        relicArm = hardwareMap.servo.get("relicArm");
+        relicArm.setPosition(0);
+
         FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -56,5 +64,9 @@ public abstract class TeleSuper extends OpMode {
         FR.setPower(p2);
         BL.setPower(p3);
         BR.setPower(p4);
+    }
+
+    protected void setDrive(double p){
+        setDrive(p,p,p,p);
     }
 }
