@@ -32,7 +32,7 @@ import static org.firstinspires.ftc.teamcode.util.enums.Drive.TIME;
  * Created by tina on 11/16/17.
  */
 
-@Autonomous(name = "RED: Auto")
+@Autonomous(name = "RED1: Auto")
 public class REDAuto1 extends GeRMLinear{
 
     @Override
@@ -68,17 +68,15 @@ public class REDAuto1 extends GeRMLinear{
         switch (jewel){
             case LEFT:{
                 turn(CENTER, -12, .4);
-                jewelArm.setPosition(0);
-                turn(CENTER, 12, .4);
                 break;
             }
             case RIGHT: {
                 turn(CENTER, 12, .4);
-                jewelArm.setPosition(0);
-                turn(CENTER, -12, .4);
                 break;
             }
         }
+        jewelArm.setPosition(0);
+        turn(CENTER, 0, .4);
 //          Glyphs 45
 //        Drive distance according to pictograph position (use predetermined distances or vuforia to detect three column
         switch (vuMark){

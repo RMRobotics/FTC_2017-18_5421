@@ -32,7 +32,7 @@ import static org.firstinspires.ftc.teamcode.util.enums.Drive.TIME;
  * Created by tina on 11/16/17.
  */
 
-@Autonomous(name = "BLUE: Auto")
+@Autonomous(name = "BLUE2: Auto")
 public class BLUEAuto2 extends GeRMLinear{
 
     @Override
@@ -77,20 +77,10 @@ public class BLUEAuto2 extends GeRMLinear{
                 break;
             }
         }
-
         jewelArm.setPosition(0);
-
-        switch (jewel){
-            case LEFT:{ //largest amount
-                turn(CENTER, 0, .4);
-                break;
-            }
-            case RIGHT: { //smallest amount
-                turn(CENTER, 0, .4);
-                break;
-            }
-        }
 //          Glyphs 45
+//        Turn 90 degrees
+        turn(CENTER, 0, .4);
 //        Drive distance according to pictograph position (use predetermined distances or vuforia to detect three column
         switch (vuMark){
             case LEFT:{ //largest amount
@@ -111,11 +101,10 @@ public class BLUEAuto2 extends GeRMLinear{
             }
         }
 //        Turn 90 to face boxes, drive left, turn 90
-        turn(CENTER, -90, .4);
+        turn(CENTER, 0, .4);
+//        Drive closer to boxes
         drive(ENCODER, 500,0.5);
-        turn(CENTER, -90, 0.5);
 //        Turn compression wheels to push glyph into correct column
-        initTime = runtime.milliseconds();
         glyphGrabber.setPower(0.8);
         sleep(200);
         glyphGrabber.setPower(0);

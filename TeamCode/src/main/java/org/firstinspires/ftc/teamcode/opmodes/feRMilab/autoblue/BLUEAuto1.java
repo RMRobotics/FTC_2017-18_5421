@@ -77,19 +77,8 @@ public class BLUEAuto1 extends GeRMLinear{
                 break;
             }
         }
-
         jewelArm.setPosition(0);
-
-        switch (jewel){
-            case LEFT:{ //largest amount
-                turn(CENTER, 0, .4);
-                break;
-            }
-            case RIGHT: { //smallest amount
-                turn(CENTER, 0, .4);
-                break;
-            }
-        }
+        turn(CENTER, 0, .4);
 //          Glyphs 45
 //        Drive distance according to pictograph position (use predetermined distances or vuforia to detect three column
         switch (vuMark){
@@ -112,8 +101,9 @@ public class BLUEAuto1 extends GeRMLinear{
         }
 //        Turn 90 to face boxes
         turn(CENTER, -90, .4);
+//        Drive closer to boxes
+        driveStop(ENCODER, 500, 0.5);
 //        Turn compression wheels to push glyph into correct column
-        initTime = runtime.milliseconds();
         glyphGrabber.setPower(0.8);
         sleep(200);
         glyphGrabber.setPower(0);

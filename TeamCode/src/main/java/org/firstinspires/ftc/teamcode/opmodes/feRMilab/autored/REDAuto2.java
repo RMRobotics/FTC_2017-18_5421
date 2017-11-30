@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes.feRMilab.autored;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
@@ -16,6 +17,7 @@ import static org.firstinspires.ftc.teamcode.util.enums.Drive.ENCODER;
  * Created by poofs on 11/28/2017.
  */
 
+@Autonomous(name = "RED2: Auto")
 public class REDAuto2 extends GeRMLinear{
     @Override
     public void runOpMode() {
@@ -50,17 +52,14 @@ public class REDAuto2 extends GeRMLinear{
         switch (jewel){
             case LEFT:{
                 turn(CENTER, -12, .4);
-                jewelArm.setPosition(0);
-                turn(CENTER, 12, .4);
                 break;
             }
             case RIGHT: {
                 turn(CENTER, 12, .4);
-                jewelArm.setPosition(0);
-                turn(CENTER, -12, .4);
                 break;
             }
         }
+        jewelArm.setPosition(0);
 //          Glyphs 45
 //        Turn 90 degrees
         turn(CENTER, -90, .4);
