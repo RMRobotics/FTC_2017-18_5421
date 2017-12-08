@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes.feRMilab.Archive.autoblue;
+package org.firstinspires.ftc.teamcode.opmodes.geRM.Archive.autoblue;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;

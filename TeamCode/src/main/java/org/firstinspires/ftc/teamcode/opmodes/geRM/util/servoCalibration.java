@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes.feRMilab.util;
+package org.firstinspires.ftc.teamcode.opmodes.geRM.util;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;

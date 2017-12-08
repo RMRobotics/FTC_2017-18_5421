@@ -43,6 +43,8 @@ public abstract class GeRMLinear extends LinearOpMode{
     protected DcMotor BL;
     protected DcMotor BR;
     protected DcMotor glyphGrabber;
+    protected DcMotor liftL;
+    protected DcMotor liftR;
 
     protected Servo jewelArm;
 
@@ -74,6 +76,8 @@ public abstract class GeRMLinear extends LinearOpMode{
         FR = hardwareMap.dcMotor.get("FR");
         BL = hardwareMap.dcMotor.get("BL");
         BR = hardwareMap.dcMotor.get("BR");
+        liftL = hardwareMap.dcMotor.get("liftL");
+        liftR = hardwareMap.dcMotor.get("liftR");
         FR.setDirection(DcMotor.Direction.REVERSE);
         BR.setDirection(DcMotor.Direction.REVERSE);
         setZeroMode(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -163,6 +167,17 @@ public abstract class GeRMLinear extends LinearOpMode{
         jewelArm.setPosition(0.33);
     }
 
+    protected void setLiftPower(int val, double power){
+        val = val*scale;
+        double dir = Math.signum(val - liftL.getCurrentPosition());
+        setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        while (Math.abs(liftL.getCurrentPosition() - val) > 5 && opModeIsActive()) {
+            telemetry.addData("current Encoder value: ", liftL.getCurrentPosition());
+            telemetry.update();
+            setDrive(power);
+        }
+    }
+
     protected void poseTelemetry(OpenGLMatrix pose){
         VectorF trans = pose.getTranslation();
         Orientation rot = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
@@ -211,6 +226,7 @@ public abstract class GeRMLinear extends LinearOpMode{
                     if (shift * 0.02 < mag) {
                         setDrive(scale * dir * shift * 0.05);
                         shift ++;
+                        //increase power gradually
                         sleep(200);
                     } else {
                         setDrive(scale * dir * mag);

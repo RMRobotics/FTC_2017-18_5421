@@ -1,7 +1,6 @@
-package org.firstinspires.ftc.teamcode.opmodes.feRMilab;
+package org.firstinspires.ftc.teamcode.opmodes.geRM;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
@@ -17,11 +16,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.core.FeRMiLinear;
 
-/**
- * Created by Yardi on 11/16/2017.
- */
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
-public class TurnOp extends FeRMiLinear {
+
+@Autonomous(name = "Concept: VuMark Id", group = "Concept")
+//@Disabled
+public class REDPracticeAuto extends FeRMiLinear {
+
     public static final String TAG = "RED1 Auto";
     private DcMotor BR;
     private DcMotor BL;
@@ -31,6 +33,10 @@ public class TurnOp extends FeRMiLinear {
     private Servo jewel;
     OpenGLMatrix lastLocation = null;
 
+    /**
+     * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
+     * localization engine.
+     */
     VuforiaLocalizer vuforia;
 
     public void driveEncoder(int value, double power) {
@@ -60,13 +66,22 @@ public class TurnOp extends FeRMiLinear {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 
+        // OR...  Do Not Activate the Camera Monitor View, to save power
+        // VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+
         parameters.vuforiaLicenseKey = "AY77tqP/////AAAAGfLr0EwiUEvBgqYkqzIkmW1s7GIs/g3aXlDXMXvvOAN8V1hF4ZLx8qOibfX//3q6tSGlobO4cnOU27ue2pwMeg5Z10jgtWm2S01GM1FcFYr1LFSl/MGT/2KJ+zTv0051h3MvcY8/o9pKTGsTuBA9gJ1Cfm48BLNp8kbftffjMPpuCQZapAstwIF5KsZZ2WY6JDdUNiJfU6YcML5Q+DSRM+wF8zf5iiKavSG2WW6jP1f8RukTPjFGdRJsoz05ktSJ/xi6sKh+vTlLU92K7yO38pwJ3nfPOQJrtoE8OBgzRLMvWz9UwaswWps0NJPyr8iOTGsixtWO35lZjUzP5hDkNLhzl1DFRLJUQPnltmhBif5c";
+
+        /*
+         * We also indicate which camera on the RC that we wish to use.
+         * Here we chose the back (HiRes) camera (for greater range), but
+         * for a competition robot, the front camera might be more convenient.
+         */
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
         this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
 
         VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
         VuforiaTrackable relicTemplate = relicTrackables.get(0);
-
+        //relicTemplate.setName("relicVuMarkTemplate");
 
         telemetry.addData(">", "Press Play to start");
         telemetry.update();
@@ -75,45 +90,8 @@ public class TurnOp extends FeRMiLinear {
         relicTrackables.activate();
 
         while (opModeIsActive()) {
-            //Drive forward to line up with the jewel holder
             driveEncoder(200, 0.5);
-            //Drop the servo in the middle of the jewels
             liftHold.setPosition(-0.93);
-            //Turn and stop for a few miliseconds
-
-            //turn right
-            setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            while (Math.abs(navx.getYaw() - 12) > 2 && opModeIsActive()) {
-                int scale;
-                if (navx.getYaw() - 12 > 0) {
-                    scale = -1;
-                } else {
-                    scale = 1;
-                }
-                if (Math.abs(navx.getYaw()) < 20) {
-                    setDrive(scale * 0.4, 0);
-                } else {
-                    setDrive(scale * 0.07, 0);
-                }
-            }
-
-            //turn left
-            while (Math.abs(navx.getYaw() + 12) > 2 && opModeIsActive()) {
-                int scale;
-                if (navx.getYaw() + 12 > 0) {
-                    scale = -1;
-                } else {
-                    scale = 1;
-                }
-                if (Math.abs(navx.getYaw()) < 20) {
-                    setDrive(scale * 0.4, 0);
-                } else {
-                    setDrive(scale * 0.07, 0);
-                }
-            }
-            //Turn back
-
-            //Read the Vuforia Stuff
             RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
             while (vuMark == RelicRecoveryVuMark.UNKNOWN) {
                 telemetry.addData("VuMark", "not visible");
@@ -122,27 +100,39 @@ public class TurnOp extends FeRMiLinear {
             telemetry.addData("VuMark", "%s visible", vuMark);
 
             OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) relicTemplate.getListener()).getPose();
+            //telemetry.addData("Pose", format(pose));
+                /* For fun, we also exhibit the navigational pose. In the Relic Recovery game,
+                 * it is perhaps unlikely that you will actually need to act on this pose information, but
+                 * we illustrate it nevertheless, for completeness. */
+
+                /* We further illustrate how to decompose the pose into useful rotational and
+                 * translational components */
             if (pose != null) {
                 VectorF trans = pose.getTranslation();
                 Orientation rot = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+
+                // Extract the X, Y, and Z components of the offset of the target relative to the robot
+//                    double tX = trans.get(0);
+//                    double tY = trans.get(1);
+//                    double tZ = trans.get(2);
                 int tX = (int) trans.get(0);
                 int tY = (int) trans.get(1);
                 int tZ = (int) trans.get(2);
                 telemetry.addData("Trans", tX + ", " + tY + ", " + tZ);
+                // X is side to side
+                // Y is up and down
+                // Z is towards and away, normal distance to pictograph
+
+                // Extract the rotational components of the target relative to the robot
+//                    double rX = rot.firstAngle;
+//                    double rY = rot.secondAngle;
+//                    double rZ = rot.thirdAngle;
                 int rX = (int) rot.firstAngle;
                 int rY = (int) rot.secondAngle;
                 int rZ = (int) rot.thirdAngle;
                 telemetry.addData("Rot", rX + ", " + rY + ", " + rZ);
             }
             telemetry.update();
-
-            //Store the column number in the variables
-            //Drive forward to the column that the cryptograph specified
-            //Turn function HERE
-            //Drive forward
-            //Turn compliant wheels to insert the glyph
-            //Turn compliant wheels the other way to eject the glyph
-            //Park and stop
 
         }
     }
@@ -151,6 +141,3 @@ public class TurnOp extends FeRMiLinear {
         return (transformationMatrix != null) ? transformationMatrix.formatAsTransform() : "null";
     }
 }
-
-
-

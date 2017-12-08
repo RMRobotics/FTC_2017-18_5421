@@ -1,13 +1,7 @@
-package org.firstinspires.ftc.teamcode.opmodes.feRMilab;
+package org.firstinspires.ftc.teamcode.opmodes.geRM;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.I2cDevice;
-import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
-import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.teamcode.core.GeRMLinear;
 import org.firstinspires.ftc.teamcode.util.enums.Color;
 

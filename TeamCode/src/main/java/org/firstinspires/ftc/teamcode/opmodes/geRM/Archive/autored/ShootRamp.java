@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes.feRMilab.Archive.autored;
+package org.firstinspires.ftc.teamcode.opmodes.geRM.Archive.autored;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;

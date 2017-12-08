@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes.feRMilab;
+package org.firstinspires.ftc.teamcode.opmodes.geRM.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 

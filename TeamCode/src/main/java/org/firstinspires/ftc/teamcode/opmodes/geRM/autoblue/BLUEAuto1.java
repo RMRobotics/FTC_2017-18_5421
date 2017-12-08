@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes.feRMilab.autored;
+package org.firstinspires.ftc.teamcode.opmodes.geRM.autoblue;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -14,35 +14,40 @@ import static org.firstinspires.ftc.teamcode.util.enums.Direction.RIGHT;
 import static org.firstinspires.ftc.teamcode.util.enums.Drive.ENCODER;
 
 /**
- * Created by poofs on 11/28/2017.
+ * Created by tina on 11/16/17.
  */
 
-@Autonomous(name = "RED2: Auto")
-public class REDAuto2 extends GeRMLinear{
+@Autonomous(name = "BLUE: Auto")
+public class BLUEAuto1 extends GeRMLinear{
+
     @Override
     public void runOpMode() {
-        super.initialize(Color.RED, DcMotor.RunMode.RUN_USING_ENCODER, FORWARD);
+        super.initialize(Color.BLUE, DcMotor.RunMode.RUN_USING_ENCODER, FORWARD);
 //          Jewel
+        //raise lift
+        setLiftPower(200, .1);
 //        Drive forward to align arm
         driveStop(ENCODER, 1200, 0.5);
 //        Turn servo to let down jewel arm
         jewelArm.setPosition(-0.93);
+
 //        Detect jewel color
         boolean detected = false;
         double initTime = runtime.milliseconds();
         while (runtime.milliseconds() - initTime < 200 && opModeIsActive()) {
             if (Math.abs(colorSensorReader.read(0x04, 1)[0] - 10) <= 1) {
                 //0x04 is color number, 10 is red
-                jewel = LEFT;
+                jewel = RIGHT;
                 detected = true;
             } else if (Math.abs(colorSensorReader.read(0x04, 1)[0] - 3) <= 1) {
                 //3 is blue
-                jewel = RIGHT;
+                jewel = LEFT;
                 detected = true;
             } else {
                 detected = false;
             }
-            telemetry.addData("detected " + Boolean.toString(detected), jewel.toString());
+            telemetry.addData(Boolean.toString(detected), jewel.toString());
+
             telemetry.update();
         }
 //        Scan pictograph using Vuforia; store position
@@ -50,19 +55,18 @@ public class REDAuto2 extends GeRMLinear{
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
 //        Turn robot depending on jewel color
         switch (jewel){
-            case LEFT:{
-                turn(CENTER, -12, .4);
+            case LEFT:{ //largest amount
+                turn(CENTER, 12, .4);
                 break;
             }
-            case RIGHT: {
-                turn(CENTER, 12, .4);
+            case RIGHT: { //smallest amount
+                turn(CENTER, -12, .4);
                 break;
             }
         }
         jewelArm.setPosition(0);
+        turn(CENTER, 0, .4);
 //          Glyphs 45
-//        Turn 90 degrees
-        turn(CENTER, -90, .4);
 //        Drive distance according to pictograph position (use predetermined distances or vuforia to detect three column
         switch (vuMark){
             case LEFT:{ //largest amount
@@ -82,10 +86,12 @@ public class REDAuto2 extends GeRMLinear{
                 break;
             }
         }
-//        Turn 90 towards cryptoboxes
-        turn(CENTER, 0, .4);
+//        Turn 90 to face boxes
+        turn(CENTER, -90, .4);
 //        Drive closer to boxes
         driveStop(ENCODER, 500, 0.5);
+        //lower lift
+        setLiftPower(0,0.1);
 //        Turn compression wheels to push glyph into correct column
         glyphGrabber.setPower(0.8);
         sleep(200);
