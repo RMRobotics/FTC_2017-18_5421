@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes.geRM.Archive.tele;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -17,6 +18,7 @@ import java.util.List;
 // V.JOSH
 
 @TeleOp(name = "feRMi - TELEOP", group = "feRMi")
+@Disabled
 public class FeRMiTele extends OpMode {
 
     private DcMotor FL;

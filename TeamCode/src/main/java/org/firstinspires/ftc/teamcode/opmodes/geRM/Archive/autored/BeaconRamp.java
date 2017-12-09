@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes.geRM.Archive.autored;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.core.FeRMiLinear;
@@ -19,6 +20,7 @@ import static org.firstinspires.ftc.teamcode.util.enums.Drive.TIME;
 // RED TEAM
 
 @Autonomous(name = "RED: Beacon Ramp")
+@Disabled
 public class BeaconRamp extends FeRMiLinear {
 
     @Override

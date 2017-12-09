@@ -16,12 +16,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.core.FeRMiLinear;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
 @Autonomous(name = "Concept: VuMark Id", group = "Concept")
-//@Disabled
+@Disabled
 public class REDPracticeAuto extends FeRMiLinear {
 
     public static final String TAG = "RED1 Auto";
