@@ -15,9 +15,9 @@ public abstract class TeleSuper extends OpMode {
     protected DcMotor BL;
     protected DcMotor BR;
     protected DcMotor glyphGrabber;
-    protected DcMotor relicArm;
-    protected Servo claw;
-    protected Servo clawSpinner;
+//    protected DcMotor relicArm;
+//    protected Servo claw;
+//    protected Servo clawSpinner;
 
     protected DcMotor liftL;
     protected DcMotor liftR;
@@ -31,7 +31,7 @@ public abstract class TeleSuper extends OpMode {
         BR = hardwareMap.dcMotor.get("BR");
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
         glyphGrabber = hardwareMap.dcMotor.get("glyph");
-        relicArm = hardwareMap.dcMotor.get("relicArm");
+//        relicArm = hardwareMap.dcMotor.get("relicArm");
         FL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         FR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -43,17 +43,17 @@ public abstract class TeleSuper extends OpMode {
         liftR = hardwareMap.dcMotor.get("liftR");
         liftR.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        claw = hardwareMap.servo.get("claw");
-        claw.setPosition(0);
-        clawSpinner = hardwareMap.servo.get("clawSpinner");
-        clawSpinner.setPosition(0);
+//        claw = hardwareMap.servo.get("claw");
+//        claw.setPosition(0);
+//        clawSpinner = hardwareMap.servo.get("clawSpinner");
+//        clawSpinner.setPosition(0);
 
         FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         glyphGrabber.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        relicArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        relicArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
     }
 
@@ -62,9 +62,12 @@ public abstract class TeleSuper extends OpMode {
         telemetry.addData("2 Encoder", FL.getCurrentPosition() + " " + FR.getCurrentPosition() + " " + BL.getCurrentPosition() + " " + BR.getCurrentPosition());
         telemetry.addData("3 Glyph Harvester", glyphGrabber.getCurrentPosition());
         telemetry.addData("4 Lift Encoder Value", liftL.getCurrentPosition());
-        telemetry.addData("5 Relic Arm", relicArm.getCurrentPosition());
-        telemetry.addData("6 Claw", claw.getPosition());
-        telemetry.addData("7 Claw Spinner", clawSpinner.getPosition());
+        telemetry.addData("Gamepad1 RB and LB", gamepad1.right_bumper + " " + gamepad1.left_bumper);
+        telemetry.addData("Gamepad2 LeftStickY", gamepad2.left_stick_y);
+        telemetry.addData("Gamepad2 Y and A", gamepad2.y + " " + gamepad2.a);
+//        telemetry.addData("5 Relic Arm", relicArm.getCurrentPosition());
+//        telemetry.addData("6 Claw", claw.getPosition());
+//        telemetry.addData("7 Claw Spinner", clawSpinner.getPosition());
         telemetry.update();
     }
 

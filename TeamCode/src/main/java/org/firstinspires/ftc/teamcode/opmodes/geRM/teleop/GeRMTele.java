@@ -21,9 +21,9 @@ public class GeRMTele extends TeleSuper{
     public void loop() {
         // DRIVE
         double max = 1.0;
-        double slow = .3;
+        double slow = .2;
         double wheelsL = gamepad1.left_stick_y;
-        double wheelsR = gamepad1.right_stick_x;
+        double wheelsR = gamepad1.right_stick_y;
 
         if (gamepad1.dpad_up) {
             setDrive(slow);
@@ -39,7 +39,7 @@ public class GeRMTele extends TeleSuper{
 
         // HARVESTER
         boolean harvest = gamepad1.right_bumper;
-        boolean eject = gamepad1.right_bumper;
+        boolean eject = gamepad1.left_bumper;
         if (harvest && eject) {
             glyphGrabber.setPower(0);
         } else if (harvest) {
@@ -122,40 +122,40 @@ public class GeRMTele extends TeleSuper{
         double clampedPos = 1;
         double openedPos = 0;
 
-        switch (extendVal) {
-            case -1:
-                if (Math.abs(relicArm.getCurrentPosition()) > 5){
-                    relicArm.setPower(extend);
-                }
-                break;
-            case 1:
-                if (Math.abs(relicArm.getCurrentPosition()) - extended > 5){
-                    relicArm.setPower(extend);
-                }
-                break;
-            default:
-                relicArm.setPower(0);
-        }
-
-        if (clamp) {
-            if ((Math.abs(claw.getPosition() - clampedPos) < 5)){
-                claw.setPosition(openedPos);
-            } else if ((Math.abs(claw.getPosition() - openedPos) < 5)){
-                claw.setPosition(clampedPos);
-            } else {
-                claw.setPosition(openedPos);
-            }
-        }
-
-        if (spinClaw){
-            if((Math.abs(clawSpinner.getPosition() - spinUp) < .05)){
-                clawSpinner.setPosition(spinDown);
-            } else if ((Math.abs(clawSpinner.getPosition() - spinDown) < .05)){
-                clawSpinner.setPosition(spinUp);
-            } else {
-                clawSpinner.setPosition(spinUp);
-            }
-        }
+//        switch (extendVal) {
+//            case -1:
+//                if (Math.abs(relicArm.getCurrentPosition()) > 5){
+//                    relicArm.setPower(extend);
+//                }
+//                break;
+//            case 1:
+//                if (Math.abs(relicArm.getCurrentPosition()) - extended > 5){
+//                    relicArm.setPower(extend);
+//                }
+//                break;
+//            default:
+//                relicArm.setPower(0);
+//        }
+//
+//        if (clamp) {
+//            if ((Math.abs(claw.getPosition() - clampedPos) < 5)){
+//                claw.setPosition(openedPos);
+//            } else if ((Math.abs(claw.getPosition() - openedPos) < 5)){
+//                claw.setPosition(clampedPos);
+//            } else {
+//                claw.setPosition(openedPos);
+//            }
+//        }
+//
+//        if (spinClaw){
+//            if((Math.abs(clawSpinner.getPosition() - spinUp) < .05)){
+//                clawSpinner.setPosition(spinDown);
+//            } else if ((Math.abs(clawSpinner.getPosition() - spinDown) < .05)){
+//                clawSpinner.setPosition(spinUp);
+//            } else {
+//                clawSpinner.setPosition(spinUp);
+//            }
+//        }
 
         addTelemetry();
     }
