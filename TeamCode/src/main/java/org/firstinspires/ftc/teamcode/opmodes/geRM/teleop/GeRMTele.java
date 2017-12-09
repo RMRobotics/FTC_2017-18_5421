@@ -21,7 +21,7 @@ public class GeRMTele extends TeleSuper{
         // DRIVE
         double max = 1.0;
         double slow = .3;
-        double forward = -gamepad1.left_stick_y;
+        double forward = gamepad1.left_stick_y;
         double rotate = gamepad1.right_stick_x;
 
         List l = new ArrayList<>();
@@ -76,40 +76,32 @@ public class GeRMTele extends TeleSuper{
                 while (Math.abs(liftL.getCurrentPosition() - level2) > 5) {
                     telemetry.addData("current Lift Encoder value: ", liftL.getCurrentPosition());
                     telemetry.update();
-                    liftL.setPower(.1);
-                    liftR.setPower(.1);
+                    setLiftPower(.1);
                 }
-                liftL.setPower(0);
-                liftR.setPower(0);
+                setLiftPower(0);
             } else if (liftL.getCurrentPosition() > level2 && liftL.getCurrentPosition() < level3) {
                 while (Math.abs(liftL.getCurrentPosition() - level3) > 5) {
                     telemetry.addData("current Lift Encoder value: ", liftL.getCurrentPosition());
                     telemetry.update();
-                    liftL.setPower(.1);
-                    liftR.setPower(.1);
+                    setLiftPower(.1);
                 }
-                liftL.setPower(.1);
-                liftR.setPower(0);
+                setLiftPower(0);
             }
         } else if (lowerLift){
             if (liftL.getCurrentPosition() > level1 && liftL.getCurrentPosition() < level2){
                 while (Math.abs(liftL.getCurrentPosition() - level1) > 5) {
                     telemetry.addData("current Lift Encoder value: ", liftL.getCurrentPosition());
                     telemetry.update();
-                    liftL.setPower(-.1);
-                    liftR.setPower(-.1);
+                    setLiftPower(-.1);
                 }
-                liftL.setPower(0);
-                liftR.setPower(0);
+                setLiftPower(0);
             } else if (liftL.getCurrentPosition() > level2 && liftL.getCurrentPosition() < level3) {
                 while (Math.abs(liftL.getCurrentPosition() - level2) > 5) {
                     telemetry.addData("current Lift Encoder value: ", liftL.getCurrentPosition());
                     telemetry.update();
-                    liftL.setPower(-.1);
-                    liftR.setPower(-.1);
+                    setLiftPower(-.1);
                 }
-                liftL.setPower(.1);
-                liftR.setPower(0);
+                setLiftPower(0);
             }
         }
 
@@ -127,5 +119,10 @@ public class GeRMTele extends TeleSuper{
         }
 
         addTelemetry();
+    }
+
+    protected void setLiftPower(double power){
+        liftL.setPower(power);
+        liftR.setPower(power);
     }
 }
