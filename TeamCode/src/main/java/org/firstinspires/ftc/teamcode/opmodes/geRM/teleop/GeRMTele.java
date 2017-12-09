@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes.geRM.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.core.TeleSuper;
 
@@ -64,6 +65,53 @@ public class GeRMTele extends TeleSuper{
         double lift = gamepad2.left_stick_y;
         liftL.setPower(lift);
         liftR.setPower(lift);
+
+        boolean raiseLift = gamepad2.right_bumper;
+        boolean lowerLift = gamepad2.left_bumper;
+        int level1 = 0;
+        int level2 = 500;
+        int level3 = 1000;
+        if (raiseLift){
+            if (liftL.getCurrentPosition() > level1 && liftL.getCurrentPosition() < level2){
+                while (Math.abs(liftL.getCurrentPosition() - level2) > 5) {
+                    telemetry.addData("current Lift Encoder value: ", liftL.getCurrentPosition());
+                    telemetry.update();
+                    liftL.setPower(.1);
+                    liftR.setPower(.1);
+                }
+                liftL.setPower(0);
+                liftR.setPower(0);
+            } else if (liftL.getCurrentPosition() > level2 && liftL.getCurrentPosition() < level3) {
+                while (Math.abs(liftL.getCurrentPosition() - level3) > 5) {
+                    telemetry.addData("current Lift Encoder value: ", liftL.getCurrentPosition());
+                    telemetry.update();
+                    liftL.setPower(.1);
+                    liftR.setPower(.1);
+                }
+                liftL.setPower(.1);
+                liftR.setPower(0);
+            }
+        } else if (lowerLift){
+            if (liftL.getCurrentPosition() > level1 && liftL.getCurrentPosition() < level2){
+                while (Math.abs(liftL.getCurrentPosition() - level1) > 5) {
+                    telemetry.addData("current Lift Encoder value: ", liftL.getCurrentPosition());
+                    telemetry.update();
+                    liftL.setPower(-.1);
+                    liftR.setPower(-.1);
+                }
+                liftL.setPower(0);
+                liftR.setPower(0);
+            } else if (liftL.getCurrentPosition() > level2 && liftL.getCurrentPosition() < level3) {
+                while (Math.abs(liftL.getCurrentPosition() - level2) > 5) {
+                    telemetry.addData("current Lift Encoder value: ", liftL.getCurrentPosition());
+                    telemetry.update();
+                    liftL.setPower(-.1);
+                    liftR.setPower(-.1);
+                }
+                liftL.setPower(.1);
+                liftR.setPower(0);
+            }
+        }
 
         // ClAMP RELIC GRABBER
         float clamp = gamepad2.left_trigger;
