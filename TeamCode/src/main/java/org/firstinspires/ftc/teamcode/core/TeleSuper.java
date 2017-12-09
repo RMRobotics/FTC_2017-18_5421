@@ -60,6 +60,11 @@ public abstract class TeleSuper extends OpMode {
     protected void addTelemetry() {
         telemetry.addData("1 Motor Power", FL.getPower() + " " + FR.getPower() + " " + BL.getPower() + " " + BR.getPower());
         telemetry.addData("2 Encoder", FL.getCurrentPosition() + " " + FR.getCurrentPosition() + " " + BL.getCurrentPosition() + " " + BR.getCurrentPosition());
+        telemetry.addData("3 Glyph Harvester", glyphGrabber.getCurrentPosition());
+        telemetry.addData("4 Lift Encoder Value", liftL.getCurrentPosition());
+        telemetry.addData("5 Relic Arm", relicArm.getCurrentPosition());
+        telemetry.addData("6 Claw", claw.getPosition());
+        telemetry.addData("7 Claw Spinner", clawSpinner.getPosition());
         telemetry.update();
     }
 

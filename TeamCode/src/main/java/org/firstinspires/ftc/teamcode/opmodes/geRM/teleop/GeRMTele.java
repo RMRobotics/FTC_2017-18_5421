@@ -34,10 +34,7 @@ public class GeRMTele extends TeleSuper{
         } else if (gamepad1.dpad_right) {
             setDrive(slow, -slow, -slow, slow);
         } else {
-            FL.setPower(wheelsL*max);
-            FR.setPower(wheelsR*max);
-            BL.setPower(wheelsL*max);
-            BR.setPower(wheelsR*max);
+            setDrive(wheelsL*max, wheelsR*max, wheelsL*max, wheelsR*max);
         }
 
         // HARVESTER
@@ -79,14 +76,14 @@ public class GeRMTele extends TeleSuper{
         if (raiseLift){
             if (liftL.getCurrentPosition() > level1 && liftL.getCurrentPosition() < level2){
                 while (Math.abs(liftL.getCurrentPosition() - level2) > 5) {
-                    telemetry.addData("current Lift Encoder value: ", liftL.getCurrentPosition());
+                    telemetry.addData("4 Lift Encoder value: ", liftL.getCurrentPosition());
                     telemetry.update();
                     setLiftPower(.1);
                 }
                 setLiftPower(0);
             } else if (liftL.getCurrentPosition() > level2 && liftL.getCurrentPosition() < level3) {
                 while (Math.abs(liftL.getCurrentPosition() - level3) > 5) {
-                    telemetry.addData("current Lift Encoder value: ", liftL.getCurrentPosition());
+                    telemetry.addData("Lift Encoder value: ", liftL.getCurrentPosition());
                     telemetry.update();
                     setLiftPower(.1);
                 }
@@ -95,14 +92,14 @@ public class GeRMTele extends TeleSuper{
         } else if (lowerLift){
             if (liftL.getCurrentPosition() > level1 && liftL.getCurrentPosition() < level2){
                 while (Math.abs(liftL.getCurrentPosition() - level1) > 5) {
-                    telemetry.addData("current Lift Encoder value: ", liftL.getCurrentPosition());
+                    telemetry.addData("Lift Encoder value: ", liftL.getCurrentPosition());
                     telemetry.update();
                     setLiftPower(-.1);
                 }
                 setLiftPower(0);
             } else if (liftL.getCurrentPosition() > level2 && liftL.getCurrentPosition() < level3) {
                 while (Math.abs(liftL.getCurrentPosition() - level2) > 5) {
-                    telemetry.addData("current Lift Encoder value: ", liftL.getCurrentPosition());
+                    telemetry.addData("Lift Encoder value: ", liftL.getCurrentPosition());
                     telemetry.update();
                     setLiftPower(-.1);
                 }
