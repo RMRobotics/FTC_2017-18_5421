@@ -15,8 +15,9 @@ public abstract class TeleSuper extends OpMode {
     protected DcMotor BL;
     protected DcMotor BR;
     protected DcMotor glyphGrabber;
-    protected Servo relicGrabber;
-    protected Servo relicArm;
+    protected DcMotor relicArm;
+    protected Servo claw;
+    protected Servo clawSpinner;
 
     protected DcMotor liftL;
     protected DcMotor liftR;
@@ -30,31 +31,34 @@ public abstract class TeleSuper extends OpMode {
         BR = hardwareMap.dcMotor.get("BR");
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
         glyphGrabber = hardwareMap.dcMotor.get("glyph");
+        relicArm = hardwareMap.dcMotor.get("relicArm");
         FL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         FR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        FL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        glyphGrabber.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         liftL = hardwareMap.dcMotor.get("liftL");
         liftL.setDirection(DcMotorSimple.Direction.REVERSE);
         liftR = hardwareMap.dcMotor.get("liftR");
         liftR.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        relicGrabber = hardwareMap.servo.get("relicGrabber");
-        relicGrabber.setPosition(0);
-        relicArm = hardwareMap.servo.get("relicArm");
-        relicArm.setPosition(0);
+        claw = hardwareMap.servo.get("claw");
+        claw.setPosition(0);
+        clawSpinner = hardwareMap.servo.get("clawSpinner");
+        clawSpinner.setPosition(0);
 
         FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         glyphGrabber.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        relicArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
     }
 
     protected void addTelemetry() {
-        telemetry.addData("1 Motor", FL.getPower() + " " + FR.getPower() + " " + BL.getPower() + " " + BR.getPower());
+        telemetry.addData("1 Motor Power", FL.getPower() + " " + FR.getPower() + " " + BL.getPower() + " " + BR.getPower());
         telemetry.addData("2 Encoder", FL.getCurrentPosition() + " " + FR.getCurrentPosition() + " " + BL.getCurrentPosition() + " " + BR.getCurrentPosition());
         telemetry.update();
     }

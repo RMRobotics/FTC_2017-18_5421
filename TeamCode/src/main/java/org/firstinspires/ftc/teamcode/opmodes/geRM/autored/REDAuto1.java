@@ -24,7 +24,7 @@ public class REDAuto1 extends GeRMLinear{
     public void runOpMode() {
         super.initialize(Color.RED, DcMotor.RunMode.RUN_USING_ENCODER, FORWARD);
 //          Jewel
-//raise lift
+//          raise lift
        setLiftPower(200, .1);
 
 //        Drive forward to align arm

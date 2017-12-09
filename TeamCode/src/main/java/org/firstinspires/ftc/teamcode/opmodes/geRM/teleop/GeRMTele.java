@@ -8,12 +8,13 @@ import org.firstinspires.ftc.teamcode.core.TeleSuper;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.locks.Condition;
 
 /**
  * Created by poofs on 11/28/2017.
  */
 
-@TeleOp(name = "geRM - TELEOP", group = "feRMi")
+@TeleOp(name = "geRM - TELEOP", group = "geRM")
 public class GeRMTele extends TeleSuper{
 
     @Override
@@ -21,17 +22,8 @@ public class GeRMTele extends TeleSuper{
         // DRIVE
         double max = 1.0;
         double slow = .3;
-        double forward = gamepad1.left_stick_y;
-        double rotate = gamepad1.right_stick_x;
-
-        List l = new ArrayList<>();
-        l.add(Math.abs(forward + rotate));
-        l.add(Math.abs(forward - rotate));
-        l.add(Math.abs(forward + rotate));
-        l.add(Math.abs(forward - rotate));
-        if ((double) Collections.max(l) > max) {
-            max = (double) Collections.max(l);
-        }
+        double wheelsL = gamepad1.left_stick_y;
+        double wheelsR = gamepad1.right_stick_x;
 
         if (gamepad1.dpad_up) {
             setDrive(slow);
@@ -42,15 +34,15 @@ public class GeRMTele extends TeleSuper{
         } else if (gamepad1.dpad_right) {
             setDrive(slow, -slow, -slow, slow);
         } else {
-            FL.setPower((forward + rotate) / max);
-            FR.setPower((forward - rotate) / max);
-            BL.setPower((forward + rotate) / max);
-            BR.setPower((forward - rotate) / max);
+            FL.setPower(wheelsL*max);
+            FR.setPower(wheelsR*max);
+            BL.setPower(wheelsL*max);
+            BR.setPower(wheelsR*max);
         }
 
         // HARVESTER
-        boolean harvest = gamepad2.a;
-        boolean eject = gamepad2.y;
+        boolean harvest = gamepad1.right_bumper;
+        boolean eject = gamepad1.right_bumper;
         if (harvest && eject) {
             glyphGrabber.setPower(0);
         } else if (harvest) {
@@ -62,15 +54,28 @@ public class GeRMTele extends TeleSuper{
         }
 
         // LIFT
-        double lift = gamepad2.left_stick_y;
-        liftL.setPower(lift);
-        liftR.setPower(lift);
-
-        boolean raiseLift = gamepad2.right_bumper;
-        boolean lowerLift = gamepad2.left_bumper;
         int level1 = 0;
         int level2 = 500;
         int level3 = 1000;
+        double lift = gamepad2.left_stick_y;
+        int liftVal = (int)Math.signum(lift);
+        switch (liftVal) {
+            case -1:
+                if (Math.abs(liftL.getCurrentPosition()) - level1 > 5){
+                    setLiftPower(lift);
+                }
+                break;
+            case 1:
+                if (Math.abs(liftL.getCurrentPosition()) - level3 > 5){
+                    setLiftPower(lift);
+                }
+                break;
+            default:
+                setLiftPower(0);
+        }
+
+        boolean raiseLift = gamepad2.y;
+        boolean lowerLift = gamepad2.a;
         if (raiseLift){
             if (liftL.getCurrentPosition() > level1 && liftL.getCurrentPosition() < level2){
                 while (Math.abs(liftL.getCurrentPosition() - level2) > 5) {
@@ -105,17 +110,54 @@ public class GeRMTele extends TeleSuper{
             }
         }
 
-        // ClAMP RELIC GRABBER
-        float clamp = gamepad2.left_trigger;
-        float unclamp = gamepad2.right_trigger;
-        double maxClamp = .2;
+        // RELIC GRABBER
+        double extend = gamepad2.right_stick_y;
+        int extendVal = (int)Math.signum(extend);
+        boolean clamp = gamepad1.a;
+        boolean spinClaw = gamepad1.y;
+
+        double extended = 5000;
+//        double retracted = 0;
+
+        double spinUp = .5;
+        double spinDown = 0;
+
         double clampedPos = 1;
         double openedPos = 0;
 
-        if (clamp > 0 && clampedPos - relicGrabber.getPosition() <= .2){
-            relicGrabber.setPosition(relicGrabber.getPosition() + maxClamp*clamp);
-        } else if (unclamp > 0 && openedPos + relicGrabber.getPosition() <= .2){
-            relicGrabber.setPosition(relicGrabber.getPosition() - maxClamp*unclamp);
+        switch (extendVal) {
+            case -1:
+                if (Math.abs(relicArm.getCurrentPosition()) > 5){
+                    relicArm.setPower(extend);
+                }
+                break;
+            case 1:
+                if (Math.abs(relicArm.getCurrentPosition()) - extended > 5){
+                    relicArm.setPower(extend);
+                }
+                break;
+            default:
+                relicArm.setPower(0);
+        }
+
+        if (clamp) {
+            if ((Math.abs(claw.getPosition() - clampedPos) < 5)){
+                claw.setPosition(openedPos);
+            } else if ((Math.abs(claw.getPosition() - openedPos) < 5)){
+                claw.setPosition(clampedPos);
+            } else {
+                claw.setPosition(openedPos);
+            }
+        }
+
+        if (spinClaw){
+            if((Math.abs(clawSpinner.getPosition() - spinUp) < .05)){
+                clawSpinner.setPosition(spinDown);
+            } else if ((Math.abs(clawSpinner.getPosition() - spinDown) < .05)){
+                clawSpinner.setPosition(spinUp);
+            } else {
+                clawSpinner.setPosition(spinUp);
+            }
         }
 
         addTelemetry();
