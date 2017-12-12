@@ -107,6 +107,16 @@ public class GeRMTele extends TeleSuper{
             }
         }
 
+        // JEWEL ARM
+        boolean jewelButton = gamepad1.b;
+        if (jewelButton) {
+            if (jewelArm.getPosition() <= .5){
+                jewelArm.setPosition(1);
+            } else {
+                jewelArm.setPosition(0);
+            }
+        }
+
         // RELIC GRABBER
         double extend = gamepad2.right_stick_y;
         int extendVal = (int)Math.signum(extend);
