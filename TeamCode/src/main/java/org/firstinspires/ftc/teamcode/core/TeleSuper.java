@@ -26,34 +26,38 @@ public abstract class TeleSuper extends OpMode {
     @Override
     public void init() {
         FL = hardwareMap.dcMotor.get("FL");
-        FL.setDirection(DcMotorSimple.Direction.REVERSE);
         FR = hardwareMap.dcMotor.get("FR");
         BL = hardwareMap.dcMotor.get("BL");
-        BL.setDirection(DcMotorSimple.Direction.REVERSE);
         BR = hardwareMap.dcMotor.get("BR");
-        glyphGrabber = hardwareMap.dcMotor.get("glyph");
-//        relicArm = hardwareMap.dcMotor.get("relicArm");
+        FL.setDirection(DcMotorSimple.Direction.REVERSE);
+        BL.setDirection(DcMotorSimple.Direction.REVERSE);
         FL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         FR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
+        glyphGrabber = hardwareMap.dcMotor.get("glyph");
+        glyphGrabber.setDirection(DcMotorSimple.Direction.REVERSE);
         glyphGrabber.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+//        relicArm = hardwareMap.dcMotor.get("relicArm");
         jewelArm = hardwareMap.servo.get("jewel");
-        jewelArm.setPosition(0);
+        jewelArm.setPosition(0.2);
+
         liftL = hardwareMap.dcMotor.get("liftL");
-        liftL.setDirection(DcMotorSimple.Direction.REVERSE);
         liftR = hardwareMap.dcMotor.get("liftR");
+        liftL.setDirection(DcMotorSimple.Direction.REVERSE);
         liftR.setDirection(DcMotorSimple.Direction.REVERSE);
+
 
 //        claw = hardwareMap.servo.get("claw");
 //        claw.setPosition(0);
 //        clawSpinner = hardwareMap.servo.get("clawSpinner");
 //        clawSpinner.setPosition(0);
-
-        FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         glyphGrabber.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 //        relicArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -64,6 +68,8 @@ public abstract class TeleSuper extends OpMode {
         telemetry.addData("2 Encoder", FL.getCurrentPosition() + " " + FR.getCurrentPosition() + " " + BL.getCurrentPosition() + " " + BR.getCurrentPosition());
         telemetry.addData("3 Glyph Harvester", glyphGrabber.getCurrentPosition());
         telemetry.addData("4 Lift Encoder Value", liftL.getCurrentPosition());
+        telemetry.addData("5 Jewel Arm", jewelArm.getPosition());
+        telemetry.addData("Gamepad1 DPad Up", gamepad1.dpad_up);
         telemetry.addData("Gamepad1 RB and LB", gamepad1.right_bumper + " " + gamepad1.left_bumper);
         telemetry.addData("Gamepad2 LeftStickY", gamepad2.left_stick_y);
         telemetry.addData("Gamepad2 Y and A", gamepad2.y + " " + gamepad2.a);

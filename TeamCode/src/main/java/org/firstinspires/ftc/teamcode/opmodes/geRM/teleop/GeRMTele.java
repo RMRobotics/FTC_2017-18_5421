@@ -22,17 +22,17 @@ public class GeRMTele extends TeleSuper{
         // DRIVE
         double max = 1.0;
         double slow = .2;
-        double wheelsL = gamepad1.left_stick_y;
-        double wheelsR = gamepad1.right_stick_y;
+        double wheelsL = gamepad1.left_stick_y*-1;
+        double wheelsR = gamepad1.right_stick_y*-1;
 
         if (gamepad1.dpad_up) {
             setDrive(slow);
         } else if (gamepad1.dpad_down) {
             setDrive(-slow);
         } else if (gamepad1.dpad_left) {
-            setDrive(-slow, slow, slow, -slow);
+            setDrive(-slow, slow, -slow, slow);
         } else if (gamepad1.dpad_right) {
-            setDrive(slow, -slow, -slow, slow);
+            setDrive(slow, -slow, slow, -slow);
         } else {
             setDrive(wheelsL*max, wheelsR*max, wheelsL*max, wheelsR*max);
         }
@@ -54,17 +54,18 @@ public class GeRMTele extends TeleSuper{
         int level1 = 0;
         int level2 = 500;
         int level3 = 1000;
-        double lift = gamepad2.left_stick_y;
+        double lift = gamepad2.left_stick_y*-1;
+        double scale = .5;
         int liftVal = (int)Math.signum(lift);
         switch (liftVal) {
             case -1:
-                if (Math.abs(liftL.getCurrentPosition()) - level1 > 5){
-                    setLiftPower(lift);
+                if (Math.abs(liftL.getCurrentPosition() - level1) > 5){
+                    setLiftPower(lift*scale);
                 }
                 break;
             case 1:
-                if (Math.abs(liftL.getCurrentPosition()) - level3 > 5){
-                    setLiftPower(lift);
+                if (Math.abs(liftL.getCurrentPosition() - level3) > 5){
+                    setLiftPower(lift*scale);
                 }
                 break;
             default:
@@ -111,10 +112,14 @@ public class GeRMTele extends TeleSuper{
         boolean jewelButton = gamepad1.b;
         if (jewelButton) {
             if (jewelArm.getPosition() <= .5){
-                jewelArm.setPosition(1);
+                jewelArm.setPosition(.8);
             } else {
-                jewelArm.setPosition(0);
+                jewelArm.setPosition(.3);
             }
+        }
+        float jewel = gamepad1.right_trigger;
+        if (jewel > 0){
+            jewelArm.setPosition(jewelArm.getPosition()+jewel*.01);
         }
 
         // RELIC GRABBER
