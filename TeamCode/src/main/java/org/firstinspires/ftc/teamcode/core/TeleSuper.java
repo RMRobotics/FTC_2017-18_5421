@@ -19,6 +19,7 @@ public abstract class TeleSuper extends OpMode {
 //    protected DcMotor relicArm;
 //    protected Servo claw;
 //    protected Servo clawSpinner;
+    protected Servo lockServo;
 
     protected DcMotor liftL;
     protected DcMotor liftR;
@@ -43,6 +44,7 @@ public abstract class TeleSuper extends OpMode {
         glyphGrabber = hardwareMap.dcMotor.get("glyph");
         glyphGrabber.setDirection(DcMotorSimple.Direction.REVERSE);
         glyphGrabber.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        glyphGrabber.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 //        relicArm = hardwareMap.dcMotor.get("relicArm");
         jewelArm = hardwareMap.servo.get("jewel");
@@ -53,14 +55,13 @@ public abstract class TeleSuper extends OpMode {
         liftL.setDirection(DcMotorSimple.Direction.REVERSE);
         liftR.setDirection(DcMotorSimple.Direction.REVERSE);
 
-
 //        claw = hardwareMap.servo.get("claw");
 //        claw.setPosition(0);
 //        clawSpinner = hardwareMap.servo.get("clawSpinner");
 //        clawSpinner.setPosition(0);
-        glyphGrabber.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 //        relicArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
+        lock = hardwareMap.servo.get("lock");
+        lock.setPosition(0);
     }
 
     protected void addTelemetry() {

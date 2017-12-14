@@ -72,41 +72,41 @@ public class GeRMTele extends TeleSuper{
                 setLiftPower(0);
         }
 
-        boolean raiseLift = gamepad2.y;
-        boolean lowerLift = gamepad2.a;
-        if (raiseLift){
-            if (liftL.getCurrentPosition() > level1 && liftL.getCurrentPosition() < level2){
-                while (Math.abs(liftL.getCurrentPosition() - level2) > 5) {
-                    telemetry.addData("4 Lift Encoder value: ", liftL.getCurrentPosition());
-                    telemetry.update();
-                    setLiftPower(.1);
-                }
-                setLiftPower(0);
-            } else if (liftL.getCurrentPosition() > level2 && liftL.getCurrentPosition() < level3) {
-                while (Math.abs(liftL.getCurrentPosition() - level3) > 5) {
-                    telemetry.addData("Lift Encoder value: ", liftL.getCurrentPosition());
-                    telemetry.update();
-                    setLiftPower(.1);
-                }
-                setLiftPower(0);
-            }
-        } else if (lowerLift){
-            if (liftL.getCurrentPosition() > level1 && liftL.getCurrentPosition() < level2){
-                while (Math.abs(liftL.getCurrentPosition() - level1) > 5) {
-                    telemetry.addData("Lift Encoder value: ", liftL.getCurrentPosition());
-                    telemetry.update();
-                    setLiftPower(-.1);
-                }
-                setLiftPower(0);
-            } else if (liftL.getCurrentPosition() > level2 && liftL.getCurrentPosition() < level3) {
-                while (Math.abs(liftL.getCurrentPosition() - level2) > 5) {
-                    telemetry.addData("Lift Encoder value: ", liftL.getCurrentPosition());
-                    telemetry.update();
-                    setLiftPower(-.1);
-                }
-                setLiftPower(0);
-            }
-        }
+//        boolean raiseLift = gamepad2.y;
+//        boolean lowerLift = gamepad2.a;
+//        if (raiseLift){
+//            if (liftL.getCurrentPosition() > level1 && liftL.getCurrentPosition() < level2){
+//                while (Math.abs(liftL.getCurrentPosition() - level2) > 5) {
+//                    telemetry.addData("4 Lift Encoder value: ", liftL.getCurrentPosition());
+//                    telemetry.update();
+//                    setLiftPower(.1);
+//                }
+//                setLiftPower(0);
+//            } else if (liftL.getCurrentPosition() > level2 && liftL.getCurrentPosition() < level3) {
+//                while (Math.abs(liftL.getCurrentPosition() - level3) > 5) {
+//                    telemetry.addData("Lift Encoder value: ", liftL.getCurrentPosition());
+//                    telemetry.update();
+//                    setLiftPower(.1);
+//                }
+//                setLiftPower(0);
+//            }
+//        } else if (lowerLift){
+//            if (liftL.getCurrentPosition() > level1 && liftL.getCurrentPosition() < level2){
+//                while (Math.abs(liftL.getCurrentPosition() - level1) > 5) {
+//                    telemetry.addData("Lift Encoder value: ", liftL.getCurrentPosition());
+//                    telemetry.update();
+//                    setLiftPower(-.1);
+//                }
+//                setLiftPower(0);
+//            } else if (liftL.getCurrentPosition() > level2 && liftL.getCurrentPosition() < level3) {
+//                while (Math.abs(liftL.getCurrentPosition() - level2) > 5) {
+//                    telemetry.addData("Lift Encoder value: ", liftL.getCurrentPosition());
+//                    telemetry.update();
+//                    setLiftPower(-.1);
+//                }
+//                setLiftPower(0);
+//            }
+//        }
 
         // JEWEL ARM
         boolean jewelButton = gamepad1.b;
@@ -125,8 +125,9 @@ public class GeRMTele extends TeleSuper{
         // RELIC GRABBER
         double extend = gamepad2.right_stick_y;
         int extendVal = (int)Math.signum(extend);
-        boolean clamp = gamepad1.a;
-        boolean spinClaw = gamepad1.y;
+        boolean clamp = gamepad2.a;
+        boolean spinClaw = gamepad2.y;
+        boolean lock = gamepad2.x;
 
         double extended = 5000;
 //        double retracted = 0;
@@ -136,6 +137,9 @@ public class GeRMTele extends TeleSuper{
 
         double clampedPos = 1;
         double openedPos = 0;
+
+        double locked = 0;
+        double unlocked = 1;
 
 //        switch (extendVal) {
 //            case -1:
@@ -169,6 +173,16 @@ public class GeRMTele extends TeleSuper{
 //                clawSpinner.setPosition(spinUp);
 //            } else {
 //                clawSpinner.setPosition(spinUp);
+//            }
+//        }
+//
+//        if (lock) {
+//            if ((Math.abs(lockServo.getPosition() - locked) < 5)){
+//                lockServo.setPosition(unlocked);
+//            } else if ((Math.abs(claw.getPosition() - unlocked) < 5)){
+//                lockServo.setPosition(locked);
+//            } else {
+//                lockServo.setPosition(locked);
 //            }
 //        }
 
