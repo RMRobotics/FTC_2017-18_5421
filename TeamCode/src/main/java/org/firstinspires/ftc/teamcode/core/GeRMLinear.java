@@ -167,15 +167,18 @@ public abstract class GeRMLinear extends LinearOpMode{
         jewelArm.setPosition(0.33);
     }
 
-    protected void setLiftPower(int val, double power){
+    protected void setLift(int val, double power){
         val = val*scale;
         double dir = Math.signum(val - liftL.getCurrentPosition());
         setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         while (Math.abs(liftL.getCurrentPosition() - val) > 5 && opModeIsActive()) {
             telemetry.addData("current Encoder value: ", liftL.getCurrentPosition());
             telemetry.update();
-            setDrive(power);
+            liftL.setPower(power);
+            liftR.setPower(power);
         }
+        liftL.setPower(0);
+        liftR.setPower(0);
     }
 
     protected void poseTelemetry(OpenGLMatrix pose){
