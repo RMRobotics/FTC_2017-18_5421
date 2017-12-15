@@ -14,11 +14,13 @@ public abstract class TeleSuper extends OpMode {
     protected DcMotor FR;
     protected DcMotor BL;
     protected DcMotor BR;
+
     protected DcMotor glyphGrabber;
     protected Servo jewelArm;
-//    protected DcMotor relicArm;
-//    protected Servo claw;
-//    protected Servo clawSpinner;
+
+    protected DcMotor relicArm;
+    protected Servo claw;
+    protected Servo clawSpinner;
     protected Servo lockServo;
 
     protected DcMotor liftL;
@@ -32,10 +34,10 @@ public abstract class TeleSuper extends OpMode {
         BR = hardwareMap.dcMotor.get("BR");
         FL.setDirection(DcMotorSimple.Direction.REVERSE);
         BL.setDirection(DcMotorSimple.Direction.REVERSE);
-        FL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        FR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        BL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        BR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -46,22 +48,25 @@ public abstract class TeleSuper extends OpMode {
         glyphGrabber.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         glyphGrabber.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-//        relicArm = hardwareMap.dcMotor.get("relicArm");
         jewelArm = hardwareMap.servo.get("jewel");
-        jewelArm.setPosition(0.2);
+        jewelArm.setPosition(0.21);
 
         liftL = hardwareMap.dcMotor.get("liftL");
         liftR = hardwareMap.dcMotor.get("liftR");
         liftL.setDirection(DcMotorSimple.Direction.REVERSE);
         liftR.setDirection(DcMotorSimple.Direction.REVERSE);
 
-//        claw = hardwareMap.servo.get("claw");
-//        claw.setPosition(0);
-//        clawSpinner = hardwareMap.servo.get("clawSpinner");
-//        clawSpinner.setPosition(0);
-//        relicArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        lock = hardwareMap.servo.get("lock");
-        lock.setPosition(0);
+        claw = hardwareMap.servo.get("claw");
+        claw.setPosition(0);
+
+        clawSpinner = hardwareMap.servo.get("clawSpinner");
+        clawSpinner.setPosition(.3);
+
+        relicArm = hardwareMap.dcMotor.get("relicArm");
+        relicArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        lockServo = hardwareMap.servo.get("lock");
+        lockServo.setPosition(0);
     }
 
     protected void addTelemetry() {

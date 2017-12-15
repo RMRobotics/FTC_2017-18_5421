@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes.geRM;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.teamcode.core.GeRMLinear;
+import org.firstinspires.ftc.teamcode.util.enums.Direction;
 
 import static org.firstinspires.ftc.teamcode.util.enums.Direction.CENTER;
 import static org.firstinspires.ftc.teamcode.util.enums.Direction.LEFT;
@@ -19,7 +20,7 @@ public abstract class GeRMAuto extends GeRMLinear {
 
     protected int ejectTime = 200;
 
-    protected RelicRecoveryVuMark vuMark;
+//    protected RelicRecoveryVuMark vuMark;
 
     protected void jewelAndVuf(int turnScale){
         setLift(200, .1);
@@ -28,7 +29,7 @@ public abstract class GeRMAuto extends GeRMLinear {
 //        Turn servo to let down jewel arm
         jewelArm.setPosition(jewelPos);
 //        Detect jewel color
-        boolean detected = false;
+        boolean detected;
         double initTime = runtime.milliseconds();
         while (runtime.milliseconds() - initTime < colorTime && opModeIsActive()) {
             if (Math.abs(colorSensorReader.read(0x04, 1)[0] - 10) <= 1) {
@@ -46,8 +47,8 @@ public abstract class GeRMAuto extends GeRMLinear {
             telemetry.update();
         }
 //        Scan pictograph using Vuforia; store position
-        relicTrackables.activate();
-        vuMark = RelicRecoveryVuMark.from(relicTemplate);
+//        relicTrackables.activate();
+//        vuMark = RelicRecoveryVuMark.from(relicTemplate);
 //        Turn robot depending on jewel color
         switch (jewel){
             case LEFT:{
@@ -63,6 +64,7 @@ public abstract class GeRMAuto extends GeRMLinear {
     }
 
     protected void driveAndFaceBoxes(int turnVal2, int drive1, int drive2, int drive3, int approachVal){
+        Direction vuMark = CENTER;
         switch (vuMark){
             case LEFT:{ //largest amount
                 drive(ENCODER, drive1, 0.5);
@@ -76,10 +78,10 @@ public abstract class GeRMAuto extends GeRMLinear {
                 drive(ENCODER, drive2, 0.5);
                 break;
             }
-            case UNKNOWN:{ //middle amount
-                drive(ENCODER, drive2, 0.5);
-                break;
-            }
+//            case UNKNOWN:{ //middle amount
+//                drive(ENCODER, drive2, 0.5);
+//                break;
+//            }
         }
 //        Turn 90 towards cryptoboxes
         turn(CENTER, turnVal2, .4);

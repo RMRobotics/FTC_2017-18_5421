@@ -114,7 +114,7 @@ public class GeRMTele extends TeleSuper{
             if (jewelArm.getPosition() <= .5){
                 jewelArm.setPosition(.8);
             } else {
-                jewelArm.setPosition(.3);
+                jewelArm.setPosition(.21);
             }
         }
         float jewel = gamepad1.right_trigger;
@@ -141,50 +141,50 @@ public class GeRMTele extends TeleSuper{
         double locked = 0;
         double unlocked = 1;
 
-//        switch (extendVal) {
-//            case -1:
-//                if (Math.abs(relicArm.getCurrentPosition()) > 5){
-//                    relicArm.setPower(extend);
-//                }
-//                break;
-//            case 1:
-//                if (Math.abs(relicArm.getCurrentPosition()) - extended > 5){
-//                    relicArm.setPower(extend);
-//                }
-//                break;
-//            default:
-//                relicArm.setPower(0);
-//        }
-//
-//        if (clamp) {
-//            if ((Math.abs(claw.getPosition() - clampedPos) < 5)){
-//                claw.setPosition(openedPos);
-//            } else if ((Math.abs(claw.getPosition() - openedPos) < 5)){
-//                claw.setPosition(clampedPos);
-//            } else {
-//                claw.setPosition(openedPos);
-//            }
-//        }
-//
-//        if (spinClaw){
-//            if((Math.abs(clawSpinner.getPosition() - spinUp) < .05)){
-//                clawSpinner.setPosition(spinDown);
-//            } else if ((Math.abs(clawSpinner.getPosition() - spinDown) < .05)){
-//                clawSpinner.setPosition(spinUp);
-//            } else {
-//                clawSpinner.setPosition(spinUp);
-//            }
-//        }
-//
-//        if (lock) {
-//            if ((Math.abs(lockServo.getPosition() - locked) < 5)){
-//                lockServo.setPosition(unlocked);
-//            } else if ((Math.abs(claw.getPosition() - unlocked) < 5)){
-//                lockServo.setPosition(locked);
-//            } else {
-//                lockServo.setPosition(locked);
-//            }
-//        }
+        switch (extendVal) {
+            case -1:
+                if (Math.abs(relicArm.getCurrentPosition()) > 5){
+                    relicArm.setPower(extend);
+                }
+                break;
+            case 1:
+                if (Math.abs(relicArm.getCurrentPosition()) - extended > 5){
+                    relicArm.setPower(extend);
+                }
+                break;
+            default:
+                relicArm.setPower(0);
+        }
+
+        if (clamp) {
+            if ((Math.abs(claw.getPosition() - clampedPos) < 5)){
+                claw.setPosition(openedPos);
+            } else if ((Math.abs(claw.getPosition() - openedPos) < 5)){
+                claw.setPosition(clampedPos);
+            } else {
+                claw.setPosition(openedPos);
+            }
+        }
+
+        if (spinClaw){
+            if((Math.abs(clawSpinner.getPosition() - spinUp) < .05)){
+                clawSpinner.setPosition(spinDown);
+            } else if ((Math.abs(clawSpinner.getPosition() - spinDown) < .05)){
+                clawSpinner.setPosition(spinUp);
+            } else {
+                clawSpinner.setPosition(spinUp);
+            }
+        }
+
+        if (lock) {
+            if ((Math.abs(lockServo.getPosition() - locked) < 5)){
+                lockServo.setPosition(unlocked);
+            } else if ((Math.abs(claw.getPosition() - unlocked) < 5)){
+                lockServo.setPosition(locked);
+            } else {
+                lockServo.setPosition(locked);
+            }
+        }
 
         addTelemetry();
     }

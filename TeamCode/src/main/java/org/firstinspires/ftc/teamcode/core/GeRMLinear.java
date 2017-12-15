@@ -60,15 +60,12 @@ public abstract class GeRMLinear extends LinearOpMode{
 
     protected int scale;
     protected double initTime;
-    protected double voltage;
 
-    protected Color left;
-    protected Color right;
     protected Direction jewel;
-
-    protected VuforiaLocalizer vuforia;
-    protected VuforiaTrackable relicTemplate;
-    protected VuforiaTrackables relicTrackables;
+//
+//    protected VuforiaLocalizer vuforia;
+//    protected VuforiaTrackable relicTemplate;
+//    protected VuforiaTrackables relicTrackables;
 
     public void initialize(Color c, DcMotor.RunMode r, Direction direction) {
         // motor initialization
@@ -76,13 +73,17 @@ public abstract class GeRMLinear extends LinearOpMode{
         FR = hardwareMap.dcMotor.get("FR");
         BL = hardwareMap.dcMotor.get("BL");
         BR = hardwareMap.dcMotor.get("BR");
-        liftL = hardwareMap.dcMotor.get("liftL");
-        liftR = hardwareMap.dcMotor.get("liftR");
-        FR.setDirection(DcMotor.Direction.REVERSE);
-        BR.setDirection(DcMotor.Direction.REVERSE);
+        FL.setDirection(DcMotor.Direction.REVERSE);
+        BL.setDirection(DcMotor.Direction.REVERSE);
         setZeroMode(DcMotor.ZeroPowerBehavior.BRAKE);
         setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         setMode(r);
+
+        liftL = hardwareMap.dcMotor.get("liftL");
+        liftR = hardwareMap.dcMotor.get("liftR");
+        liftL.setDirection(DcMotorSimple.Direction.REVERSE);
+        liftR.setDirection(DcMotorSimple.Direction.REVERSE);
+
         glyphGrabber = hardwareMap.dcMotor.get("glyph");
         glyphGrabber.setDirection(DcMotorSimple.Direction.REVERSE);
         glyphGrabber.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -91,53 +92,53 @@ public abstract class GeRMLinear extends LinearOpMode{
         jewelArm = hardwareMap.servo.get("jewel");
 
         // navx initialization and calibration
-        dim = hardwareMap.deviceInterfaceModule.get("dim");
-        navx = AHRS.getInstance(dim, 0, AHRS.DeviceDataType.kProcessedData, (byte) 50);
-        while (navx.isCalibrating()) {
-            telemetry.addData("Status", !navx.isCalibrating());
-            telemetry.update();
-        }
+//        dim = hardwareMap.deviceInterfaceModule.get("dim");
+//        navx = AHRS.getInstance(dim, 0, AHRS.DeviceDataType.kProcessedData, (byte) 50);
+//        while (navx.isCalibrating()) {
+//            telemetry.addData("Status", !navx.isCalibrating());
+//            telemetry.update();
+//        }
+//
+//        // center color sensor
+//        colorSensor = hardwareMap.i2cDevice.get("colorCenter");
+//        colorSensorReader = new I2cDeviceSynchImpl(colorSensor, I2cAddr.create8bit(0x52), false);
+//        colorSensorReader.engage();
+//        colorSensorReader.write8(3,0); //edit values
+//
+//        // range finder
+//        range = hardwareMap.i2cDevice.get("range");
+//        rangeReader = new I2cDeviceSynchImpl(range, I2cAddr.create8bit(0x60), false);
+//        rangeReader.engage();
 
-        // center color sensor
-        colorSensor = hardwareMap.i2cDevice.get("colorCenter");
-        colorSensorReader = new I2cDeviceSynchImpl(colorSensor, I2cAddr.create8bit(0x52), false);
-        colorSensorReader.engage();
-        colorSensorReader.write8(3,0); //edit values
+//        //Vuforia Initialization
+//        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+//        VuforiaLocalizer.Parameters params = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+//        params.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
+//        params.vuforiaLicenseKey = "AY77tqP/////AAAAGfLr0EwiUEvBgqYkqzIkmW1s7GIs/g3aXlDXMXvvOAN8V1hF4ZLx8qOibfX//3q6tSGlobO4cnOU27ue2pwMeg5Z10jgtWm2S01GM1FcFYr1LFSl/MGT/2KJ+zTv0051h3MvcY8/o9pKTGsTuBA9gJ1Cfm48BLNp8kbftffjMPpuCQZapAstwIF5KsZZ2WY6JDdUNiJfU6YcML5Q+DSRM+wF8zf5iiKavSG2WW6jP1f8RukTPjFGdRJsoz05ktSJ/xi6sKh+vTlLU92K7yO38pwJ3nfPOQJrtoE8OBgzRLMvWz9UwaswWps0NJPyr8iOTGsixtWO35lZjUzP5hDkNLhzl1DFRLJUQPnltmhBif5c";
+//        params.cameraMonitorFeedback = VuforiaLocalizer.Parameters.CameraMonitorFeedback.AXES;
+//        this.vuforia = ClassFactory.createVuforiaLocalizer(params);
+//        relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+//        relicTemplate = relicTrackables.get(0);
 
-        // range finder
-        range = hardwareMap.i2cDevice.get("range");
-        rangeReader = new I2cDeviceSynchImpl(range, I2cAddr.create8bit(0x60), false);
-        rangeReader.engage();
-
-        //Vuforia Initialization
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        VuforiaLocalizer.Parameters params = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
-        params.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
-        params.vuforiaLicenseKey = "AY77tqP/////AAAAGfLr0EwiUEvBgqYkqzIkmW1s7GIs/g3aXlDXMXvvOAN8V1hF4ZLx8qOibfX//3q6tSGlobO4cnOU27ue2pwMeg5Z10jgtWm2S01GM1FcFYr1LFSl/MGT/2KJ+zTv0051h3MvcY8/o9pKTGsTuBA9gJ1Cfm48BLNp8kbftffjMPpuCQZapAstwIF5KsZZ2WY6JDdUNiJfU6YcML5Q+DSRM+wF8zf5iiKavSG2WW6jP1f8RukTPjFGdRJsoz05ktSJ/xi6sKh+vTlLU92K7yO38pwJ3nfPOQJrtoE8OBgzRLMvWz9UwaswWps0NJPyr8iOTGsixtWO35lZjUzP5hDkNLhzl1DFRLJUQPnltmhBif5c";
-        params.cameraMonitorFeedback = VuforiaLocalizer.Parameters.CameraMonitorFeedback.AXES;
-        this.vuforia = ClassFactory.createVuforiaLocalizer(params);
-        relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
-        relicTemplate = relicTrackables.get(0);
-
-        // set LED to alliance color
-        switch (c) {
-            case RED:
-                dim.setLED(0, false); // blue
-                dim.setLED(1, true); // red
-                break;
-            case BLUE:
-                dim.setLED(1, false);
-                dim.setLED(0, true);
-                break;
-            case NEITHER:
-                dim.setLED(1, false);
-                dim.setLED(1, true);
-                break;
-            default:
-                dim.setLED(0, false);
-                dim.setLED(0, true);
-                break;
-        }
+//        // set LED to alliance color
+//        switch (c) {
+//            case RED:
+//                dim.setLED(0, false); // blue
+//                dim.setLED(1, true); // red
+//                break;
+//            case BLUE:
+//                dim.setLED(1, false);
+//                dim.setLED(0, true);
+//                break;
+//            case NEITHER:
+//                dim.setLED(1, false);
+//                dim.setLED(1, true);
+//                break;
+//            default:
+//                dim.setLED(0, false);
+//                dim.setLED(0, true);
+//                break;
+//        }
 
         switch (direction){
             case FORWARD:
@@ -151,17 +152,13 @@ public abstract class GeRMLinear extends LinearOpMode{
                 break;
         }
 
-        left = Color.NEITHER;
-        right = Color.NEITHER;
-
-        telemetry.addData("Voltage", voltage);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
         waitForStart();
 
         runtime.reset(); // reset runtime counter
-        navx.zeroYaw(); // reset navx yaw value
+//        navx.zeroYaw(); // reset navx yaw value
 
         // initialize servo positions
         jewelArm.setPosition(0.33);
@@ -169,7 +166,6 @@ public abstract class GeRMLinear extends LinearOpMode{
 
     protected void setLift(int val, double power){
         val = val*scale;
-        double dir = Math.signum(val - liftL.getCurrentPosition());
         setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         while (Math.abs(liftL.getCurrentPosition() - val) > 5 && opModeIsActive()) {
             telemetry.addData("current Encoder value: ", liftL.getCurrentPosition());

@@ -24,18 +24,18 @@ public class REDAuto1 extends GeRMAuto {
     @Override
     public void runOpMode() {
         super.initialize(Color.RED, DcMotor.RunMode.RUN_USING_ENCODER, FORWARD);
-
-        int turnScale = -1;
-        jewelAndVuf(turnScale);
-
-        turn(CENTER, 0, .4);
-
+        setLift(200, .1);
+//        int turnScale = -1;
+//        jewelAndVuf(turnScale);
+//
+//        turn(CENTER, 0, .4);
+//
         int turnVal2 = 90;
 
-        int drive1 = 1200;
-        int drive2 = 800;
-        int drive3 = 400;
-        int approachVal = 500;
+        int drive1 = 2000;
+        int drive2 = 2150;
+        int drive3 = 2300;
+        int approachVal = 300;
 
         driveAndFaceBoxes(turnVal2, drive1, drive2, drive3, approachVal);
 
