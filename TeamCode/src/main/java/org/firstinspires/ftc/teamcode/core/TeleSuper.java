@@ -57,10 +57,10 @@ public abstract class TeleSuper extends OpMode {
         liftR.setDirection(DcMotorSimple.Direction.REVERSE);
 
         claw = hardwareMap.servo.get("claw");
-        claw.setPosition(0);
+        claw.setPosition(.7);
 
         clawSpinner = hardwareMap.servo.get("clawSpinner");
-        clawSpinner.setPosition(.3);
+        clawSpinner.setPosition(.8);
 
         relicArm = hardwareMap.dcMotor.get("relicArm");
         relicArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -74,14 +74,15 @@ public abstract class TeleSuper extends OpMode {
         telemetry.addData("2 Encoder", FL.getCurrentPosition() + " " + FR.getCurrentPosition() + " " + BL.getCurrentPosition() + " " + BR.getCurrentPosition());
         telemetry.addData("3 Glyph Harvester", glyphGrabber.getCurrentPosition());
         telemetry.addData("4 Lift Encoder Value", liftL.getCurrentPosition());
-        telemetry.addData("5 Jewel Arm", jewelArm.getPosition());
-        telemetry.addData("Gamepad1 DPad Up", gamepad1.dpad_up);
-        telemetry.addData("Gamepad1 RB and LB", gamepad1.right_bumper + " " + gamepad1.left_bumper);
-        telemetry.addData("Gamepad2 LeftStickY", gamepad2.left_stick_y);
-        telemetry.addData("Gamepad2 Y and A", gamepad2.y + " " + gamepad2.a);
-//        telemetry.addData("5 Relic Arm", relicArm.getCurrentPosition());
-//        telemetry.addData("6 Claw", claw.getPosition());
-//        telemetry.addData("7 Claw Spinner", clawSpinner.getPosition());
+        telemetry.addData("Gamepad2 Right Joystick", -1*gamepad2.right_stick_y);
+        telemetry.addData("Gamepad2 Y (Spin claw)", gamepad2.y);
+        telemetry.addData("Gamepad2 X (Lock)", gamepad2.x);
+        telemetry.addData("Gamepad2 A (Claw)", gamepad2.a);
+
+        telemetry.addData("5 Relic Arm", relicArm.getCurrentPosition());
+        telemetry.addData("6 Claw", claw.getPosition());
+        telemetry.addData("7 Claw Spinner", clawSpinner.getPosition());
+        telemetry.addData("8 Lock Servo", lockServo.getPosition());
         telemetry.update();
     }
 

@@ -123,7 +123,7 @@ public class GeRMTele extends TeleSuper{
         }
 
         // RELIC GRABBER
-        double extend = gamepad2.right_stick_y;
+        double extend = gamepad2.right_stick_y*-1;
         int extendVal = (int)Math.signum(extend);
         boolean clamp = gamepad2.a;
         boolean spinClaw = gamepad2.y;
@@ -133,7 +133,7 @@ public class GeRMTele extends TeleSuper{
 //        double retracted = 0;
 
         double spinUp = .5;
-        double spinDown = 0;
+        double spinDown = .3;
 
         double clampedPos = 1;
         double openedPos = 0;
@@ -157,9 +157,9 @@ public class GeRMTele extends TeleSuper{
         }
 
         if (clamp) {
-            if ((Math.abs(claw.getPosition() - clampedPos) < 5)){
+            if ((Math.abs(claw.getPosition() - clampedPos) < .05)){
                 claw.setPosition(openedPos);
-            } else if ((Math.abs(claw.getPosition() - openedPos) < 5)){
+            } else if ((Math.abs(claw.getPosition() - openedPos) < .05)){
                 claw.setPosition(clampedPos);
             } else {
                 claw.setPosition(openedPos);
@@ -177,9 +177,9 @@ public class GeRMTele extends TeleSuper{
         }
 
         if (lock) {
-            if ((Math.abs(lockServo.getPosition() - locked) < 5)){
+            if ((Math.abs(lockServo.getPosition() - locked) < .05)){
                 lockServo.setPosition(unlocked);
-            } else if ((Math.abs(claw.getPosition() - unlocked) < 5)){
+            } else if ((Math.abs(claw.getPosition() - unlocked) < .05)){
                 lockServo.setPosition(locked);
             } else {
                 lockServo.setPosition(locked);
