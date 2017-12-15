@@ -22,7 +22,7 @@ public abstract class GeRMAuto extends GeRMLinear {
 
 //    protected RelicRecoveryVuMark vuMark;
 
-    protected void jewelAndVuf(int turnScale){
+    protected void jewelAndVuf(int turnScale) {
         setLift(200, .1);
 //        Drive forward to align arm
         driveStop(ENCODER, 1200, 0.5);
@@ -32,60 +32,85 @@ public abstract class GeRMAuto extends GeRMLinear {
         boolean detected;
         double initTime = runtime.milliseconds();
         while (runtime.milliseconds() - initTime < colorTime && opModeIsActive()) {
-            if (Math.abs(colorSensorReader.read(0x04, 1)[0] - 10) <= 1) {
-                //0x04 is color number, 10 is red
-                jewel = LEFT;
-                detected = true;
-            } else if (Math.abs(colorSensorReader.read(0x04, 1)[0] - 3) <= 1) {
-                //3 is blue
-                jewel = RIGHT;
-                detected = true;
-            } else {
-                detected = false;
+            try {
+                if (Math.abs(colorSensorReader.read(0x04, 1)[0] - 10) <= 1) {
+                    //0x04 is color number, 10 is red
+                    jewel = LEFT;
+                    detected = true;
+                } else if (Math.abs(colorSensorReader.read(0x04, 1)[0] - 3) <= 1) {
+                    //3 is blue
+                    jewel = RIGHT;
+                    detected = true;
+                } else {
+                    detected = false;
+                }
+                telemetry.addData("detected " + Boolean.toString(detected), jewel.toString());
+                telemetry.update();
+            } catch (NullPointerException e) {
+                telemetry.addData("Null pointer- jewel detection", "");
             }
-            telemetry.addData("detected " + Boolean.toString(detected), jewel.toString());
-            telemetry.update();
-        }
+
 //        Scan pictograph using Vuforia; store position
 //        relicTrackables.activate();
 //        vuMark = RelicRecoveryVuMark.from(relicTemplate);
 //        Turn robot depending on jewel color
-        switch (jewel){
-            case LEFT:{
-                turn(CENTER, turnScale*turnVal1, .4);
-                break;
+            switch (jewel) {
+                case LEFT: {
+                    turn(CENTER, turnScale * turnVal1, .4);
+                    break;
+                }
+                case RIGHT: {
+                    turn(CENTER, -1 * turnScale * turnVal1, .4);
+                    break;
+                }
             }
-            case RIGHT: {
-                turn(CENTER, -1*turnScale*turnVal1, .4);
-                break;
-            }
+            jewelArm.setPosition(.2);
         }
-        jewelArm.setPosition(.2);
     }
 
     protected void driveAndFaceBoxes(int turnVal2, int drive1, int drive2, int drive3, int approachVal){
+
         Direction vuMark = CENTER;
-        switch (vuMark){
-            case LEFT:{ //largest amount
-                drive(ENCODER, drive1, 0.5);
-                break;
-            }
-            case RIGHT: { //smallest amount
-                drive(ENCODER, drive3, 0.5);
-                break;
-            }
-            case CENTER: { //middle amount
-                drive(ENCODER, drive2, 0.5);
-                break;
-            }
+        try {
+
+            switch (vuMark) {
+                case LEFT: { //largest amount
+                    drive(ENCODER, drive1, 0.5);
+                    break;
+                }
+                case RIGHT: { //smallest amount
+                    drive(ENCODER, drive3, 0.5);
+                    break;
+                }
+                case CENTER: { //middle amount
+                    drive(ENCODER, drive2, 0.5);
+                    break;
+                }
 //            case UNKNOWN:{ //middle amount
 //                drive(ENCODER, drive2, 0.5);
 //                break;
 //            }
+            }
+        }
+        catch (NullPointerException e)
+        {
+            telemetry.addData("NullPointer: switch vumark, drive w encoder","");
         }
 //        Turn 90 towards cryptoboxes
-        turn(CENTER, turnVal2, .4);
-        driveStop(ENCODER, approachVal, 0.5);
+        try {
+            turn(CENTER, turnVal2, .4);
+        }
+        catch (NullPointerException e)
+        {
+            telemetry.addData("NullPointer: turn","");
+        }
+        try{
+            driveStop(ENCODER, approachVal, 0.5);
+        }
+        catch (NullPointerException e)
+        {
+            telemetry.addData("NullPointer: driveStop","");
+        }
     }
 
     protected void ejectGlyph(){
