@@ -38,8 +38,8 @@ public class REDAuto1 extends GeRMAuto {
         int approachVal = 300;
 
         driveAndFaceBoxes(turnVal2, drive1, drive2, drive3, approachVal);
-
         ejectGlyph();
+
 
         int parkVal = 200;
 

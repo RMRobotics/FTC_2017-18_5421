@@ -149,6 +149,20 @@ public class GeRMTele extends TeleSuper{
             clawSpinner.setPosition(clawSpinner.getPosition() - .05);
         }
 
+        float rightTrigger = gamepad2.right_trigger;
+
+        if (rightTrigger > 0)
+        {
+            clawSpinner.setPosition(clawSpinner.getPosition()+rightTrigger*0.1);
+        }
+
+        float leftTrigger = gamepad2.left_trigger;
+
+        if (leftTrigger > 0)
+        {
+            clawSpinner.setPosition(clawSpinner.getPosition()+leftTrigger*-0.1);
+        }
+
         switch (extendVal) {
             case -1:
                 if (Math.abs(relicArm.getCurrentPosition()) > 5){
