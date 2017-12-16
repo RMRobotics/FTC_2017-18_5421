@@ -113,75 +113,72 @@ public class GeRMTele extends TeleSuper{
         if (jewelButton) {
             if (jewelArm.getPosition() <= .4){
                 jewelArm.setPosition(.8);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             } else {
                 jewelArm.setPosition(.21);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
         // RELIC GRABBER
-        double extend = gamepad2.right_stick_y*-1;
-        int extendVal = (int)Math.signum(extend);
-        boolean clamp = gamepad2.a;
-        boolean spinClaw = gamepad2.y;
-        boolean lock = gamepad2.x;
-
-        double extended = 3000;
+        boolean extend = gamepad2.right_bumper;
+        boolean retract = gamepad2.left_bumper;
+        if (extend && retract) {
+            relicArm.setPower(0);
+        } else if (extend) {
+            relicArm.setPower(1.0);
+        } else if (retract) {
+            relicArm.setPower(-1.0);
+        } else {
+            relicArm.setPower(0);
+        }
+//        float rightTrigger = gamepad2.right_trigger;
+//        if (rightTrigger > 0)
+//        {
+//            relicArm.setPower(1);
+//        }
+//        float leftTrigger = gamepad2.left_trigger;
+//        if (leftTrigger > 0)
+//        {
+//            relicArm.setPower(-1);
+//        }
+//        double extend = gamepad2.right_stick_y*-1;
+//        int extendVal = (int)Math.signum(extend);
+//        double extended = 3000;
 //        double retracted = 0;
+//        switch (extendVal) {
+//            case -1:
+//                if (Math.abs(relicArm.getCurrentPosition() - retracted) > 5){
+//                    relicArm.setPower(extend*.05);
+//                } else {
+//                    relicArm.setPower(0);
+//                }
+//                break;
+//            case 1:
+//                if (Math.abs(relicArm.getCurrentPosition()) - extended > 5){
+//                    relicArm.setPower(extend*05);
+//                } else {
+//                    relicArm.setPower(0);
+//                }
+//                break;
+//            default:
+//                relicArm.setPower(0);
+//        }
 
-        double spinDown = 1.0;
-        double spinUp = .5;
+//        -------------------------------
 
+        boolean clamp = gamepad2.a;
         double clampedPos = 1;
-        double openedPos = .5;
-
-        double locked = 0;
-        double unlocked = 1;
-
-        boolean rightButton = gamepad2.right_bumper;
-
-        if (rightButton) {
-            clawSpinner.setPosition(clawSpinner.getPosition() + .05);
-        }
-
-        boolean leftButton = gamepad2.left_bumper;
-
-        if (leftButton) {
-            clawSpinner.setPosition(clawSpinner.getPosition() - .05);
-        }
-
-        float rightTrigger = gamepad2.right_trigger;
-
-        if (rightTrigger > 0)
-        {
-            clawSpinner.setPosition(clawSpinner.getPosition()+rightTrigger*0.1);
-        }
-
-        float leftTrigger = gamepad2.left_trigger;
-
-        if (leftTrigger > 0)
-        {
-            clawSpinner.setPosition(clawSpinner.getPosition()+leftTrigger*-0.1);
-        }
-
-        switch (extendVal) {
-            case -1:
-                if (Math.abs(relicArm.getCurrentPosition()) > 5){
-                    relicArm.setPower(extend);
-                } else {
-                    relicArm.setPower(0);
-                }
-                break;
-            case 1:
-                if (Math.abs(relicArm.getCurrentPosition()) - extended > 5){
-                    relicArm.setPower(extend);
-                } else {
-                    relicArm.setPower(0);
-                }
-                break;
-            default:
-                relicArm.setPower(0);
-        }
-
+        double openedPos = .4
+                ;
         if (clamp) {
             if ((Math.abs(claw.getPosition() - clampedPos) < .05)){
                 claw.setPosition(openedPos);
@@ -189,20 +186,39 @@ public class GeRMTele extends TeleSuper{
                 claw.setPosition(clampedPos);
             } else {
                 claw.setPosition(openedPos);
-
+            }
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
 
+        //        -------------------------------
+
+        boolean spinClaw = gamepad2.y;
+        double spinUp = .85;
+        double spinDown = .25;
         if (spinClaw){
-            if ((Math.abs(clawSpinner.getPosition() - spinDown) < .08)){
+            if ((Math.abs(clawSpinner.getPosition() - spinDown) < .05)){
                 clawSpinner.setPosition(spinUp);
-            } else if ((Math.abs(clawSpinner.getPosition() - spinUp) < .08)){
+            } else if ((Math.abs(clawSpinner.getPosition() - spinUp) < .05)){
                 clawSpinner.setPosition(spinDown);
             } else {
                 clawSpinner.setPosition(spinUp);
             }
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
+        //        -------------------------------
+
+        boolean lock = gamepad2.x;
+        double locked = 1;
+        double unlocked = 0;
         if (lock) {
             if ((Math.abs(lockServo.getPosition() - locked) < .05)){
                 lockServo.setPosition(unlocked);
@@ -210,6 +226,11 @@ public class GeRMTele extends TeleSuper{
                 lockServo.setPosition(locked);
             } else {
                 lockServo.setPosition(locked);
+            }
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
 

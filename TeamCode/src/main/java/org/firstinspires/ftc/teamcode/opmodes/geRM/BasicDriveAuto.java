@@ -17,6 +17,9 @@ public class BasicDriveAuto extends GeRMAuto {
     @Override
     public void runOpMode() throws InterruptedException {
         super.initialize(Color.RED, DcMotor.RunMode.RUN_USING_ENCODER, FORWARD);
-        driveStop(ENCODER, 200, .5);
+        driveStop(ENCODER, 200, .1);
+        while(opModeIsActive()){
+            int a =1;
+        }
     }
 }

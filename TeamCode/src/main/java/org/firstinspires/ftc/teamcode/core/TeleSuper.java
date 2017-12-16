@@ -57,16 +57,17 @@ public abstract class TeleSuper extends OpMode {
         liftR.setDirection(DcMotorSimple.Direction.REVERSE);
 
         claw = hardwareMap.servo.get("claw");
-        claw.setPosition(1.3);
+        claw.setPosition(1);
 
         clawSpinner = hardwareMap.servo.get("clawSpinner");
-        clawSpinner.setPosition(1.0);
+        clawSpinner.setPosition(.25);
 
         relicArm = hardwareMap.dcMotor.get("relicArm");
+        relicArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         relicArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         lockServo = hardwareMap.servo.get("lock");
-        lockServo.setPosition(0);
+        lockServo.setPosition(1);
     }
 
     protected void addTelemetry() {
@@ -78,7 +79,7 @@ public abstract class TeleSuper extends OpMode {
         telemetry.addData("Gamepad2 Y (Spin claw)", gamepad2.y);
         telemetry.addData("Gamepad2 X (Lock)", gamepad2.x);
         telemetry.addData("Gamepad2 A (Claw)", gamepad2.a);
-
+        telemetry.addData("Relic Arm Power", relicArm.getPower());
         telemetry.addData("5 Relic Arm", relicArm.getCurrentPosition());
         telemetry.addData("6 Claw", claw.getPosition());
         telemetry.addData("7 Claw Spinner", clawSpinner.getPosition());

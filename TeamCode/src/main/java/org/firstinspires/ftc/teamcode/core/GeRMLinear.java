@@ -210,8 +210,8 @@ public abstract class GeRMLinear extends LinearOpMode {
 //                setEnc(val);
         int shift = 0;
         // TODO: check to see if acceleration code functions properly
-        while (Math.abs(FL.getCurrentPosition() - val) > 5 && opModeIsActive()) {
-            telemetry.addData("current Encoder value: ", FL.getCurrentPosition());
+        while (Math.abs(FR.getCurrentPosition() - val) > 5 && opModeIsActive()) {
+            telemetry.addData("current Encoder value: ", FR.getCurrentPosition());
             telemetry.update();
             if (shift * 0.02 < mag) {
                 setDrive(scale * dir * shift * 0.05);
@@ -233,12 +233,11 @@ public abstract class GeRMLinear extends LinearOpMode {
                 }
                 break;
             case ENCODER:
-                val = FL.getCurrentPosition() + val;
+                val = FR.getCurrentPosition() + val;
                 setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                while (Math.abs(FL.getCurrentPosition() - val) > 5 && opModeIsActive()) {
-                    telemetry.addData("current Encoder value: ", FL.getCurrentPosition());
-                    telemetry.update();
-                    setDrive(val);
+                while (Math.abs(FR.getCurrentPosition() - val) > 5 && opModeIsActive()) {
+                    addTelemetry();
+                    setDrive(power);
                 }
                 break;
             case RANGE:
