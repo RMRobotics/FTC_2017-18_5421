@@ -151,18 +151,8 @@ public class GeRMTele extends TeleSuper{
             claw.setPosition(claw.getPosition());
         } else if (clamp && claw.getPosition() < clampedPos) {
             claw.setPosition(claw.getPosition() + .05);
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         } else if (unclamp && claw.getPosition() > openedPos) {
             claw.setPosition(claw.getPosition() - .05);
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
 
         //        -------------------------------
