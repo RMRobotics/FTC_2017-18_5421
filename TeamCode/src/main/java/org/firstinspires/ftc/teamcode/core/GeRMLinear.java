@@ -94,6 +94,7 @@ public abstract class GeRMLinear extends LinearOpMode {
         // navx initialization and calibration
         dim = hardwareMap.deviceInterfaceModule.get("dim");
         navx = AHRS.getInstance(dim, 0, AHRS.DeviceDataType.kProcessedData, (byte) 50);
+        telemetry.addData("Status", "found navx");
         while (navx.isCalibrating()) {
             telemetry.addData("Status", !navx.isCalibrating());
             telemetry.update();

@@ -140,53 +140,24 @@ public class GeRMTele extends TeleSuper{
         } else {
             relicArm.setPower(0);
         }
-//        float rightTrigger = gamepad2.right_trigger;
-//        if (rightTrigger > 0)
-//        {
-//            relicArm.setPower(1);
-//        }
-//        float leftTrigger = gamepad2.left_trigger;
-//        if (leftTrigger > 0)
-//        {
-//            relicArm.setPower(-1);
-//        }
-//        double extend = gamepad2.right_stick_y*-1;
-//        int extendVal = (int)Math.signum(extend);
-//        double extended = 3000;
-//        double retracted = 0;
-//        switch (extendVal) {
-//            case -1:
-//                if (Math.abs(relicArm.getCurrentPosition() - retracted) > 5){
-//                    relicArm.setPower(extend*.05);
-//                } else {
-//                    relicArm.setPower(0);
-//                }
-//                break;
-//            case 1:
-//                if (Math.abs(relicArm.getCurrentPosition()) - extended > 5){
-//                    relicArm.setPower(extend*05);
-//                } else {
-//                    relicArm.setPower(0);
-//                }
-//                break;
-//            default:
-//                relicArm.setPower(0);
-//        }
 
 //        -------------------------------
 
         boolean clamp = gamepad2.a;
+        boolean unclamp = gamepad2.b;
         double clampedPos = 1;
-        double openedPos = .4
-                ;
-        if (clamp) {
-            if ((Math.abs(claw.getPosition() - clampedPos) < .05)){
-                claw.setPosition(openedPos);
-            } else if ((Math.abs(claw.getPosition() - openedPos) < .05)){
-                claw.setPosition(clampedPos);
-            } else {
-                claw.setPosition(openedPos);
+        double openedPos = .4;
+        if (clamp && unclamp) {
+            claw.setPosition(claw.getPosition());
+        } else if (clamp && claw.getPosition() < clampedPos) {
+            claw.setPosition(claw.getPosition() + .05);
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+        } else if (unclamp && claw.getPosition() > openedPos) {
+            claw.setPosition(claw.getPosition() - .05);
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
@@ -197,7 +168,7 @@ public class GeRMTele extends TeleSuper{
         //        -------------------------------
 
         boolean spinClaw = gamepad2.y;
-        double spinUp = .85;
+        double spinUp = 1;
         double spinDown = .25;
         if (spinClaw){
             if ((Math.abs(clawSpinner.getPosition() - spinDown) < .05)){
