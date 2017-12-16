@@ -137,6 +137,18 @@ public class GeRMTele extends TeleSuper{
         double locked = 0;
         double unlocked = 1;
 
+        boolean rightButton = gamepad2.right_bumper;
+
+        if (rightButton) {
+            clawSpinner.setPosition(clawSpinner.getPosition() + .05);
+        }
+
+        boolean leftButton = gamepad2.left_bumper;
+
+        if (leftButton) {
+            clawSpinner.setPosition(clawSpinner.getPosition() - .05);
+        }
+
         switch (extendVal) {
             case -1:
                 if (Math.abs(relicArm.getCurrentPosition()) > 5){
@@ -163,6 +175,7 @@ public class GeRMTele extends TeleSuper{
                 claw.setPosition(clampedPos);
             } else {
                 claw.setPosition(openedPos);
+
             }
         }
 
