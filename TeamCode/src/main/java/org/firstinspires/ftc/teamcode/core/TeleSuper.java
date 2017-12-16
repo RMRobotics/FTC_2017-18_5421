@@ -57,10 +57,10 @@ public abstract class TeleSuper extends OpMode {
         liftR.setDirection(DcMotorSimple.Direction.REVERSE);
 
         claw = hardwareMap.servo.get("claw");
-        claw.setPosition(.7);
+        claw.setPosition(1.3);
 
         clawSpinner = hardwareMap.servo.get("clawSpinner");
-        clawSpinner.setPosition(.8);
+        clawSpinner.setPosition(1.0);
 
         relicArm = hardwareMap.dcMotor.get("relicArm");
         relicArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

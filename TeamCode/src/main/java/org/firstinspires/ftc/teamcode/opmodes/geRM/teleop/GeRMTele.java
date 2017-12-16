@@ -111,15 +111,11 @@ public class GeRMTele extends TeleSuper{
         // JEWEL ARM
         boolean jewelButton = gamepad1.b;
         if (jewelButton) {
-            if (jewelArm.getPosition() <= .5){
+            if (jewelArm.getPosition() <= .4){
                 jewelArm.setPosition(.8);
             } else {
                 jewelArm.setPosition(.21);
             }
-        }
-        float jewel = gamepad1.right_trigger;
-        if (jewel > 0){
-            jewelArm.setPosition(jewelArm.getPosition()+jewel*.01);
         }
 
         // RELIC GRABBER
@@ -129,14 +125,14 @@ public class GeRMTele extends TeleSuper{
         boolean spinClaw = gamepad2.y;
         boolean lock = gamepad2.x;
 
-        double extended = 5000;
+        double extended = 3000;
 //        double retracted = 0;
 
+        double spinDown = 1.0;
         double spinUp = .5;
-        double spinDown = .3;
 
         double clampedPos = 1;
-        double openedPos = 0;
+        double openedPos = .5;
 
         double locked = 0;
         double unlocked = 1;
@@ -145,11 +141,15 @@ public class GeRMTele extends TeleSuper{
             case -1:
                 if (Math.abs(relicArm.getCurrentPosition()) > 5){
                     relicArm.setPower(extend);
+                } else {
+                    relicArm.setPower(0);
                 }
                 break;
             case 1:
                 if (Math.abs(relicArm.getCurrentPosition()) - extended > 5){
                     relicArm.setPower(extend);
+                } else {
+                    relicArm.setPower(0);
                 }
                 break;
             default:
@@ -167,10 +167,10 @@ public class GeRMTele extends TeleSuper{
         }
 
         if (spinClaw){
-            if((Math.abs(clawSpinner.getPosition() - spinUp) < .05)){
-                clawSpinner.setPosition(spinDown);
-            } else if ((Math.abs(clawSpinner.getPosition() - spinDown) < .05)){
+            if ((Math.abs(clawSpinner.getPosition() - spinDown) < .08)){
                 clawSpinner.setPosition(spinUp);
+            } else if ((Math.abs(clawSpinner.getPosition() - spinUp) < .08)){
+                clawSpinner.setPosition(spinDown);
             } else {
                 clawSpinner.setPosition(spinUp);
             }
@@ -179,7 +179,7 @@ public class GeRMTele extends TeleSuper{
         if (lock) {
             if ((Math.abs(lockServo.getPosition() - locked) < .05)){
                 lockServo.setPosition(unlocked);
-            } else if ((Math.abs(claw.getPosition() - unlocked) < .05)){
+            } else if ((Math.abs(lockServo.getPosition() - unlocked) < .05)){
                 lockServo.setPosition(locked);
             } else {
                 lockServo.setPosition(locked);

@@ -35,7 +35,7 @@ import org.firstinspires.ftc.teamcode.util.enums.Drive;
  * Created by poofs on 11/21/2017.
  */
 
-public abstract class GeRMLinear extends LinearOpMode{
+public abstract class GeRMLinear extends LinearOpMode {
     protected ElapsedTime runtime = new ElapsedTime();
 
     protected DcMotor FL;
@@ -100,8 +100,8 @@ public abstract class GeRMLinear extends LinearOpMode{
 //        }
 //
 //        // center color sensor
-//        colorSensor = hardwareMap.i2cDevice.get("colorCenter");
-//        colorSensorReader = new I2cDeviceSynchImpl(colorSensor, I2cAddr.create8bit(0x52), false);
+//        colorSensor = hardwareMap.i2cDevice.get("color");
+//        colorSensorReader = new I2cDeviceSynchImpl(colorSensor, I2cAddr.create8bit(0x3c), false);
 //        colorSensorReader.engage();
 //        colorSensorReader.write8(3,0); //edit values
 //
@@ -140,7 +140,7 @@ public abstract class GeRMLinear extends LinearOpMode{
 //                break;
 //        }
 
-        switch (direction){
+        switch (direction) {
             case FORWARD:
                 scale = 1;
                 break;
@@ -161,11 +161,11 @@ public abstract class GeRMLinear extends LinearOpMode{
 //        navx.zeroYaw(); // reset navx yaw value
 
         // initialize servo positions
-        jewelArm.setPosition(0.33);
+        jewelArm.setPosition(0.21);
     }
 
-    protected void setLift(int val, double power){
-        val = val*scale;
+    protected void setLift(int val, double power) {
+        val = val * scale;
         setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         while (Math.abs(liftL.getCurrentPosition() - val) > 5 && opModeIsActive()) {
             telemetry.addData("current Encoder value: ", liftL.getCurrentPosition());
@@ -177,7 +177,7 @@ public abstract class GeRMLinear extends LinearOpMode{
         liftR.setPower(0);
     }
 
-    protected void poseTelemetry(OpenGLMatrix pose){
+    protected void poseTelemetry(OpenGLMatrix pose) {
         VectorF trans = pose.getTranslation();
         Orientation rot = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
 
@@ -202,6 +202,28 @@ public abstract class GeRMLinear extends LinearOpMode{
         setDrive(0);
     }
 
+    protected void driveAccelerate(int val, double power) {
+        double mag = Math.abs(power);
+        val = val * scale;
+        double dir = Math.signum(val - FL.getCurrentPosition());
+        setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//                setEnc(val);
+        int shift = 0;
+        // TODO: check to see if acceleration code functions properly
+        while (Math.abs(FL.getCurrentPosition() - val) > 5 && opModeIsActive()) {
+            telemetry.addData("current Encoder value: ", FL.getCurrentPosition());
+            telemetry.update();
+            if (shift * 0.02 < mag) {
+                setDrive(scale * dir * shift * 0.05);
+                shift++;
+                //increase power gradually
+                sleep(200);
+            } else {
+                setDrive(scale * dir * mag);
+            }
+        }
+    }
+
     protected void drive(Drive type, int val, double power) {
         switch (type) {
             case TIME:
@@ -209,43 +231,28 @@ public abstract class GeRMLinear extends LinearOpMode{
                 while (runtime.milliseconds() - initTime < val && opModeIsActive()) {
                     setDrive(power);
                 }
-//                setDrive(0);
                 break;
             case ENCODER:
-                double mag = Math.abs(power);
-                val = val*scale;
-                double dir = Math.signum(val - FL.getCurrentPosition());
+                val = FL.getCurrentPosition() + val;
                 setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//                setEnc(val);
-                int shift = 0;
-                // TODO: check to see if acceleration code functions properly
                 while (Math.abs(FL.getCurrentPosition() - val) > 5 && opModeIsActive()) {
                     telemetry.addData("current Encoder value: ", FL.getCurrentPosition());
                     telemetry.update();
-                    if (shift * 0.02 < mag) {
-                        setDrive(scale * dir * shift * 0.05);
-                        shift ++;
-                        //increase power gradually
-                        sleep(200);
-                    } else {
-                        setDrive(scale * dir * mag);
-                    }
+                    setDrive(val);
                 }
-//                setDrive(0);
                 break;
             case RANGE:
                 float delta = val - rangeReader.read(0x04, 2)[0];
-                dir = Math.signum(delta);
+                float dir = Math.signum(delta);
                 if (dir > 0) {
                     while (rangeReader.read(0x04, 2)[0] < val && opModeIsActive()) {
                         setDrive(-scale * power);
                     }
                 } else if (dir < 0) {
                     while (rangeReader.read(0x04, 2)[0] > val && opModeIsActive()) {
-                        setDrive(scale*power);
+                        setDrive(scale * power);
                     }
                 }
-//                setDrive(0);
                 break;
             default:
                 break;
@@ -263,19 +270,19 @@ public abstract class GeRMLinear extends LinearOpMode{
         float dir = Math.signum(delta);
 
         // while robot is more than 2 degrees away from the target angle
-        while(mag > 2 && opModeIsActive()){
-            if(mag < 12){
+        while (mag > 2 && opModeIsActive()) {
+            if (mag < 12) {
                 power = 0.07;
             }
             switch (side) {
                 case CENTER:
-                    setDrive(dir*power, -dir*power);
+                    setDrive(dir * power, -dir * power);
                     break;
                 case LEFT:
-                    setDrive(dir*power, 0);
+                    setDrive(dir * power, 0);
                     break;
                 case RIGHT:
-                    setDrive(0, -dir*power);
+                    setDrive(0, -dir * power);
                     break;
                 default:
                     setDrive(0);
@@ -292,9 +299,9 @@ public abstract class GeRMLinear extends LinearOpMode{
 
     protected void addTelemetry() {
         telemetry.addData("1 Time", runtime.seconds());
-        telemetry.addData("2 Yaw", navx.getYaw());
-        telemetry.addData("6 Color", colorSensorReader.read(0x04, 1)[0] & 0xFF);
-        telemetry.addData("7 Range", rangeReader.read(0x04, 2)[0] + " " + rangeReader.read(0x04, 2)[1]);
+//        telemetry.addData("2 Yaw", navx.getYaw());
+//        telemetry.addData("6 Color", colorSensorReader.read(0x04, 1)[0] & 0xFF);
+//        telemetry.addData("7 Range", rangeReader.read(0x04, 2)[0] + " " + rangeReader.read(0x04, 2)[1]);
         telemetry.addData("8 Motor", FL.getPower() + " " + FR.getPower() + " " + BL.getPower() + " " + BR.getPower());
         telemetry.addData("9 Encoder", FL.getCurrentPosition() + " " + FR.getCurrentPosition() + " " + BL.getCurrentPosition() + " " + BR.getCurrentPosition());
         telemetry.update();
