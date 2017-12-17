@@ -31,18 +31,6 @@ public class ColorSensorTest extends GeRMAuto {
         while (opModeIsActive()) {
             try {
                 int colorVal = colorSensorReader.read(0x04, 1)[0];
-                if (Math.abs(colorVal - 10) <= 1) {
-                    //0x04 is color number, 10 is red
-                    jewel = LEFT;
-                    detected = true;
-                } else if (Math.abs(colorVal - 3) <= 1) {
-                    //3 is blue
-                    jewel = RIGHT;
-                    detected = true;
-                } else {
-                    detected = false;
-                }
-                telemetry.addData("detected " + Boolean.toString(detected), jewel.toString());
                 telemetry.addData("color val:", colorVal);
                 telemetry.update();
             } catch (NullPointerException e) {
