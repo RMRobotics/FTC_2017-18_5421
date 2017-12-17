@@ -16,11 +16,20 @@ import static org.firstinspires.ftc.teamcode.util.enums.Drive.ENCODER;
 public class BasicDriveAuto extends GeRMAuto {
     @Override
     public void runOpMode() throws InterruptedException {
-        super.initialize(Color.RED, DcMotor.RunMode.RUN_USING_ENCODER, FORWARD);
-        driveStop(ENCODER, 200, .1);
-
-        while(opModeIsActive()){
-            int a =1;
+        super.initialize(Color.RED, DcMotor.RunMode.RUN_WITHOUT_ENCODER, FORWARD);
+        initTime = runtime.milliseconds();
+        while (runtime.milliseconds() - initTime < 1000 && opModeIsActive()) {
+            setDrive(0.5);
         }
+        // driveStop(ENCODER, 2000, .1);
+
+        while (runtime.milliseconds() - initTime < 1900 && opModeIsActive()) {
+            //turn left
+            setDrive(-0.5, 0.5, -0.5, 0.5);
+        }
+        while (runtime.milliseconds() - initTime < 2200 && opModeIsActive()) {
+            setDrive(0.5);
+        }
+        //driveStop(ENCODER, 400, .1);
     }
 }

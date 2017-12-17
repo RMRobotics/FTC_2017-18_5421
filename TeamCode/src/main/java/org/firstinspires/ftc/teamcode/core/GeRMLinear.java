@@ -62,6 +62,9 @@ public abstract class GeRMLinear extends LinearOpMode {
     protected double initTime;
 
     protected Direction jewel;
+    protected Servo claw;
+    protected Servo clawSpinner;
+    protected Servo lockServo;
 //
     protected VuforiaLocalizer vuforia;
     protected VuforiaTrackable relicTemplate;
@@ -90,21 +93,32 @@ public abstract class GeRMLinear extends LinearOpMode {
 
         // servo initialization
         jewelArm = hardwareMap.servo.get("jewel");
+        jewelArm.setPosition(0.21);
 
-        // navx initialization and calibration
+        claw = hardwareMap.servo.get("claw");
+        claw.setPosition(1);
+
+        clawSpinner = hardwareMap.servo.get("clawSpinner");
+        clawSpinner.setPosition(.25);
+
+        lockServo = hardwareMap.servo.get("lock");
+        lockServo.setPosition(1);
+
+//        // navx initialization and calibration
         dim = hardwareMap.deviceInterfaceModule.get("dim");
-        navx = AHRS.getInstance(dim, 0, AHRS.DeviceDataType.kProcessedData, (byte) 50);
-        telemetry.addData("Status", "found navx");
-        while (navx.isCalibrating()) {
-            telemetry.addData("Status", !navx.isCalibrating());
-            telemetry.update();
-        }
+//        navx = AHRS.getInstance(dim, 0, AHRS.DeviceDataType.kProcessedData, (byte) 50);
+//        telemetry.addData("Status", "found navx");
+//        while (navx.isCalibrating()) {
+//            telemetry.addData("Status", !navx.isCalibrating());
+//            telemetry.update();
+//        }
 
-        // center color sensor
+//        // center color sensor
         colorSensor = hardwareMap.i2cDevice.get("color");
-        colorSensorReader = new I2cDeviceSynchImpl(colorSensor, I2cAddr.create8bit(0x3c), false);
+        colorSensorReader = new I2cDeviceSynchImpl(colorSensor, I2cAddr.create8bit(0x64), false);
         colorSensorReader.engage();
         colorSensorReader.write8(3,0); //edit values
+        telemetry.addData("Color Sensor", "Initialized");
 
 //        // range finder
 //        range = hardwareMap.i2cDevice.get("range");
@@ -122,24 +136,24 @@ public abstract class GeRMLinear extends LinearOpMode {
         relicTemplate = relicTrackables.get(0);
 
         // set LED to alliance color
-        switch (c) {
-            case RED:
-                dim.setLED(0, false); // blue
-                dim.setLED(1, true); // red
-                break;
-            case BLUE:
-                dim.setLED(1, false);
-                dim.setLED(0, true);
-                break;
-            case NEITHER:
-                dim.setLED(1, false);
-                dim.setLED(1, true);
-                break;
-            default:
-                dim.setLED(0, false);
-                dim.setLED(0, true);
-                break;
-        }
+//        switch (c) {
+//            case RED:
+//                dim.setLED(0, false); // blue
+//                dim.setLED(1, true); // red
+//                break;
+//            case BLUE:
+//                dim.setLED(1, false);
+//                dim.setLED(0, true);
+//                break;
+//            case NEITHER:
+//                dim.setLED(1, false);
+//                dim.setLED(1, true);
+//                break;
+//            default:
+//                dim.setLED(0, false);
+//                dim.setLED(0, true);
+//                break;
+//        }
 
         switch (direction) {
             case FORWARD:
@@ -159,10 +173,9 @@ public abstract class GeRMLinear extends LinearOpMode {
         waitForStart();
 
         runtime.reset(); // reset runtime counter
-        navx.zeroYaw(); // reset navx yaw value
+//        navx.zeroYaw(); // reset navx yaw value
 
         // initialize servo positions
-        jewelArm.setPosition(0.21);
     }
 
     protected void setLift(int val, double power) {
@@ -299,7 +312,7 @@ public abstract class GeRMLinear extends LinearOpMode {
 
     protected void addTelemetry() {
         telemetry.addData("1 Time", runtime.seconds());
-        telemetry.addData("2 Yaw", navx.getYaw());
+//        telemetry.addData("2 Yaw", navx.getYaw());
         telemetry.addData("6 Color", colorSensorReader.read(0x04, 1)[0] & 0xFF);
 //        telemetry.addData("7 Range", rangeReader.read(0x04, 2)[0] + " " + rangeReader.read(0x04, 2)[1]);
         telemetry.addData("8 Motor", FL.getPower() + " " + FR.getPower() + " " + BL.getPower() + " " + BR.getPower());
