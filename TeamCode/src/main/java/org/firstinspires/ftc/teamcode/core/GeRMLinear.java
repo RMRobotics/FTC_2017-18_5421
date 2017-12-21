@@ -273,7 +273,7 @@ public abstract class GeRMLinear extends LinearOpMode {
     }
 
     protected void turn(Direction side, int degree, double power) {
-        // finds the difference between the target and the starting angle
+        // fi1nds the difference between the target and the starting angle
         float delta = degree - navx.getYaw();
 
         // sets the magnitude of the turn (absolute value of delta)
