@@ -23,7 +23,7 @@ public class servoTest extends OpMode {
 
     @Override
     public void loop() {
-        //turns beacon pusher servo;+
+        //turns beacon pusher servo;
         if (gamepad1.x) {
             servoValue = 0.93;
         } else if (gamepad1.b) {

@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.core;
 import com.kauailabs.navx.ftc.AHRS;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
@@ -50,8 +51,7 @@ public abstract class GeRMLinear extends LinearOpMode {
 
     protected AHRS navx;
 
-    protected I2cDevice colorSensor;
-    protected I2cDeviceSynch colorSensorReader;
+    protected ColorSensor colorSensor;
 
     protected DeviceInterfaceModule dim;
 
@@ -114,11 +114,7 @@ public abstract class GeRMLinear extends LinearOpMode {
 //        }
 
 //        // center color sensor
-        colorSensor = hardwareMap.i2cDevice.get("color");
-        colorSensorReader = new I2cDeviceSynchImpl(colorSensor, I2cAddr.create8bit(0x64), false);
-        colorSensorReader.engage();
-        colorSensorReader.write8(3,0); //edit values
-        telemetry.addData("Color Sensor", "Initialized");
+        colorSensor = hardwareMap.colorSensor.get("color");
 
 //        // range finder
 //        range = hardwareMap.i2cDevice.get("range");
@@ -313,7 +309,7 @@ public abstract class GeRMLinear extends LinearOpMode {
     protected void addTelemetry() {
         telemetry.addData("1 Time", runtime.seconds());
 //        telemetry.addData("2 Yaw", navx.getYaw());
-        telemetry.addData("6 Color", colorSensorReader.read(0x04, 1)[0] & 0xFF);
+        telemetry.addData("6 Color Red and Blue", colorSensor.red() + " and " + colorSensor.blue());
 //        telemetry.addData("7 Range", rangeReader.read(0x04, 2)[0] + " " + rangeReader.read(0x04, 2)[1]);
         telemetry.addData("8 Motor", FL.getPower() + " " + FR.getPower() + " " + BL.getPower() + " " + BR.getPower());
         telemetry.addData("9 Encoder", FL.getCurrentPosition() + " " + FR.getCurrentPosition() + " " + BL.getCurrentPosition() + " " + BR.getCurrentPosition());

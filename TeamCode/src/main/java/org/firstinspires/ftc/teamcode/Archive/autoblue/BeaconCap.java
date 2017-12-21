@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.opmodes.geRM.Archive.autoblue;
+package org.firstinspires.ftc.teamcode.Archive.autoblue;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.core.FeRMiLinear;
+import org.firstinspires.ftc.teamcode.Archive.core.FeRMiLinear;
 import org.firstinspires.ftc.teamcode.util.enums.Color;
 
 import static org.firstinspires.ftc.teamcode.util.enums.Direction.BACKWARD;

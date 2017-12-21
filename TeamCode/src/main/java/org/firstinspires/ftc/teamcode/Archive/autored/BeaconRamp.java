@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.opmodes.geRM.Archive.autored;
+package org.firstinspires.ftc.teamcode.Archive.autored;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.core.FeRMiLinear;
+import org.firstinspires.ftc.teamcode.Archive.core.FeRMiLinear;
 import org.firstinspires.ftc.teamcode.util.enums.Color;
 
 import static org.firstinspires.ftc.teamcode.util.enums.Direction.BACKWARD;
@@ -19,9 +19,9 @@ import static org.firstinspires.ftc.teamcode.util.enums.Drive.TIME;
  */
 // RED TEAM
 
-@Autonomous(name = "RED: Beacon")
+@Autonomous(name = "RED: Beacon Ramp")
 @Disabled
-public class BeaconCap extends FeRMiLinear {
+public class BeaconRamp extends FeRMiLinear {
 
     @Override
     public void runOpMode() {
@@ -277,8 +277,8 @@ public class BeaconCap extends FeRMiLinear {
 
         // SECOND BEACON DONE
 
-        // turn towards center goal
-        turn(CENTER, -50, 0.4);
+        // turn towards corner vortex
+        turn(CENTER, -10, 0.4);
 
         initTime = runtime.milliseconds();
 
@@ -292,7 +292,7 @@ public class BeaconCap extends FeRMiLinear {
 
         // drive onto center goal
         while(runtime.milliseconds()-initTime < 4000 && opModeIsActive()) {
-            if (runtime.milliseconds()-initTime < 1500) {
+            if (runtime.milliseconds()-initTime < 2500) {
                 setDrive(0.7);
             } else {
                 setDrive(0);

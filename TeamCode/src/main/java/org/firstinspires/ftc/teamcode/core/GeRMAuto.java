@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes.geRM;
+package org.firstinspires.ftc.teamcode.core;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.teamcode.core.GeRMLinear;
@@ -33,11 +33,11 @@ public abstract class GeRMAuto extends GeRMLinear {
         double initTime = runtime.milliseconds();
         while (runtime.milliseconds() - initTime < colorTime && opModeIsActive()) {
             try {
-                if (Math.abs(colorSensorReader.read(0x04, 1)[0] - 10) <= 1) {
+                if (colorSensor.red() > 100) {
                     //0x04 is color number, 10 is red
                     jewel = LEFT;
                     detected = true;
-                } else if (Math.abs(colorSensorReader.read(0x04, 1)[0] - 3) <= 1) {
+                } else if (colorSensor.blue() > 100) {
                     //3 is blue
                     jewel = RIGHT;
                     detected = true;

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes.geRM.Archive.tele;
+package org.firstinspires.ftc.teamcode.Archive.tele;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,9 +17,9 @@ import java.util.List;
  */
 // V.JOSH
 
-@TeleOp(name = "feRMi - CALIBRATION", group = "feRMi")
+@TeleOp(name = "feRMi - TELEOP", group = "feRMi")
 @Disabled
-public class FeRMiCalibration extends OpMode {
+public class FeRMiTele extends OpMode {
 
     private DcMotor FL;
     private DcMotor FR;
@@ -29,12 +30,14 @@ public class FeRMiCalibration extends OpMode {
     private DcMotor belt;
     private DcMotor lift;
 
-    private Servo beaconArm;
     private Servo index;
     private Servo liftHold;
 
+    private double SCALED_POWER;
+
+    private VoltageSensor flyMC;
+
     private boolean triggered = false;
-    private double power = 0;
 
     @Override
     public void init() {
@@ -57,22 +60,26 @@ public class FeRMiCalibration extends OpMode {
         BL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        beaconArm = hardwareMap.servo.get("swingArm");
-        beaconArm.setPosition(0.495);
+        flyMC = hardwareMap.voltageSensor.get("Flywheel Controller 1");
+
         index = hardwareMap.servo.get("indexer");
         index.setPosition(0.12);
         liftHold = hardwareMap.servo.get("liftHold");
-        liftHold.setPosition(0.4);
+        liftHold.setPosition(0.05);
 
         FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
+        SCALED_POWER = flyMC.getVoltage()*-0.1242 + 2.421;
+
     }
 
     @Override
     public void loop() {
+
+        // DRIVE
         double max = 1.0;
         double forward = -gamepad1.left_stick_y;
         double strafe = gamepad1.left_stick_x;
@@ -102,6 +109,7 @@ public class FeRMiCalibration extends OpMode {
             BR.setPower((forward + strafe - rotate) / max);
         }
 
+        // HARVESTER AND BELT
         boolean harvest = gamepad1.right_bumper;
         boolean eject = gamepad1.left_bumper;
         if (harvest && eject) {
@@ -114,12 +122,13 @@ public class FeRMiCalibration extends OpMode {
             belt.setPower(0);
         }
 
+        // FLYWHEEL
         if (gamepad2.y) {
-            flyL.setPower(power);
-            flyR.setPower(power);
+            flyL.setPower(0.93);
+            flyR.setPower(0.93);
         } else if (gamepad2.a) {
-            flyL.setPower(-.985);
-            flyR.setPower(-.985);
+            flyL.setPower(-SCALED_POWER);
+            flyR.setPower(-SCALED_POWER);
         } else if (gamepad2.right_bumper) {
             flyL.setPower(1);
             flyR.setPower(1);
@@ -128,49 +137,37 @@ public class FeRMiCalibration extends OpMode {
             flyR.setPower(0);
         }
 
-        if (gamepad2.x) {
-            power -= 0.0001;
-        } else if (gamepad2.b) {
-            power += 0.0001;
-        }
-
-        telemetry.addData("voltage", power);
-
-//        if(gamepad2.x){
-//            beaconArm.setPosition(1.0);
-//        } else if (gamepad2.b){
-//            beaconArm.setPosition(0);
-//        } else {
-//            beaconArm.setPosition(0.495);
-//        }
-
+        // INDEXER
         if (gamepad2.left_bumper){
             index.setPosition(.5);
         } else {
             index.setPosition(.12);
         }
 
-//        if (gamepad2.left_trigger > 0.3) {
-//            lift.setPower(-gamepad2.left_trigger);
-//        } else if (gamepad2.right_trigger > 0.3) {
-//            lift.setPower(gamepad2.right_trigger/2);
-//        } else {
-//            lift.setPower(0);
-//        }
+        // LIFT
+        if (gamepad2.left_trigger > 0.3) {
+            lift.setPower(-gamepad2.left_trigger);
+        } else if (gamepad2.right_trigger > 0.3) {
+            lift.setPower(gamepad2.right_trigger/2);
+        } else {
+            lift.setPower(0);
+        }
 
-//        if (gamepad2.dpad_down) {
-//            liftHold.setPosition(1);
-//            triggered = true;
-//        } else if (triggered) {
-//            liftHold.setPosition(0);
-//        } else {
-//            liftHold.setPosition(0.4);
-//        }
-        liftHold.setPosition(0.4);
+        // LIFT DEPLOYMENT
+        if (gamepad2.dpad_up) {
+            triggered = true;
+        }
+        if (gamepad2.dpad_down) {
+            liftHold.setPosition(0.93);
+        } else if (triggered){
+            liftHold.setPosition(0.35);
+        } else {
+            liftHold.setPosition(0.03);
+        }
 
-//        addTelemetry();
-
+        addTelemetry();
     }
+
     private void addTelemetry() {
         telemetry.addData("1 Motor", FL.getPower() + " " + FR.getPower() + " " + BL.getPower() + " " + BR.getPower());
         telemetry.addData("2 Encoder", FL.getCurrentPosition() + " " + FR.getCurrentPosition() + " " + BL.getCurrentPosition() + " " + BR.getCurrentPosition());
