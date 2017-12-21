@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
+import com.qualcomm.robotcore.hardware.Gyroscope;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.I2cDevice;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
@@ -106,14 +107,12 @@ public abstract class GeRMLinear extends LinearOpMode {
 
 //        // navx initialization and calibration
         dim = hardwareMap.deviceInterfaceModule.get("dim");
-//        navx = AHRS.getInstance(dim, 0, AHRS.DeviceDataType.kProcessedData, (byte) 50);
-//        telemetry.addData("Status", "found navx");
-//        while (navx.isCalibrating()) {
-//            telemetry.addData("Status", !navx.isCalibrating());
-//            telemetry.update();
-//        }
+        navx = AHRS.getInstance(dim, 0, AHRS.DeviceDataType.kProcessedData, (byte) 50);
+        while (navx.isCalibrating()) {
+            telemetry.addData("Status", !navx.isCalibrating());
+            telemetry.update();
+        }
 
-//        // center color sensor
         colorSensor = hardwareMap.colorSensor.get("color");
 
 //        // range finder
@@ -123,7 +122,7 @@ public abstract class GeRMLinear extends LinearOpMode {
 
         //Vuforia Initialization
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        VuforiaLocalizer.Parameters params = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+        VuforiaLocalizer.Parameters params = new VuforiaLocalizer.Parameters();
         params.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
         params.vuforiaLicenseKey = "AY77tqP/////AAAAGfLr0EwiUEvBgqYkqzIkmW1s7GIs/g3aXlDXMXvvOAN8V1hF4ZLx8qOibfX//3q6tSGlobO4cnOU27ue2pwMeg5Z10jgtWm2S01GM1FcFYr1LFSl/MGT/2KJ+zTv0051h3MvcY8/o9pKTGsTuBA9gJ1Cfm48BLNp8kbftffjMPpuCQZapAstwIF5KsZZ2WY6JDdUNiJfU6YcML5Q+DSRM+wF8zf5iiKavSG2WW6jP1f8RukTPjFGdRJsoz05ktSJ/xi6sKh+vTlLU92K7yO38pwJ3nfPOQJrtoE8OBgzRLMvWz9UwaswWps0NJPyr8iOTGsixtWO35lZjUzP5hDkNLhzl1DFRLJUQPnltmhBif5c";
         params.cameraMonitorFeedback = VuforiaLocalizer.Parameters.CameraMonitorFeedback.AXES;
@@ -132,24 +131,24 @@ public abstract class GeRMLinear extends LinearOpMode {
         relicTemplate = relicTrackables.get(0);
 
         // set LED to alliance color
-//        switch (c) {
-//            case RED:
-//                dim.setLED(0, false); // blue
-//                dim.setLED(1, true); // red
-//                break;
-//            case BLUE:
-//                dim.setLED(1, false);
-//                dim.setLED(0, true);
-//                break;
-//            case NEITHER:
-//                dim.setLED(1, false);
-//                dim.setLED(1, true);
-//                break;
-//            default:
-//                dim.setLED(0, false);
-//                dim.setLED(0, true);
-//                break;
-//        }
+        switch (c) {
+            case RED:
+                dim.setLED(0, false); // blue
+                dim.setLED(1, true); // red
+                break;
+            case BLUE:
+                dim.setLED(1, false);
+                dim.setLED(0, true);
+                break;
+            case NEITHER:
+                dim.setLED(1, false);
+                dim.setLED(1, true);
+                break;
+            default:
+                dim.setLED(0, false);
+                dim.setLED(0, true);
+                break;
+        }
 
         switch (direction) {
             case FORWARD:
