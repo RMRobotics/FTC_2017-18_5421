@@ -13,7 +13,7 @@ import static org.firstinspires.ftc.teamcode.util.enums.Drive.ENCODER;
  * Created by poofs on 12/16/2017.
  */
 
-@Autonomous(name = "Red Drive Auto 2")
+//@Autonomous(name = "Red Drive Auto 2")
 public class RedDriveAuto2 extends GeRMAuto {
     @Override
     public void runOpMode() throws InterruptedException {

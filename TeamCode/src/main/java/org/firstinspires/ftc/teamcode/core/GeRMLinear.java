@@ -67,9 +67,9 @@ public abstract class GeRMLinear extends LinearOpMode {
     protected Servo clawSpinner;
     protected Servo lockServo;
 //
-    protected VuforiaLocalizer vuforia;
-    protected VuforiaTrackable relicTemplate;
-    protected VuforiaTrackables relicTrackables;
+   // protected VuforiaLocalizer vuforia;
+   // protected VuforiaTrackable relicTemplate;
+   // protected VuforiaTrackables relicTrackables;
 
     public void initialize(Color c, DcMotor.RunMode r, Direction direction) {
         // motor initialization
@@ -107,70 +107,80 @@ public abstract class GeRMLinear extends LinearOpMode {
 
 //        // navx initialization and calibration
         dim = hardwareMap.deviceInterfaceModule.get("dim");
-//        navx = AHRS.getInstance(dim, 0, AHRS.DeviceDataType.kProcessedData, (byte) 50);
-//        while (navx.isCalibrating()) {
-//            telemetry.addData("Status", !navx.isCalibrating());
-//            telemetry.update();
+        navx = AHRS.getInstance(dim, 0, AHRS.DeviceDataType.kProcessedData, (byte) 50);
+        while (navx.isCalibrating()) {
+            telemetry.addData("Status", !navx.isCalibrating());
+            telemetry.update();
 //        }
+            if (!navx.isCalibrating() == true) {
+                dim.setLED(0, true); // blue
+            }
+            else
+            {
+                dim.setLED(0, false); // blue
 
-        colorSensor = hardwareMap.colorSensor.get("color");
+            }
+
+
+            colorSensor = hardwareMap.colorSensor.get("color");
 
 //        // range finder
 //        range = hardwareMap.i2cDevice.get("range");
 //        rangeReader = new I2cDeviceSynchImpl(range, I2cAddr.create8bit(0x60), false);
 //        rangeReader.engage();
 
-        //Vuforia Initialization
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        VuforiaLocalizer.Parameters params = new VuforiaLocalizer.Parameters();
-        params.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
-        params.vuforiaLicenseKey = "AY77tqP/////AAAAGfLr0EwiUEvBgqYkqzIkmW1s7GIs/g3aXlDXMXvvOAN8V1hF4ZLx8qOibfX//3q6tSGlobO4cnOU27ue2pwMeg5Z10jgtWm2S01GM1FcFYr1LFSl/MGT/2KJ+zTv0051h3MvcY8/o9pKTGsTuBA9gJ1Cfm48BLNp8kbftffjMPpuCQZapAstwIF5KsZZ2WY6JDdUNiJfU6YcML5Q+DSRM+wF8zf5iiKavSG2WW6jP1f8RukTPjFGdRJsoz05ktSJ/xi6sKh+vTlLU92K7yO38pwJ3nfPOQJrtoE8OBgzRLMvWz9UwaswWps0NJPyr8iOTGsixtWO35lZjUzP5hDkNLhzl1DFRLJUQPnltmhBif5c";
-        params.cameraMonitorFeedback = VuforiaLocalizer.Parameters.CameraMonitorFeedback.AXES;
-        this.vuforia = ClassFactory.createVuforiaLocalizer(params);
-        relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
-        relicTemplate = relicTrackables.get(0);
+            //Vuforia Initialization
+//            int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+//            VuforiaLocalizer.Parameters params = new VuforiaLocalizer.Parameters();
+//            params.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
+//            params.vuforiaLicenseKey = "AY77tqP/////AAAAGfLr0EwiUEvBgqYkqzIkmW1s7GIs/g3aXlDXMXvvOAN8V1hF4ZLx8qOibfX//3q6tSGlobO4cnOU27ue2pwMeg5Z10jgtWm2S01GM1FcFYr1LFSl/MGT/2KJ+zTv0051h3MvcY8/o9pKTGsTuBA9gJ1Cfm48BLNp8kbftffjMPpuCQZapAstwIF5KsZZ2WY6JDdUNiJfU6YcML5Q+DSRM+wF8zf5iiKavSG2WW6jP1f8RukTPjFGdRJsoz05ktSJ/xi6sKh+vTlLU92K7yO38pwJ3nfPOQJrtoE8OBgzRLMvWz9UwaswWps0NJPyr8iOTGsixtWO35lZjUzP5hDkNLhzl1DFRLJUQPnltmhBif5c";
+//            params.cameraMonitorFeedback = VuforiaLocalizer.Parameters.CameraMonitorFeedback.AXES;
+//            this.vuforia = ClassFactory.createVuforiaLocalizer(params);
+//            relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+//            relicTemplate = relicTrackables.get(0);
 
-        // set LED to alliance color
-        switch (c) {
-            case RED:
-                dim.setLED(0, false); // blue
-                dim.setLED(1, true); // red
-                break;
-            case BLUE:
-                dim.setLED(1, false);
-                dim.setLED(0, true);
-                break;
-            case NEITHER:
-                dim.setLED(1, false);
-                dim.setLED(1, true);
-                break;
-            default:
-                dim.setLED(0, false);
-                dim.setLED(0, true);
-                break;
+            // set LED to alliance color
+            switch (c) {
+                case RED:
+                    dim.setLED(0, false); // blue
+                    dim.setLED(1, true); // red
+                    break;
+                case BLUE:
+                    dim.setLED(1, false);
+                    dim.setLED(0, true);
+                    break;
+                case NEITHER:
+                    dim.setLED(1, false);
+                    dim.setLED(1, true);
+                    break;
+                default:
+                    dim.setLED(0, false);
+                    dim.setLED(0, true);
+                    break;
+            }
+
+            switch (direction) {
+                case FORWARD:
+                    scale = 1;
+                    break;
+                case BACKWARD:
+                    scale = -1;
+                    break;
+                default:
+                    scale = -1;
+                    break;
+            }
+
+            telemetry.addData("Status", "Initialized");
+            telemetry.update();
+
+            waitForStart();
+
+            runtime.reset(); // reset runtime counter
+            navx.zeroYaw(); // reset navx yaw value
+
+            // initialize servo positions
         }
-
-        switch (direction) {
-            case FORWARD:
-                scale = 1;
-                break;
-            case BACKWARD:
-                scale = -1;
-                break;
-            default:
-                scale = -1;
-                break;
-        }
-
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
-
-        waitForStart();
-
-        runtime.reset(); // reset runtime counter
-//        navx.zeroYaw(); // reset navx yaw value
-
-        // initialize servo positions
     }
 
     protected void setLift(int val, double power) {
@@ -280,7 +290,11 @@ public abstract class GeRMLinear extends LinearOpMode {
         // while robot is more than 2 degrees away from the target angle
         while (mag > 2 && opModeIsActive()) {
             if (mag < 12) {
-                power = 0.07;
+                power = 0.1;
+            }
+            else if (delta < 0)
+            {
+                power = -0.1;
             }
             switch (side) {
                 case CENTER:
