@@ -111,17 +111,13 @@ public abstract class GeRMLinear extends LinearOpMode {
         while (navx.isCalibrating()) {
             telemetry.addData("Status", !navx.isCalibrating());
             telemetry.update();
-//        }
-            if (!navx.isCalibrating() == true) {
-                dim.setLED(0, true); // blue
-            }
-            else
-            {
-                dim.setLED(0, false); // blue
-
-            }
-
-
+        }
+//            if (!navx.isCalibrating() == true) {
+//                dim.setLED(0, true); // blue
+//            }
+//            else {
+//                dim.setLED(0, false); // blue
+//            }
             colorSensor = hardwareMap.colorSensor.get("color");
 
 //        // range finder
@@ -180,7 +176,6 @@ public abstract class GeRMLinear extends LinearOpMode {
             navx.zeroYaw(); // reset navx yaw value
 
             // initialize servo positions
-        }
     }
 
     protected void setLift(int val, double power) {

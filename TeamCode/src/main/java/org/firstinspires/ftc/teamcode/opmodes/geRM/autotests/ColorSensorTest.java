@@ -18,11 +18,10 @@ public class ColorSensorTest extends GeRMLinear {
 
     public void runOpMode() throws InterruptedException {
         super.initialize(Color.RED, DcMotor.RunMode.RUN_WITHOUT_ENCODER, FORWARD);
-        colorSensor.enableLed(true);
         jewelArm.setPosition(0.85);
         while (opModeIsActive()) {
             try {
-                initTime = runtime.milliseconds();
+                  initTime = runtime.milliseconds();
                 while (runtime.milliseconds() - initTime < 150 && opModeIsActive()) {
                     setDrive(0.1);
                 }
