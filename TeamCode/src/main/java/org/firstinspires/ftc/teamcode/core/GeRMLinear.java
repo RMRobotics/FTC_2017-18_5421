@@ -284,12 +284,8 @@ public abstract class GeRMLinear extends LinearOpMode {
 
         // while robot is more than 2 degrees away from the target angle
         while (mag > 2 && opModeIsActive()) {
-            if (mag < 12) {
-                power = 0.1;
-            }
-            else if (delta < 0)
-            {
-                power = -0.1;
+            if (mag < 10) {
+                power = 0.2;
             }
             switch (side) {
                 case CENTER:
@@ -305,7 +301,8 @@ public abstract class GeRMLinear extends LinearOpMode {
                     setDrive(0);
                     break;
             }
-
+            telemetry.addData("NavX Yaw", navx.getYaw());
+            telemetry.update();
             // update distance from target angle
             delta = degree - navx.getYaw();
             mag = Math.abs(delta);

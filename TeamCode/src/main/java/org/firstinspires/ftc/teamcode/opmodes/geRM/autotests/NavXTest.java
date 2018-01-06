@@ -25,10 +25,6 @@ public class NavXTest extends GeRMLinear {
             } catch (NullPointerException e) {
                 telemetry.addData("Null pointer for navx", "");
             }
-            int turnVal2 = 90;
-            turn(CENTER, turnVal2, .4);
         }
-        stop();
-
     }
 }
