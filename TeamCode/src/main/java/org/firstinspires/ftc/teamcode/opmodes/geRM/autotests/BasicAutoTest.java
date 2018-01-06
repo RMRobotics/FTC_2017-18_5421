@@ -23,35 +23,37 @@ public class BasicAutoTest extends GeRMLinear{
         driveStop(TIME, 400, .15);
 
         // LOWER JEWEL ARM
+        jewelArm.setPosition(.65);
+        sleep(750);
         jewelArm.setPosition(1);
-
+        setDrive(-.1);
         // SLEEP
         initTime = runtime.milliseconds();
-        while (runtime.milliseconds() - initTime < 2000 && opModeIsActive()) {
+        while (runtime.milliseconds() - initTime < 1000 && opModeIsActive()) {
             telemetry.addData("red value:", (colorSensor.red()));
             telemetry.addData("blue value:", (colorSensor.blue()));
             telemetry.update();
         }
+        setDrive(0);
 
         // SENSE COLOR VALUE AND TURN ROBOT TO KNOCK JEWEL (sensor is facing left)
-        if (colorSensor.red() > 7) // if red, turn right
-        {
-            turn(CENTER, -13, 0.2);
-        }
-        else if (colorSensor.blue() > 7) // if blue, turn left
-        {
-            turn(CENTER, 13, 0.2);
+        if ((colorSensor.red() >= 5) || (colorSensor.blue() >= 5)){
+            if (colorSensor.red() > colorSensor.blue()){
+                driveStop(TIME, 400, 0.3);
+            } else if (colorSensor.blue() > colorSensor.red()){
+                driveStop(TIME, 300, -0.8);
+            }
         }
 
         // RAISE JEWEL ARM
         jewelArm.setPosition(0.21);
 
-//        // CORRECT TURN
-//        turn(CENTER, 0, 0.2);
-//
-//        // DRIVE FORWARD TO PARK
-//        driveStop(TIME, 1000, .2);
+        sleep(1000);
 
+        // DRIVE FORWARD TO PARK
+        driveStop(TIME, 1000, .2);
+
+        sleep(10000);
         // STOP
         stop();
     }
