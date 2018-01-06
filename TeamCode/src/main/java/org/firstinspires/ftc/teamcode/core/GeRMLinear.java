@@ -67,9 +67,9 @@ public abstract class GeRMLinear extends LinearOpMode {
     protected Servo clawSpinner;
     protected Servo lockServo;
 //
-   // protected VuforiaLocalizer vuforia;
-   // protected VuforiaTrackable relicTemplate;
-   // protected VuforiaTrackables relicTrackables;
+    // protected VuforiaLocalizer vuforia;
+    // protected VuforiaTrackable relicTemplate;
+    // protected VuforiaTrackables relicTrackables;
 
     public void initialize(Color c, DcMotor.RunMode r, Direction direction) {
         // motor initialization
@@ -105,27 +105,51 @@ public abstract class GeRMLinear extends LinearOpMode {
         lockServo = hardwareMap.servo.get("lock");
         lockServo.setPosition(1);
 
-//        // navx initialization and calibration
+        colorSensor = hardwareMap.colorSensor.get("color");
+
+        telemetry.addData("Color Sensor", "Initialized");
+        telemetry.update();
+
+        switch (direction) {
+            case FORWARD:
+                scale = 1;
+                break;
+            case BACKWARD:
+                scale = -1;
+                break;
+            default:
+                scale = -1;
+                break;
+        }
+
+        telemetry.addData("Direction", "Set");
+        telemetry.update();
+
+        waitForStart();
+
+        runtime.reset(); // reset runtime counter
+        navx.zeroYaw(); // reset navx yaw value
+
+//         navx initialization and calibration
         dim = hardwareMap.deviceInterfaceModule.get("dim");
         navx = AHRS.getInstance(dim, 0, AHRS.DeviceDataType.kProcessedData, (byte) 50);
         while (navx.isCalibrating()) {
-            telemetry.addData("Status", !navx.isCalibrating());
+            telemetry.addData("NavX Status", !navx.isCalibrating());
             telemetry.update();
-        }
 //            if (!navx.isCalibrating() == true) {
 //                dim.setLED(0, true); // blue
 //            }
-//            else {
-//                dim.setLED(0, false); // blue
-//            }
-            colorSensor = hardwareMap.colorSensor.get("color");
+        }
+        telemetry.addData("NavX Status", !navx.isCalibrating());
+        telemetry.update();
+
 
 //        // range finder
 //        range = hardwareMap.i2cDevice.get("range");
 //        rangeReader = new I2cDeviceSynchImpl(range, I2cAddr.create8bit(0x60), false);
 //        rangeReader.engage();
 
-            //Vuforia Initialization
+        //Vuforia Initialization
 //            int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
 //            VuforiaLocalizer.Parameters params = new VuforiaLocalizer.Parameters();
 //            params.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
@@ -135,47 +159,28 @@ public abstract class GeRMLinear extends LinearOpMode {
 //            relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
 //            relicTemplate = relicTrackables.get(0);
 
-            // set LED to alliance color
-            switch (c) {
-                case RED:
-                    dim.setLED(0, false); // blue
-                    dim.setLED(1, true); // red
-                    break;
-                case BLUE:
-                    dim.setLED(1, false);
-                    dim.setLED(0, true);
-                    break;
-                case NEITHER:
-                    dim.setLED(1, false);
-                    dim.setLED(1, true);
-                    break;
-                default:
-                    dim.setLED(0, false);
-                    dim.setLED(0, true);
-                    break;
-            }
+        // set LED to alliance color
+//        switch (c) {
+//            case RED:
+//                dim.setLED(0, false); // blue
+//                dim.setLED(1, true); // red
+//                break;
+//            case BLUE:
+//                dim.setLED(1, false);
+//                dim.setLED(0, true);
+//                break;
+//            case NEITHER:
+//                dim.setLED(1, false);
+//                dim.setLED(1, true);
+//                break;
+//            default:
+//                dim.setLED(0, false);
+//                dim.setLED(0, true);
+//                break;
+//        }
 
-            switch (direction) {
-                case FORWARD:
-                    scale = 1;
-                    break;
-                case BACKWARD:
-                    scale = -1;
-                    break;
-                default:
-                    scale = -1;
-                    break;
-            }
-
-            telemetry.addData("Status", "Initialized");
-            telemetry.update();
-
-            waitForStart();
-
-            runtime.reset(); // reset runtime counter
-            navx.zeroYaw(); // reset navx yaw value
-
-            // initialize servo positions
+        telemetry.addData("Status", "Initialized");
+        telemetry.update();
     }
 
     protected void setLift(int val, double power) {
@@ -312,12 +317,12 @@ public abstract class GeRMLinear extends LinearOpMode {
     }
 
     protected void addTelemetry() {
-        telemetry.addData("1 Time", runtime.seconds());
+//        telemetry.addData("1 Time", runtime.seconds());
 //        telemetry.addData("2 Yaw", navx.getYaw());
-        telemetry.addData("6 Color Red and Blue", colorSensor.red() + " and " + colorSensor.blue());
+//        telemetry.addData("6 Color Red and Blue", colorSensor.red() + " and " + colorSensor.blue());
 //        telemetry.addData("7 Range", rangeReader.read(0x04, 2)[0] + " " + rangeReader.read(0x04, 2)[1]);
-        telemetry.addData("8 Motor", FL.getPower() + " " + FR.getPower() + " " + BL.getPower() + " " + BR.getPower());
-        telemetry.addData("9 Encoder", FL.getCurrentPosition() + " " + FR.getCurrentPosition() + " " + BL.getCurrentPosition() + " " + BR.getCurrentPosition());
+        telemetry.addData("8 Motor Power", FL.getPower() + " " + FR.getPower() + " " + BL.getPower() + " " + BR.getPower());
+        telemetry.addData("9 Encoder Vals", FL.getCurrentPosition() + " " + FR.getCurrentPosition() + " " + BL.getCurrentPosition() + " " + BR.getCurrentPosition());
         telemetry.update();
     }
 

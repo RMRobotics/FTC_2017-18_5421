@@ -19,13 +19,15 @@ public class TurnTimeTest extends GeRMLinear{
     public void runOpMode() throws InterruptedException {
         super.initialize(Color.RED, DcMotor.RunMode.RUN_WITHOUT_ENCODER, FORWARD);
         setDrive(.3, -.3);
-        sleep(750);
+        sleep(1500);
+        setDrive(0);
 
         sleep(5000);
 
+        turn(CENTER, 0, .5);
+        sleep(1000);
         turn(CENTER, 90, .5);
         sleep(1000);
-        turn(CENTER, -90, .5);
 
         stop();
     }
