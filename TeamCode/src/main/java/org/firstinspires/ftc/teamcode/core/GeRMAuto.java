@@ -20,7 +20,7 @@ public abstract class GeRMAuto extends GeRMLinear {
 
     protected int ejectTime = 200;
 
-//    protected RelicRecoveryVuMark vuMark;
+    protected RelicRecoveryVuMark vuMark;
 
     protected void jewelAndVuf(int turnScale) {
         setLift(200, .1);
@@ -51,8 +51,8 @@ public abstract class GeRMAuto extends GeRMLinear {
             }
 
 //        Scan pictograph using Vuforia; store position
-//        relicTrackables.activate();
-//        vuMark = RelicRecoveryVuMark.from(relicTemplate);
+        relicTrackables.activate();
+        vuMark = RelicRecoveryVuMark.from(relicTemplate);
 //        Turn robot depending on jewel color
             switch (jewel) {
                 case LEFT: {

@@ -21,6 +21,7 @@ public class NavXTest extends GeRMLinear {
         while (opModeIsActive()) {
             try {
                 telemetry.addData("NavX Yaw", navx.getYaw());
+                telemetry.addData("Run time", runtime);
                 telemetry.update();
             } catch (NullPointerException e) {
                 telemetry.addData("Null pointer for navx", "");

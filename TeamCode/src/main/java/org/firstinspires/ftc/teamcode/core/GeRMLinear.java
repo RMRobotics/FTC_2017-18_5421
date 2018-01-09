@@ -150,7 +150,7 @@ public abstract class GeRMLinear extends LinearOpMode {
         this.vuforia = ClassFactory.createVuforiaLocalizer(params);
         relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
         relicTemplate = relicTrackables.get(0);
-        relicMark = RelicRecoveryVuMark.from(relicTemplate);
+        //relicMark = RelicRecoveryVuMark.from(relicTemplate);
         sleep(1500);
 
         telemetry.addData("Status", "Initialized");

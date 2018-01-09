@@ -34,24 +34,27 @@ public class VuforiaTest extends GeRMLinear {
         super.initialize(Color.RED, DcMotor.RunMode.RUN_WITHOUT_ENCODER, FORWARD);
 
         // DRIVE FORWARD A LITTLE
-        driveStop(TIME, 400, .15);
+//        driveStop(TIME, 400, .15);
+//
+//        // LOWER JEWEL ARM
+//        jewelArm.setPosition(.65);
+//        sleep(750);
+//        jewelArm.setPosition(1);
+////        setDrive(-.1);
+//        // SLEEP
+//        initTime = runtime.milliseconds();
 
-        // LOWER JEWEL ARM
-        jewelArm.setPosition(.65);
-        sleep(750);
-        jewelArm.setPosition(1);
-        setDrive(-.1);
-        // SLEEP
-        initTime = runtime.milliseconds();
-        while (opModeIsActive() && (relicMark == RelicRecoveryVuMark.UNKNOWN)) {
+        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+        while (opModeIsActive() && (vuMark == RelicRecoveryVuMark.UNKNOWN)) {
             telemetry.addData("red value:", (colorSensor.red()));
             telemetry.addData("blue value:", (colorSensor.blue()));
 
-
-            telemetry.addData("VuMark", "%s found", relicMark);
+            vuMark = RelicRecoveryVuMark.from(relicTemplate);
+            if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
+            telemetry.addData("VuMark", "%s found", vuMark);
             telemetry.update();
         }
-        setDrive(0);
+//        setDrive(0);
 
 //        // SENSE COLOR VALUE AND TURN ROBOT TO KNOCK JEWEL (sensor is facing left)
 //        if ((colorSensor.red() >= 5) || (colorSensor.blue() >= 5)){
@@ -72,6 +75,6 @@ public class VuforiaTest extends GeRMLinear {
 //
 //        sleep(10000);
 //        // STOP
-        stop();
+//        stop();
     }
 }

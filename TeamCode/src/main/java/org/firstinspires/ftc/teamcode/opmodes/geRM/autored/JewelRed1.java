@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes.geRM.autotests;
+package org.firstinspires.ftc.teamcode.opmodes.geRM.autored;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -13,8 +13,8 @@ import static org.firstinspires.ftc.teamcode.util.enums.Drive.TIME;
 /**
  * Created by General on 1/5/2018.
  */
-@Autonomous(name = "Basic Auto Test")
-public class BasicAutoTest extends GeRMLinear{
+@Autonomous(name = "Jewel Red 1")
+public class JewelRed1 extends GeRMLinear{
     @Override
     public void runOpMode() throws InterruptedException {
         super.initialize(Color.RED, DcMotor.RunMode.RUN_WITHOUT_ENCODER, FORWARD);
@@ -36,12 +36,15 @@ public class BasicAutoTest extends GeRMLinear{
         }
         setDrive(0);
 
+        String distance = "";
         // SENSE COLOR VALUE AND TURN ROBOT TO KNOCK JEWEL (sensor is facing left)
         if ((colorSensor.red() >= 5) || (colorSensor.blue() >= 5)){
             if (colorSensor.red() > colorSensor.blue()){
                 driveStop(TIME, 400, 0.3);
+                distance = "CLOSER";
             } else if (colorSensor.blue() > colorSensor.red()){
                 driveStop(TIME, 300, -0.8);
+                distance = "FARTHER";
             }
         }
 
@@ -51,7 +54,19 @@ public class BasicAutoTest extends GeRMLinear{
         sleep(1000);
 
         // DRIVE FORWARD TO PARK
-        driveStop(TIME, 1000, .2);
+        switch (distance)
+        {
+            case "CLOSER":
+                driveStop(TIME, 800, 0.2);
+                break;
+            case "FARTHER":
+                driveStop(TIME, 1100, 0.2);
+                break;
+            default:
+                driveStop(TIME, 850, 0.2);
+        }
+
+        turn(CENTER, 90, 0.3);
 
         sleep(10000);
         // STOP
