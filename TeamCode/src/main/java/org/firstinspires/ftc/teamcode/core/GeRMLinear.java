@@ -68,10 +68,8 @@ public abstract class GeRMLinear extends LinearOpMode {
     protected Servo clawSpinner;
     protected Servo lockServo;
 
-    protected VuforiaLocalizer vuforia;
     protected VuforiaTrackable relicTemplate;
-    protected VuforiaTrackables relicTrackables;
-    protected RelicRecoveryVuMark relicMark;
+
     public void initialize(Color c, DcMotor.RunMode r, Direction direction) {
         // motor initialization
         FL = hardwareMap.dcMotor.get("FL");
@@ -142,15 +140,17 @@ public abstract class GeRMLinear extends LinearOpMode {
 
 //        Vuforia Initialization
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        VuforiaLocalizer.Parameters params = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 
-        params.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
-        params.vuforiaLicenseKey = "AY77tqP/////AAAAGfLr0EwiUEvBgqYkqzIkmW1s7GIs/g3aXlDXMXvvOAN8V1hF4ZLx8qOibfX//3q6tSGlobO4cnOU27ue2pwMeg5Z10jgtWm2S01GM1FcFYr1LFSl/MGT/2KJ+zTv0051h3MvcY8/o9pKTGsTuBA9gJ1Cfm48BLNp8kbftffjMPpuCQZapAstwIF5KsZZ2WY6JDdUNiJfU6YcML5Q+DSRM+wF8zf5iiKavSG2WW6jP1f8RukTPjFGdRJsoz05ktSJ/xi6sKh+vTlLU92K7yO38pwJ3nfPOQJrtoE8OBgzRLMvWz9UwaswWps0NJPyr8iOTGsixtWO35lZjUzP5hDkNLhzl1DFRLJUQPnltmhBif5c";
-        params.cameraMonitorFeedback = VuforiaLocalizer.Parameters.CameraMonitorFeedback.AXES;
-        this.vuforia = ClassFactory.createVuforiaLocalizer(params);
-        relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+        parameters.vuforiaLicenseKey = "AY77tqP/////AAAAGfLr0EwiUEvBgqYkqzIkmW1s7GIs/g3aXlDXMXvvOAN8V1hF4ZLx8qOibfX//3q6tSGlobO4cnOU27ue2pwMeg5Z10jgtWm2S01GM1FcFYr1LFSl/MGT/2KJ+zTv0051h3MvcY8/o9pKTGsTuBA9gJ1Cfm48BLNp8kbftffjMPpuCQZapAstwIF5KsZZ2WY6JDdUNiJfU6YcML5Q+DSRM+wF8zf5iiKavSG2WW6jP1f8RukTPjFGdRJsoz05ktSJ/xi6sKh+vTlLU92K7yO38pwJ3nfPOQJrtoE8OBgzRLMvWz9UwaswWps0NJPyr8iOTGsixtWO35lZjUzP5hDkNLhzl1DFRLJUQPnltmhBif5c";
+
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
+        VuforiaLocalizer vuforia = ClassFactory.createVuforiaLocalizer(parameters);
+
+        VuforiaTrackables relicTrackables = vuforia.loadTrackablesFromAsset("RelicVuMark");
         relicTemplate = relicTrackables.get(0);
-        //relicMark = RelicRecoveryVuMark.from(relicTemplate);
+        relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
+
         sleep(1500);
 
         telemetry.addData("Status", "Initialized");
@@ -158,6 +158,9 @@ public abstract class GeRMLinear extends LinearOpMode {
         runtime.reset(); // reset runtime counter
 
         waitForStart();
+
+        // vuforia activate
+        relicTrackables.activate();
     }
 
     protected void setLift(int val, double power) {
