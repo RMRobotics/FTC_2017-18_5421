@@ -51,9 +51,9 @@ public class VuforiaTest extends GeRMLinear {
 
             vuMark = RelicRecoveryVuMark.from(relicTemplate);
             if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
-            telemetry.addData("VuMark", "%s found", vuMark);
-            telemetry.update();
-        }
+                telemetry.addData("VuMark", "%s found", vuMark);
+                telemetry.update();
+            }
 //        setDrive(0);
 
 //        // SENSE COLOR VALUE AND TURN ROBOT TO KNOCK JEWEL (sensor is facing left)
@@ -76,5 +76,6 @@ public class VuforiaTest extends GeRMLinear {
 //        sleep(10000);
 //        // STOP
 //        stop();
+        }
     }
 }

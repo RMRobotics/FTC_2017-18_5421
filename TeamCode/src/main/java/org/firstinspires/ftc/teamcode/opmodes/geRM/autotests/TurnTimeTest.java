@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.util.enums.Color;
 
 import static org.firstinspires.ftc.teamcode.util.enums.Direction.CENTER;
 import static org.firstinspires.ftc.teamcode.util.enums.Direction.FORWARD;
+import static org.firstinspires.ftc.teamcode.util.enums.Direction.RIGHT;
 
 /**
  * Created by General on 1/5/2018.
@@ -19,10 +20,12 @@ public class TurnTimeTest extends GeRMLinear{
     public void runOpMode() throws InterruptedException {
         super.initialize(Color.RED, DcMotor.RunMode.RUN_WITHOUT_ENCODER, FORWARD);
 
-        turn(CENTER, 180, .5);
-        sleep(1000);
-//        turn(CENTER, 90, .5);
-//        sleep(1000);
+        turn(CENTER, 90, .3);
+        sleep(3000);
+        turn(CENTER, 180, .3);
+        sleep(3000);
+        turn(CENTER, 90, .3);
+        sleep(5000);
 
         stop();
     }
