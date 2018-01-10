@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.util.enums.Color;
 
 import static org.firstinspires.ftc.teamcode.util.enums.Direction.CENTER;
 import static org.firstinspires.ftc.teamcode.util.enums.Direction.FORWARD;
+import static org.firstinspires.ftc.teamcode.util.enums.Direction.RIGHT;
 import static org.firstinspires.ftc.teamcode.util.enums.Drive.TIME;
 
 /**
@@ -66,7 +67,9 @@ public class JewelRed1 extends GeRMLinear{
                 driveStop(TIME, 850, 0.2);
         }
 
-        turn(CENTER, 90, 0.3);
+        turnByTime(RIGHT, 0.2, 600);
+
+//        turn(CENTER, 90, 0.3);
 
         sleep(10000);
         // STOP

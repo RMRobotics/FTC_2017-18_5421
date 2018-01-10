@@ -257,6 +257,23 @@ public abstract class GeRMLinear extends LinearOpMode {
         }
     }
 
+    protected void turnByTime(Direction dir, double power, double time)
+    {
+        initTime = runtime.milliseconds();
+        while (runtime.milliseconds() - initTime < time)
+        {
+            switch (dir) {
+                case LEFT:
+                    setDrive(power, -power);
+                    break;
+                case RIGHT:
+                    setDrive(-power, power);
+                    break;
+                default:
+                    setDrive(0, 0);
+            }
+        }
+    }
     protected void turn(Direction side, int degree, double power) {
         // fi1nds the difference between the target and the starting angle
         float delta = degree - navx.getYaw();
@@ -268,9 +285,9 @@ public abstract class GeRMLinear extends LinearOpMode {
         float dir = Math.signum(delta);
 
         // while robot is more than 2 degrees away from the target angle
-        while (mag > 2 && opModeIsActive()) {
+        while (mag > 5 && opModeIsActive()) {
             if (mag < 10) {
-                power = 0.2;
+                power = 0.3;
             }
             switch (side) {
                 case CENTER:
@@ -287,6 +304,11 @@ public abstract class GeRMLinear extends LinearOpMode {
                     break;
             }
             telemetry.addData("NavX Yaw", navx.getYaw());
+            telemetry.addData("delta", delta);
+            telemetry.addData("mag", mag);
+            telemetry.addData("dir", dir);
+            telemetry.addData("power", power);
+            telemetry.addData("Motor Power", FL.getPower() + " " + FR.getPower() + " " + BL.getPower() + " " + BR.getPower());
             telemetry.update();
             // update distance from target angle
             delta = degree - navx.getYaw();
