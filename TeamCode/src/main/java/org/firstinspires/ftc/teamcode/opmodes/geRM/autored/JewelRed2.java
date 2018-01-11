@@ -66,9 +66,9 @@ public class JewelRed2 extends GeRMLinear{
                 driveStop(TIME, 850, 0.2);
         }
 
-        turn(CENTER, -90, 0.3);
-        driveStop(TIME, 200, 0.2);
-        turn(CENTER, 90, 0.2);
+//        turn(CENTER, -90, 0.3);
+//        driveStop(TIME, 200, 0.2);
+//        turn(CENTER, 90, 0.2);
 
 
         sleep(10000);
