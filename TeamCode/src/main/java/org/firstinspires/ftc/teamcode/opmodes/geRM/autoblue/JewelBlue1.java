@@ -66,7 +66,7 @@ public class JewelBlue1 extends GeRMLinear{
                 driveStop(TIME, 850, 0.2);
         }
 
-        turn(CENTER, 90, 0.3);
+//        turn(CENTER, 90, 0.3);
 
         sleep(10000);
         // STOP
