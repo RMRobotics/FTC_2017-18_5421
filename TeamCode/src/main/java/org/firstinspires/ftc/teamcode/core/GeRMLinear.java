@@ -120,18 +120,18 @@ public abstract class GeRMLinear extends LinearOpMode {
 
 //         navx initialization and calibration
         dim = hardwareMap.deviceInterfaceModule.get("dim");
-        navx = AHRS.getInstance(dim, 0, AHRS.DeviceDataType.kProcessedData, (byte) 50);
-        while (navx.isCalibrating()) {
-            telemetry.addData("NavX Status", !navx.isCalibrating());
+        navx = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get("dim"), 0, AHRS.DeviceDataType.kProcessedData);
+        while (!navx.isConnected()) {
+            telemetry.addData("NavX Connection", "NOT CONNECTED");
             telemetry.update();
-//            if (!navx.isCalibrating() == true) {
-//                dim.setLED(0, true); // blue
-//            }
+        }
+        while (navx.isCalibrating()) {
+            telemetry.addData("NavX Status", "CALIBRATION IN PROCESS");
+            telemetry.update();
         }
         telemetry.addData("NavX Status", !navx.isCalibrating());
         telemetry.update();
 
-        navx.zeroYaw(); // reset navx yaw value
 
 //        // range finder
 //        range = hardwareMap.i2cDevice.get("range");
@@ -156,6 +156,7 @@ public abstract class GeRMLinear extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         runtime.reset(); // reset runtime counter
+        navx.zeroYaw(); // reset navx yaw value
 
         waitForStart();
 
@@ -257,11 +258,9 @@ public abstract class GeRMLinear extends LinearOpMode {
         }
     }
 
-    protected void turnByTime(Direction dir, double power, double time)
-    {
+    protected void turnByTime(Direction dir, double power, double time) {
         initTime = runtime.milliseconds();
-        while (runtime.milliseconds() - initTime < time)
-        {
+        while (runtime.milliseconds() - initTime < time) {
             switch (dir) {
                 case LEFT:
                     setDrive(power, -power);
@@ -274,6 +273,7 @@ public abstract class GeRMLinear extends LinearOpMode {
             }
         }
     }
+
     protected void turn(Direction side, int degree, double power) {
         // fi1nds the difference between the target and the starting angle
         float delta = degree - navx.getYaw();

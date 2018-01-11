@@ -27,6 +27,7 @@ public class TurnTimeTest extends GeRMLinear{
         turn(CENTER, 90, .3);
         sleep(5000);
 
+        navx.close();
         stop();
     }
 }

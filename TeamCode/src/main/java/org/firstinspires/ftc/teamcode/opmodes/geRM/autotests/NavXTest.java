@@ -27,5 +27,6 @@ public class NavXTest extends GeRMLinear {
                 telemetry.addData("Null pointer for navx", "");
             }
         }
+        navx.close();
     }
 }
