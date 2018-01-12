@@ -57,13 +57,13 @@ public class JewelRed2 extends GeRMLinear{
         switch (distance)
         {
             case "CLOSER":
-                driveStop(TIME, 700, -0.3);
+                driveStop(TIME, 800, 0.8);
                 break;
             case "FARTHER":
-                driveStop(TIME, 1000, -0.3);
+                driveStop(TIME, 1100, 0.8);
                 break;
             default:
-                driveStop(TIME, 850, -0.3);
+                driveStop(TIME, 850, 0.8);
         }
 
 //        turn(CENTER, -90, 0.3);

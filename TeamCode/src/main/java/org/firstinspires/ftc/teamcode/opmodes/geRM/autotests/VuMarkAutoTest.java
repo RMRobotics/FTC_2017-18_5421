@@ -47,6 +47,15 @@ public class VuMarkAutoTest extends GeRMLinear {
             }
             telemetry.update();
         }
+
+        if (vuMark == RelicRecoveryVuMark.CENTER) {
+            driveStop(TIME, 500, .15);
+        } else if (vuMark == RelicRecoveryVuMark.LEFT) {
+            driveStop(TIME, 700, .15);
+        } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
+            driveStop(TIME, 300, .15);
+        }
+
         stop();
     }
 }

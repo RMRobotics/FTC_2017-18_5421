@@ -129,7 +129,7 @@ public abstract class GeRMLinear extends LinearOpMode {
             telemetry.addData("NavX Status", "CALIBRATION IN PROCESS");
             telemetry.update();
         }
-        telemetry.addData("NavX Status", !navx.isCalibrating());
+        telemetry.addData("VUFORIA Status", "VUFORIA STARTING UP! DONT START");
         telemetry.update();
 
 
