@@ -39,7 +39,7 @@ public class JewelRed1 extends GeRMLinear{
 
         String distance = "";
         // SENSE COLOR VALUE AND TURN ROBOT TO KNOCK JEWEL (sensor is facing left)
-        if ((colorSensor.red() >= 5) || (colorSensor.blue() >= 5)){
+        if ((colorSensor.red() >= 3) || (colorSensor.blue() >= 3)){
             if (colorSensor.red() > colorSensor.blue()){
                 driveStop(TIME, 400, 0.3);
                 distance = "CLOSER";
@@ -52,7 +52,7 @@ public class JewelRed1 extends GeRMLinear{
         // RAISE JEWEL ARM
         jewelArm.setPosition(0.21);
 
-        sleep(1000);
+        sleep(5000);
 
         // DRIVE FORWARD TO PARK
         switch (distance)
