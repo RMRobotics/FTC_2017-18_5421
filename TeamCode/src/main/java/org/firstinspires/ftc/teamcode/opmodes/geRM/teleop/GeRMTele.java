@@ -49,18 +49,22 @@ public class GeRMTele extends TeleSuper{
         } else {
             glyphGrabber.setPower(0);
         }
-
+/*
         // LIFT
-        int level1 = 0;
-        int level2 = 500;
-        int level3 = 1000;
-        double lift = gamepad2.left_stick_y*-1;
-        double scale = .5;
-        int liftVal = (int)Math.signum(lift);
-        switch (liftVal) {
-            case -1:
-                if (Math.abs(liftL.getCurrentPosition() - level1) > 5){
-                    setLiftPower(lift*scale);
+   //     int level1 = 0;
+    //    int level2 = 500;
+    //    int level3 = 1000;
+     //   double lift = gamepad2.left_stick_y*-1;
+      //  double scale = .5;
+      //  int liftVal = (int)lift;
+      //  telemetry.addData("LiftVal", "Value: %s",""+liftVal);
+      //  telemetry.addData("lift", "Value: %s",""+lift);
+       // telemetry.update();
+
+      //  switch (liftVal) {
+       //     case -1:
+        //        if (Math.abs(liftL.getCurrentPosition() - level1) > 5){
+          //          setLiftPower(lift*scale);
                 }
                 break;
             case 1:
@@ -71,6 +75,22 @@ public class GeRMTele extends TeleSuper{
             default:
                 setLiftPower(0);
         }
+*/
+
+
+
+        //Lift V2
+        double liftV2 = gamepad2.left_stick_y*-1;
+        double scaleNum = 0.5;
+
+        if(liftV2 > 0){
+            setLiftPower(liftV2*scaleNum);
+        }else if(liftV2 < 0){
+            setLiftPower(liftV2*scaleNum);
+        }else{
+            setLiftPower(0);
+        }
+
 
 //        boolean raiseLift = gamepad2.y;
 //        boolean lowerLift = gamepad2.a;
