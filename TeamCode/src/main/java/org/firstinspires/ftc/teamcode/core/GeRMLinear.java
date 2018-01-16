@@ -34,6 +34,8 @@ import org.firstinspires.ftc.teamcode.util.enums.Color;
 import org.firstinspires.ftc.teamcode.util.enums.Direction;
 import org.firstinspires.ftc.teamcode.util.enums.Drive;
 
+import static org.firstinspires.ftc.teamcode.util.enums.Drive.TIME;
+
 /**
  * Created by poofs on 11/21/2017.
  */
