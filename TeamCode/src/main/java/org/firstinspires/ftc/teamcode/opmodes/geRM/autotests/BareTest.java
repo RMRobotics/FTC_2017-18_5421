@@ -7,8 +7,6 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
-import com.qualcomm.robotcore.hardware.I2cDevice;
-import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -18,13 +16,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.util.enums.Direction;
 
-import static org.firstinspires.ftc.teamcode.util.enums.Drive.TIME;
-
 /**
  * Created by michaelblob on 1/16/18.
  */
 
-@Autonomous(name = "RED2: Auto")
+@Autonomous(name = "baretest")
 public class BareTest extends LinearOpMode {
 
     protected ElapsedTime runtime = new ElapsedTime();
@@ -66,7 +62,7 @@ public class BareTest extends LinearOpMode {
         BL.setDirection(DcMotor.Direction.REVERSE);
         setZeroMode(DcMotor.ZeroPowerBehavior.BRAKE);
         setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        setMode(r);
+        setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         liftL = hardwareMap.dcMotor.get("liftL");
         liftR = hardwareMap.dcMotor.get("liftR");
@@ -160,16 +156,6 @@ public class BareTest extends LinearOpMode {
         stop();
     }
 
-    protected void addTelemetry() {
-//        telemetry.addData("1 Time", runtime.seconds());
-//        telemetry.addData("2 Yaw", navx.getYaw());
-//        telemetry.addData("6 Color Red and Blue", colorSensor.red() + " and " + colorSensor.blue());
-//        telemetry.addData("7 Range", rangeReader.read(0x04, 2)[0] + " " + rangeReader.read(0x04, 2)[1]);
-        telemetry.addData("8 Motor Power", FL.getPower() + " " + FR.getPower() + " " + BL.getPower() + " " + BR.getPower());
-        telemetry.addData("9 Encoder Vals", FL.getCurrentPosition() + " " + FR.getCurrentPosition() + " " + BL.getCurrentPosition() + " " + BR.getCurrentPosition());
-        telemetry.update();
-    }
-
     protected void setMode(DcMotor.RunMode r) {
         FL.setMode(r);
         FR.setMode(r);
@@ -189,20 +175,6 @@ public class BareTest extends LinearOpMode {
         FR.setPower(p);
         BL.setPower(p);
         BR.setPower(p);
-    }
-
-    protected void setDrive(double p1, double p2) {
-        FL.setPower(p1);
-        FR.setPower(p2);
-        BL.setPower(p1);
-        BR.setPower(p2);
-    }
-
-    protected void setDrive(double p1, double p2, double p3, double p4) {
-        FL.setPower(p1);
-        FR.setPower(p2);
-        BL.setPower(p3);
-        BR.setPower(p4);
     }
 
 }
