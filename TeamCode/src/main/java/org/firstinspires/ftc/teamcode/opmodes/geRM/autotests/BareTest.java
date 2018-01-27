@@ -63,30 +63,30 @@ public class BareTest extends LinearOpMode {
         setZeroMode(DcMotor.ZeroPowerBehavior.BRAKE);
         setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        liftL = hardwareMap.dcMotor.get("liftL");
-        liftR = hardwareMap.dcMotor.get("liftR");
-        liftL.setDirection(DcMotorSimple.Direction.REVERSE);
-        liftR.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        glyphGrabber = hardwareMap.dcMotor.get("glyph");
-        glyphGrabber.setDirection(DcMotorSimple.Direction.REVERSE);
-        glyphGrabber.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        // servo initialization
-        jewelArm = hardwareMap.servo.get("jewel");
-        jewelArm.setPosition(0.21);
-
-        claw = hardwareMap.servo.get("claw");
-        claw.setPosition(1);
-
-        clawSpinner = hardwareMap.servo.get("clawSpinner");
-        clawSpinner.setPosition(.25);
-
-        lockServo = hardwareMap.servo.get("lock");
-        lockServo.setPosition(1);
-
-        colorSensor = hardwareMap.colorSensor.get("color");
+//
+//        liftL = hardwareMap.dcMotor.get("liftL");
+//        liftR = hardwareMap.dcMotor.get("liftR");
+//        liftL.setDirection(DcMotorSimple.Direction.REVERSE);
+//        liftR.setDirection(DcMotorSimple.Direction.REVERSE);
+//
+//        glyphGrabber = hardwareMap.dcMotor.get("glyph");
+//        glyphGrabber.setDirection(DcMotorSimple.Direction.REVERSE);
+//        glyphGrabber.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//
+//        // servo initialization
+//        jewelArm = hardwareMap.servo.get("jewel");
+//        jewelArm.setPosition(0.21);
+//
+//        claw = hardwareMap.servo.get("claw");
+//        claw.setPosition(1);
+//
+//        clawSpinner = hardwareMap.servo.get("clawSpinner");
+//        clawSpinner.setPosition(.25);
+//
+//        lockServo = hardwareMap.servo.get("lock");
+//        lockServo.setPosition(1);
+//
+//        colorSensor = hardwareMap.colorSensor.get("color");
 
 //        switch (direction) {
 //            case FORWARD:
@@ -104,14 +104,14 @@ public class BareTest extends LinearOpMode {
 //         navx initialization and calibration
         dim = hardwareMap.deviceInterfaceModule.get("dim");
         navx = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get("dim"), 0, AHRS.DeviceDataType.kProcessedData, (byte) 50);
-        while (!navx.isConnected()) {
-            telemetry.addData("NavX Connection", "NOT CONNECTED");
-            telemetry.update();
-        }
-        while (navx.isCalibrating()) {
-            telemetry.addData("NavX Status", "CALIBRATION IN PROCESS");
-            telemetry.update();
-        }
+//        while (!navx.isConnected()) {
+//            telemetry.addData("NavX Connection", "NOT CONNECTED");
+//            telemetry.update();
+//        }
+//        while (navx.isCalibrating()) {
+//            telemetry.addData("NavX Status", "CALIBRATION IN PROCESS");
+//            telemetry.update();
+//        }
         telemetry.addData("VUFORIA Status", "VUFORIA STARTING UP! DONT START");
         telemetry.update();
 

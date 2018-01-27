@@ -51,14 +51,14 @@ public abstract class GeRMLinear extends LinearOpMode {
 
     protected Servo jewelArm;
 
-    protected AHRS navx;
+//    protected AHRS navx;
 
     protected ColorSensor colorSensor;
 
     protected DeviceInterfaceModule dim;
-
-    protected I2cDevice range;
-    protected I2cDeviceSynch rangeReader;
+//
+//    protected I2cDevice range;
+//    protected I2cDeviceSynch rangeReader;
 
     protected int scale;
     protected double initTime;
@@ -68,7 +68,7 @@ public abstract class GeRMLinear extends LinearOpMode {
     protected Servo clawSpinner;
     protected Servo lockServo;
 
-    protected VuforiaTrackable relicTemplate;
+//    protected VuforiaTrackable relicTemplate;
 
     public void initialize(Color c, DcMotor.RunMode r, Direction direction) {
         // motor initialization
@@ -82,29 +82,29 @@ public abstract class GeRMLinear extends LinearOpMode {
         setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         setMode(r);
 
-        liftL = hardwareMap.dcMotor.get("liftL");
-        liftR = hardwareMap.dcMotor.get("liftR");
-        liftL.setDirection(DcMotorSimple.Direction.REVERSE);
-        liftR.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        glyphGrabber = hardwareMap.dcMotor.get("glyph");
-        glyphGrabber.setDirection(DcMotorSimple.Direction.REVERSE);
-        glyphGrabber.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        // servo initialization
-        jewelArm = hardwareMap.servo.get("jewel");
-        jewelArm.setPosition(0.21);
-
-        claw = hardwareMap.servo.get("claw");
-        claw.setPosition(1);
-
-        clawSpinner = hardwareMap.servo.get("clawSpinner");
-        clawSpinner.setPosition(.25);
-
-        lockServo = hardwareMap.servo.get("lock");
-        lockServo.setPosition(1);
-
-        colorSensor = hardwareMap.colorSensor.get("color");
+//        liftL = hardwareMap.dcMotor.get("liftL");
+//        liftR = hardwareMap.dcMotor.get("liftR");
+//        liftL.setDirection(DcMotorSimple.Direction.REVERSE);
+//        liftR.setDirection(DcMotorSimple.Direction.REVERSE);
+//
+//        glyphGrabber = hardwareMap.dcMotor.get("glyph");
+//        glyphGrabber.setDirection(DcMotorSimple.Direction.REVERSE);
+//        glyphGrabber.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//
+//        // servo initialization
+//        jewelArm = hardwareMap.servo.get("jewel");
+//        jewelArm.setPosition(0.21);
+//
+//        claw = hardwareMap.servo.get("claw");
+//        claw.setPosition(1);
+//
+//        clawSpinner = hardwareMap.servo.get("clawSpinner");
+//        clawSpinner.setPosition(.25);
+//
+//        lockServo = hardwareMap.servo.get("lock");
+//        lockServo.setPosition(1);
+//
+//        colorSensor = hardwareMap.colorSensor.get("color");
 
         switch (direction) {
             case FORWARD:
@@ -119,18 +119,18 @@ public abstract class GeRMLinear extends LinearOpMode {
         }
 
 //         navx initialization and calibration
-        dim = hardwareMap.deviceInterfaceModule.get("dim");
-        navx = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get("dim"), 0, AHRS.DeviceDataType.kProcessedData);
-        while (!navx.isConnected()) {
-            telemetry.addData("NavX Connection", "NOT CONNECTED");
-            telemetry.update();
-        }
-        while (navx.isCalibrating()) {
-            telemetry.addData("NavX Status", "CALIBRATION IN PROCESS");
-            telemetry.update();
-        }
-        telemetry.addData("VUFORIA Status", "VUFORIA STARTING UP! DONT START");
-        telemetry.update();
+//        dim = hardwareMap.deviceInterfaceModule.get("dim");
+//        navx = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get("dim"), 0, AHRS.DeviceDataType.kProcessedData);
+//        while (!navx.isConnected()) {
+//            telemetry.addData("NavX Connection", "NOT CONNECTED");
+//            telemetry.update();
+//        }
+//        while (navx.isCalibrating()) {
+//            telemetry.addData("NavX Status", "CALIBRATION IN PROCESS");
+//            telemetry.update();
+//        }
+//        telemetry.addData("VUFORIA Status", "VUFORIA STARTING UP! DONT START");
+//        telemetry.update();
 
 
 //        // range finder
@@ -139,29 +139,29 @@ public abstract class GeRMLinear extends LinearOpMode {
 //        rangeReader.engage();
 
 //        Vuforia Initialization
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+//        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+//        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+//
+//        parameters.vuforiaLicenseKey = "AY77tqP/////AAAAGfLr0EwiUEvBgqYkqzIkmW1s7GIs/g3aXlDXMXvvOAN8V1hF4ZLx8qOibfX//3q6tSGlobO4cnOU27ue2pwMeg5Z10jgtWm2S01GM1FcFYr1LFSl/MGT/2KJ+zTv0051h3MvcY8/o9pKTGsTuBA9gJ1Cfm48BLNp8kbftffjMPpuCQZapAstwIF5KsZZ2WY6JDdUNiJfU6YcML5Q+DSRM+wF8zf5iiKavSG2WW6jP1f8RukTPjFGdRJsoz05ktSJ/xi6sKh+vTlLU92K7yO38pwJ3nfPOQJrtoE8OBgzRLMvWz9UwaswWps0NJPyr8iOTGsixtWO35lZjUzP5hDkNLhzl1DFRLJUQPnltmhBif5c";
+//
+//        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
+//        VuforiaLocalizer vuforia = ClassFactory.createVuforiaLocalizer(parameters);
+//
+//        VuforiaTrackables relicTrackables = vuforia.loadTrackablesFromAsset("RelicVuMark");
+//        relicTemplate = relicTrackables.get(0);
+//        relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
 
-        parameters.vuforiaLicenseKey = "AY77tqP/////AAAAGfLr0EwiUEvBgqYkqzIkmW1s7GIs/g3aXlDXMXvvOAN8V1hF4ZLx8qOibfX//3q6tSGlobO4cnOU27ue2pwMeg5Z10jgtWm2S01GM1FcFYr1LFSl/MGT/2KJ+zTv0051h3MvcY8/o9pKTGsTuBA9gJ1Cfm48BLNp8kbftffjMPpuCQZapAstwIF5KsZZ2WY6JDdUNiJfU6YcML5Q+DSRM+wF8zf5iiKavSG2WW6jP1f8RukTPjFGdRJsoz05ktSJ/xi6sKh+vTlLU92K7yO38pwJ3nfPOQJrtoE8OBgzRLMvWz9UwaswWps0NJPyr8iOTGsixtWO35lZjUzP5hDkNLhzl1DFRLJUQPnltmhBif5c";
+//        sleep(1500);
+//
+//        telemetry.addData("Status", "Initialized");
+//        telemetry.update();
+//        runtime.reset(); // reset runtime counter
+//        navx.zeroYaw(); // reset navx yaw value
 
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
-        VuforiaLocalizer vuforia = ClassFactory.createVuforiaLocalizer(parameters);
-
-        VuforiaTrackables relicTrackables = vuforia.loadTrackablesFromAsset("RelicVuMark");
-        relicTemplate = relicTrackables.get(0);
-        relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
-
-        sleep(1500);
-
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
-        runtime.reset(); // reset runtime counter
-        navx.zeroYaw(); // reset navx yaw value
-
-        waitForStart();
+//        waitForStart();
 
         // vuforia activate
-        relicTrackables.activate();
+//        relicTrackables.activate();
     }
 
     protected void setLift(int val, double power) {
@@ -240,19 +240,19 @@ public abstract class GeRMLinear extends LinearOpMode {
                     setDrive(power);
                 }
                 break;
-            case RANGE:
-                float delta = val - rangeReader.read(0x04, 2)[0];
-                float dir = Math.signum(delta);
-                if (dir > 0) {
-                    while (rangeReader.read(0x04, 2)[0] < val && opModeIsActive()) {
-                        setDrive(-scale * power);
-                    }
-                } else if (dir < 0) {
-                    while (rangeReader.read(0x04, 2)[0] > val && opModeIsActive()) {
-                        setDrive(scale * power);
-                    }
-                }
-                break;
+//            case RANGE:
+//                float delta = val - rangeReader.read(0x04, 2)[0];
+//                float dir = Math.signum(delta);
+//                if (dir > 0) {
+//                    while (rangeReader.read(0x04, 2)[0] < val && opModeIsActive()) {
+//                        setDrive(-scale * power);
+//                    }
+//                } else if (dir < 0) {
+//                    while (rangeReader.read(0x04, 2)[0] > val && opModeIsActive()) {
+//                        setDrive(scale * power);
+//                    }
+//                }
+//                break;
             default:
                 break;
         }
@@ -276,7 +276,9 @@ public abstract class GeRMLinear extends LinearOpMode {
 
     protected void turn(Direction side, int degree, double power) {
         // fi1nds the difference between the target and the starting angle
-        float delta = degree - navx.getYaw();
+//        float delta = degree - navx.getYaw();
+        float delta = degree;
+
 
         // sets the magnitude of the turn (absolute value of delta)
         float mag = Math.abs(delta);
@@ -303,7 +305,7 @@ public abstract class GeRMLinear extends LinearOpMode {
                     setDrive(0);
                     break;
             }
-            telemetry.addData("NavX Yaw", navx.getYaw());
+//            telemetry.addData("NavX Yaw", navx.getYaw());
             telemetry.addData("delta", delta);
             telemetry.addData("mag", mag);
             telemetry.addData("dir", dir);
@@ -311,7 +313,7 @@ public abstract class GeRMLinear extends LinearOpMode {
             telemetry.addData("Motor Power", FL.getPower() + " " + FR.getPower() + " " + BL.getPower() + " " + BR.getPower());
             telemetry.update();
             // update distance from target angle
-            delta = degree - navx.getYaw();
+//            delta = degree - navx.getYaw();
             mag = Math.abs(delta);
             dir = Math.signum(delta);
         }

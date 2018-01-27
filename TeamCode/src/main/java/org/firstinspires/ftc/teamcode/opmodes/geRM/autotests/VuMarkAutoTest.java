@@ -35,7 +35,7 @@ public class VuMarkAutoTest extends GeRMLinear {
             telemetry.addData("red value:", (colorSensor.red()));
             telemetry.addData("blue value:", (colorSensor.blue()));
             if (!sensed) {
-                vuMark = RelicRecoveryVuMark.from(relicTemplate);
+//                vuMark = RelicRecoveryVuMark.from(relicTemplate);
                 if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
                     sensed = true;
                     telemetry.addData("VuMark", "%s visible", vuMark);
