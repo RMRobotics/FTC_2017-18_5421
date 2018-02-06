@@ -23,6 +23,7 @@ public class ColorSensorTest extends GeRMLinear {
             try {
                 telemetry.addData("color red:", (colorSensor.red()));
                 telemetry.addData("color blue:", (colorSensor.blue()));
+                telemetry.addData("argb val", (colorSensor.argb()));
                 telemetry.update();
             } catch (NullPointerException e) {
                 telemetry.addData("Null pointer- jewel detection", "");

@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.core;
 
 import com.kauailabs.navx.ftc.AHRS;
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -49,10 +51,13 @@ public abstract class GeRMLinear extends LinearOpMode {
     protected DcMotor liftL;
     protected DcMotor liftR;
 
+    protected CRServo relicArm;
+
     protected Servo jewelArm;
 
-//    protected AHRS navx;
-
+//  protected AHRS navx;
+    BNO055IMU imu1;
+    BNO055IMU imu2;
     protected ColorSensor colorSensor;
 
     protected DeviceInterfaceModule dim;
@@ -105,6 +110,25 @@ public abstract class GeRMLinear extends LinearOpMode {
 //        lockServo.setPosition(1);
 //
 //        colorSensor = hardwareMap.colorSensor.get("color");
+
+        relicArm = hardwareMap.crservo.get("relicArm");
+        relicArm.setPower(0);
+
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        parameters.loggingEnabled = true;
+        parameters.loggingTag = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+
+        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
+        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
+        // and named "imu".
+        imu1 = hardwareMap.get(BNO055IMU.class, "imu1");
+        imu1.initialize(parameters);
+        imu2 = hardwareMap.get(BNO055IMU.class, "imu2");
+        imu2.initialize(parameters);
 
         switch (direction) {
             case FORWARD:
