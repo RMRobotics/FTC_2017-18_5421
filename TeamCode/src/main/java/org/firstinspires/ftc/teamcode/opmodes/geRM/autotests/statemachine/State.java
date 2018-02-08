@@ -7,4 +7,3 @@ package org.firstinspires.ftc.teamcode.opmodes.geRM.autotests.statemachine;
 public interface State {
     void pull(AutoPullChain wrapper);
 }
-
