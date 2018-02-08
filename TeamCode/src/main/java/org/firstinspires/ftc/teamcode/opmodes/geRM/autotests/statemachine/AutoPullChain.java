@@ -7,9 +7,11 @@ package org.firstinspires.ftc.teamcode.opmodes.geRM.autotests.statemachine;
 public class AutoPullChain {
     private State currentState;
 
-
+    //This constructor can be given either StateOne or StateTwo as a parameter, and sets it as the base state.
     public AutoPullChain(State firstState) {
         currentState = firstState;
+
+
     }
 
 
