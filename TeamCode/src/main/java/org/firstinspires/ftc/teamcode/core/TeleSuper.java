@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * Created by poofs on 11/28/2017.
@@ -25,6 +26,7 @@ public abstract class TeleSuper extends OpMode {
 
     protected DcMotor liftL;
     protected DcMotor liftR;
+    protected ElapsedTime runtime = new ElapsedTime();
 
     @Override
     public void init() {

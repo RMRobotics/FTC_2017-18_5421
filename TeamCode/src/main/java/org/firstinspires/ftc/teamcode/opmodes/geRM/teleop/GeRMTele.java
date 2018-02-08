@@ -4,11 +4,14 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.core.TeleSuper;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.locks.Condition;
+
+import static org.firstinspires.ftc.teamcode.util.enums.Direction.LEFT;
 
 /**
  * Created by poofs on 11/28/2017.
@@ -22,8 +25,8 @@ public class GeRMTele extends TeleSuper{
         // DRIVE
         double max = 1.0;
         double slow = .2;
-        double wheelsL = gamepad1.left_stick_y*-1;
-        double wheelsR = gamepad1.right_stick_y*-1;
+        double wheelsL = gamepad1.left_stick_y * -1;
+        double wheelsR = gamepad1.right_stick_y * -1;
 
         if (gamepad1.dpad_up) {
             setDrive(slow);
@@ -34,7 +37,7 @@ public class GeRMTele extends TeleSuper{
         } else if (gamepad1.dpad_right) {
             setDrive(slow, -slow, slow, -slow);
         } else {
-            setDrive(wheelsL*max, wheelsR*max, wheelsL*max, wheelsR*max);
+            setDrive(wheelsL * max, wheelsR * max, wheelsL * max, wheelsR * max);
         }
 
         // HARVESTER
@@ -78,18 +81,17 @@ public class GeRMTele extends TeleSuper{
 */
 
 
-
         //Lift V2
-        double liftV2 = gamepad2.left_stick_y*-1;
-        double scaleNum = 0.5;
-
-        if(liftV2 > 0){
-            setLiftPower(liftV2*scaleNum);
-        }else if(liftV2 < 0){
-            setLiftPower(liftV2*scaleNum);
-        }else{
-            setLiftPower(0);
-        }
+//        double liftV2 = gamepad2.left_stick_y*-1;
+//        double scaleNum = 0.5;
+//
+//        if(liftV2 > 0){
+//            setLiftPower(liftV2*scaleNum);
+//        }else if(liftV2 < 0){
+//            setLiftPower(liftV2*scaleNum);
+//        }else{
+//            setLiftPower(0);
+//        }
 
 
 //        boolean raiseLift = gamepad2.y;
@@ -131,7 +133,7 @@ public class GeRMTele extends TeleSuper{
         // JEWEL ARM
         boolean jewelButton = gamepad1.b;
         if (jewelButton) {
-            if (jewelArm.getPosition() <= .4){
+            if (jewelArm.getPosition() <= .4) {
                 jewelArm.setPosition(.8);
                 try {
                     Thread.sleep(100);
@@ -177,49 +179,63 @@ public class GeRMTele extends TeleSuper{
 
         //        -------------------------------
 
-        boolean spinClaw = gamepad2.y;
-        double spinUp = 1;
-        double spinDown = .25;
-        if (spinClaw){
-            if ((Math.abs(clawSpinner.getPosition() - spinDown) < .05)){
-                clawSpinner.setPosition(spinUp);
-            } else if ((Math.abs(clawSpinner.getPosition() - spinUp) < .05)){
-                clawSpinner.setPosition(spinDown);
-            } else {
-                clawSpinner.setPosition(spinUp);
+        boolean dropRelicArm = gamepad2.y;
+        if (dropRelicArm) {
+            double initTime = runtime.milliseconds();
+            while (runtime.milliseconds() - initTime < 1700) { // run loop for 1.7 seconds
+                if (runtime.milliseconds() - initTime < 500) { // push out beacon pusher for 1 second
+                    relicArm.setPower(0.5);
+                }
             }
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+
+            //        -------------------------------
+
+            boolean spinClaw = gamepad2.y;
+            double spinUp = 1;
+            double spinDown = .25;
+            if (spinClaw) {
+                if ((Math.abs(clawSpinner.getPosition() - spinDown) < .05)) {
+                    clawSpinner.setPosition(spinUp);
+                } else if ((Math.abs(clawSpinner.getPosition() - spinUp) < .05)) {
+                    clawSpinner.setPosition(spinDown);
+                } else {
+                    clawSpinner.setPosition(spinUp);
+                }
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+
+            //        -------------------------------
+
+            boolean lock = gamepad2.x;
+            double locked = 1;
+            double unlocked = 0;
+            if (lock) {
+                if ((Math.abs(lockServo.getPosition() - locked) < .05)) {
+                    lockServo.setPosition(unlocked);
+                } else if ((Math.abs(lockServo.getPosition() - unlocked) < .05)) {
+                    lockServo.setPosition(locked);
+                } else {
+                    lockServo.setPosition(locked);
+                }
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            addTelemetry();
         }
-
-        //        -------------------------------
-
-        boolean lock = gamepad2.x;
-        double locked = 1;
-        double unlocked = 0;
-        if (lock) {
-            if ((Math.abs(lockServo.getPosition() - locked) < .05)){
-                lockServo.setPosition(unlocked);
-            } else if ((Math.abs(lockServo.getPosition() - unlocked) < .05)){
-                lockServo.setPosition(locked);
-            } else {
-                lockServo.setPosition(locked);
-            }
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        addTelemetry();
     }
 
-    protected void setLiftPower(double power){
+
+    protected void setLiftPower(double power) {
         liftL.setPower(power);
         liftR.setPower(power);
+
     }
 }

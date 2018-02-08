@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes.geRM.autotests;
+package org.firstinspires.ftc.teamcode.opmodes.geRM.autotests.basictests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -20,13 +20,13 @@ public class NavXTest extends GeRMLinear {
         super.initialize(Color.RED, DcMotor.RunMode.RUN_WITHOUT_ENCODER, Direction.FORWARD);
         while (opModeIsActive()) {
             try {
-                telemetry.addData("NavX Yaw", navx.getYaw());
+//                telemetry.addData("NavX Yaw", navx.getYaw());
                 telemetry.addData("Run time", runtime);
                 telemetry.update();
             } catch (NullPointerException e) {
                 telemetry.addData("Null pointer for navx", "");
             }
         }
-        navx.close();
+//        navx.close();
     }
 }

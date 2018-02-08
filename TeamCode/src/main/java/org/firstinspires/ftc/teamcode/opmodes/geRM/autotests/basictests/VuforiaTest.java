@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes.geRM.autotests;
+package org.firstinspires.ftc.teamcode.opmodes.geRM.autotests.basictests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -28,15 +28,15 @@ public class VuforiaTest extends GeRMLinear {
     @Override
     public void runOpMode() {
         super.initialize(Color.RED, DcMotor.RunMode.RUN_WITHOUT_ENCODER, FORWARD);
-        while (opModeIsActive()) {
-            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-            if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
-
-                telemetry.addData("VuMark", "%s visible", vuMark);
-            } else {
-                telemetry.addData("VuMark", "not visible");
-            }
-            telemetry.update();
-        }
+//        while (opModeIsActive()) {
+////            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+//            if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
+//
+//                telemetry.addData("VuMark", "%s visible", vuMark);
+//            } else {
+//                telemetry.addData("VuMark", "not visible");
+//            }
+//            telemetry.update();
+//        }
     }
 }
