@@ -52,7 +52,7 @@ public abstract class GeRMAuto extends GeRMLinear {
             }
 
 //        Scan pictograph using Vuforia; store position
-            vuMark = RelicRecoveryVuMark.from(relicTemplate);
+//            vuMark = RelicRecoveryVuMark.from(relicTemplate);
 //        Turn robot depending on jewel color
             switch (jewel) {
                 case LEFT: {

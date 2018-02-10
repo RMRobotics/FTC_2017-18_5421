@@ -179,59 +179,68 @@ public class GeRMTele extends TeleSuper{
 
         //        -------------------------------
 
-        boolean dropRelicArm = gamepad2.y;
+        boolean dropRelicArm = gamepad2.x;
         if (dropRelicArm) {
             double initTime = runtime.milliseconds();
             while (runtime.milliseconds() - initTime < 1700) { // run loop for 1.7 seconds
-                if (runtime.milliseconds() - initTime < 500) { // push out beacon pusher for 1 second
-                    relicArm.setPower(0.5);
+                if (runtime.milliseconds() - initTime < 700) { // lower arm for 0.7 second
+                    clawSpinner.setPower(0.2);
                 }
             }
+        }
+
+        boolean raiseRelicArm = gamepad2.y;
+        if (raiseRelicArm) {
+            double initTime = runtime.milliseconds();
+            while (runtime.milliseconds() - initTime < 1700) { // run loop for 1.7 seconds
+                if (runtime.milliseconds() - initTime < 700) { // lower arm for 0.7 second
+                    clawSpinner.setPower(-0.2);
+                }
+            }
+        }
 
             //        -------------------------------
 
-            boolean spinClaw = gamepad2.y;
-            double spinUp = 1;
-            double spinDown = .25;
-            if (spinClaw) {
-                if ((Math.abs(clawSpinner.getPosition() - spinDown) < .05)) {
-                    clawSpinner.setPosition(spinUp);
-                } else if ((Math.abs(clawSpinner.getPosition() - spinUp) < .05)) {
-                    clawSpinner.setPosition(spinDown);
-                } else {
-                    clawSpinner.setPosition(spinUp);
-                }
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
+//            boolean spinClaw = gamepad2.y;
+//            double spinUp = 1;
+//            double spinDown = .25;
+//            if (spinClaw) {
+//                if ((Math.abs(clawSpinner.getPosition() - spinDown) < .05)) {
+//                    clawSpinner.setPosition(spinUp);
+//                } else if ((Math.abs(clawSpinner.getPosition() - spinUp) < .05)) {
+//                    clawSpinner.setPosition(spinDown);
+//                } else {
+//                    clawSpinner.setPosition(spinUp);
+//                }
+//                try {
+//                    Thread.sleep(100);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
 
             //        -------------------------------
-
-            boolean lock = gamepad2.x;
-            double locked = 1;
-            double unlocked = 0;
-            if (lock) {
-                if ((Math.abs(lockServo.getPosition() - locked) < .05)) {
-                    lockServo.setPosition(unlocked);
-                } else if ((Math.abs(lockServo.getPosition() - unlocked) < .05)) {
-                    lockServo.setPosition(locked);
-                } else {
-                    lockServo.setPosition(locked);
-                }
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
+//
+//            boolean lock = gamepad2.x;
+//            double locked = 1;
+//            double unlocked = 0;
+//            if (lock) {
+//                if ((Math.abs(lockServo.getPosition() - locked) < .05)) {
+//                    lockServo.setPosition(unlocked);
+//                } else if ((Math.abs(lockServo.getPosition() - unlocked) < .05)) {
+//                    lockServo.setPosition(locked);
+//                } else {
+//                    lockServo.setPosition(locked);
+//                }
+//                try {
+//                    Thread.sleep(100);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
 
             addTelemetry();
         }
-    }
-
 
     protected void setLiftPower(double power) {
         liftL.setPower(power);

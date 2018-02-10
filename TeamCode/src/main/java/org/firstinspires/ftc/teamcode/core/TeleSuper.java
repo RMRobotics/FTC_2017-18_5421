@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.core;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -21,7 +22,7 @@ public abstract class TeleSuper extends OpMode {
 
     protected DcMotor relicArm;
     protected Servo claw;
-    protected Servo clawSpinner;
+    protected CRServo clawSpinner;
     protected Servo lockServo;
 
     protected DcMotor liftL;

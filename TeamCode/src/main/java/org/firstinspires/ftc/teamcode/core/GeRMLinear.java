@@ -53,8 +53,6 @@ public abstract class GeRMLinear extends LinearOpMode {
     protected DcMotor liftL;
     protected DcMotor liftR;
 
-    protected CRServo relicArm;
-
     protected Servo jewelArm;
 
 //  protected AHRS navx;
@@ -72,8 +70,7 @@ public abstract class GeRMLinear extends LinearOpMode {
 
     protected Direction jewel;
     protected Servo claw;
-    protected Servo clawSpinner;
-    protected Servo lockServo;
+    protected CRServo clawSpinner;
 
 //    protected VuforiaTrackable relicTemplate;
 
