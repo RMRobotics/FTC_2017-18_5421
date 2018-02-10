@@ -110,8 +110,8 @@ public abstract class GeRMLinear extends LinearOpMode {
 //
 //        colorSensor = hardwareMap.colorSensor.get("color");
 
-        relicArm = hardwareMap.crservo.get("relicArm");
-        relicArm.setPower(0);
+//        relicArm = hardwareMap.crservo.get("relicArm");
+//        relicArm.setPower(0);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;

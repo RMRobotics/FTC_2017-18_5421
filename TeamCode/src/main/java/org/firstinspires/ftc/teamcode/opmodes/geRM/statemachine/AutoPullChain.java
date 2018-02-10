@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes.geRM.autotests.statemachine;
+package org.firstinspires.ftc.teamcode.opmodes.geRM.statemachine;
 
 /**
  * Created by Daniel on 1/30/18.

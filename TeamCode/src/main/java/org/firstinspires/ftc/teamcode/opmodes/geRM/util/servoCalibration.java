@@ -10,26 +10,56 @@ import com.qualcomm.robotcore.hardware.Servo;
  */
 
 @TeleOp(name = "servoCalibration")
-@Disabled
 public class servoCalibration extends OpMode {
 
-    private Servo servo;
-    private double servoValue = 0.5;
+    private Servo jewelArm;
+    private Servo claw;
+    private Servo clawSpinner;
+
+    private double jPos;
+    private double cPos;
+    private double cSPos;
 
     @Override
     public void init() {
-        servo = hardwareMap.servo.get("liftHold");
+        jewelArm = hardwareMap.servo.get("jewel");
+        claw = hardwareMap.servo.get("claw");
+        clawSpinner = hardwareMap.servo.get("clawSpinner");
+        jPos = jewelArm.getPosition();
+        cPos = claw.getPosition();
+        cSPos = clawSpinner.getPosition();
     }
 
     @Override
     public void loop() {
-        //turns beacon pusher servo;+
-        if (gamepad1.x) {
-            servoValue+=.01;
-        } else if (gamepad1.b) {
-            servoValue -= .01;
+        // turns jewel arm servo
+        if (gamepad1.dpad_up) {
+            jPos+=.01;
+        } else if (gamepad1.dpad_down) {
+            jPos -= .01;
         }
-        servo.setPosition(servoValue);
-        telemetry.addData("pos", servo.getPosition());
+
+        // turns claw servo
+        if (gamepad1.right_bumper) {
+            cPos+=.01;
+        } else if (gamepad1.left_bumper) {
+            cPos -= .01;
+        }
+
+        //turns claw spinner servo
+        if (gamepad1.y) {
+            cSPos+=.01;
+        } else if (gamepad1.a) {
+            cSPos -= .01;
+        }
+
+        jewelArm.setPosition(jPos);
+        claw.setPosition(cPos);
+        clawSpinner.setPosition(cSPos);
+
+        telemetry.addData("jewel pos (dpad)", jewelArm.getPosition());
+        telemetry.addData("claw pos (bumper)", claw.getPosition());
+        telemetry.addData("cspinner pos (y/a)", clawSpinner.getPosition());
+        telemetry.update();
     }
 }

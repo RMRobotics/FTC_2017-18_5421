@@ -1,6 +1,5 @@
-package org.firstinspires.ftc.teamcode.opmodes.geRM.autotests.statemachine;
+package org.firstinspires.ftc.teamcode.opmodes.geRM.statemachine;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**

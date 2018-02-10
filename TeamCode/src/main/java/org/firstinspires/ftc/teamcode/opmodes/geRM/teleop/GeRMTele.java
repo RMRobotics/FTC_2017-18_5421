@@ -22,6 +22,7 @@ public class GeRMTele extends TeleSuper{
 
     @Override
     public void loop() {
+
         // DRIVE
         double max = 1.0;
         double slow = .2;
@@ -40,6 +41,8 @@ public class GeRMTele extends TeleSuper{
             setDrive(wheelsL * max, wheelsR * max, wheelsL * max, wheelsR * max);
         }
 
+//      -------------------------------------------
+
         // HARVESTER
         boolean harvest = gamepad1.right_bumper;
         boolean eject = gamepad1.left_bumper;
@@ -52,48 +55,48 @@ public class GeRMTele extends TeleSuper{
         } else {
             glyphGrabber.setPower(0);
         }
-/*
-        // LIFT
-   //     int level1 = 0;
-    //    int level2 = 500;
-    //    int level3 = 1000;
-     //   double lift = gamepad2.left_stick_y*-1;
-      //  double scale = .5;
-      //  int liftVal = (int)lift;
-      //  telemetry.addData("LiftVal", "Value: %s",""+liftVal);
-      //  telemetry.addData("lift", "Value: %s",""+lift);
-       // telemetry.update();
 
-      //  switch (liftVal) {
-       //     case -1:
-        //        if (Math.abs(liftL.getCurrentPosition() - level1) > 5){
-          //          setLiftPower(lift*scale);
-                }
-                break;
-            case 1:
-                if (Math.abs(liftL.getCurrentPosition() - level3) > 5){
-                    setLiftPower(lift*scale);
-                }
-                break;
-            default:
-                setLiftPower(0);
+//      -------------------------------------------
+
+        // LIFT SIMPLE W/O ENCODERS
+        double liftV2 = gamepad2.left_stick_y*-1;
+        double scaleNum = 0.5;
+
+        if(liftV2 > 0){
+            setLiftPower(liftV2*scaleNum);
+        }else if(liftV2 < 0){
+            setLiftPower(liftV2*scaleNum);
+        }else{
+            setLiftPower(0);
         }
-*/
 
-
-        //Lift V2
-//        double liftV2 = gamepad2.left_stick_y*-1;
-//        double scaleNum = 0.5;
+        // LIFT WITH UPPER/LOWER BOUNDS
+//        int level1 = 0;
+//        int level2 = 500;
+//        int level3 = 1000;
+//        double lift = gamepad2.left_stick_y*-1;
+//        double scale = .5;
+//        int liftVal = (int)lift;
+//        telemetry.addData("LiftVal", "Value: %s",""+liftVal);
+//        telemetry.addData("lift", "Value: %s",""+lift);
+//        telemetry.update();
 //
-//        if(liftV2 > 0){
-//            setLiftPower(liftV2*scaleNum);
-//        }else if(liftV2 < 0){
-//            setLiftPower(liftV2*scaleNum);
-//        }else{
-//            setLiftPower(0);
+//        switch (liftVal) {
+//            case -1:
+//                if (Math.abs(liftL.getCurrentPosition() - level1) > 5){
+//                    setLiftPower(lift*scale);
+//                }
+//                break;
+//            case 1:
+//                if (Math.abs(liftL.getCurrentPosition() - level3) > 5){
+//                    setLiftPower(lift*scale);
+//                }
+//                break;
+//            default:
+//                setLiftPower(0);
 //        }
 
-
+        // LIFT STAGES
 //        boolean raiseLift = gamepad2.y;
 //        boolean lowerLift = gamepad2.a;
 //        if (raiseLift){
@@ -130,6 +133,8 @@ public class GeRMTele extends TeleSuper{
 //            }
 //        }
 
+//      -------------------------------------------
+
         // JEWEL ARM
         boolean jewelButton = gamepad1.b;
         if (jewelButton) {
@@ -150,7 +155,10 @@ public class GeRMTele extends TeleSuper{
             }
         }
 
+//      -------------------------------------------
         // RELIC GRABBER
+
+        // RELIC GRABBER: EXTEND
         boolean extend = gamepad2.right_bumper;
         boolean retract = gamepad2.left_bumper;
         if (extend && retract) {
@@ -163,7 +171,7 @@ public class GeRMTele extends TeleSuper{
             relicArm.setPower(0);
         }
 
-//        -------------------------------
+        // RELIC GRABBER: CLAMP
 
         boolean clamp = gamepad2.a;
         boolean unclamp = gamepad2.b;
@@ -177,14 +185,14 @@ public class GeRMTele extends TeleSuper{
             claw.setPosition(claw.getPosition() - .05);
         }
 
-        //        -------------------------------
+        // RELIC GRABBER: SPIN
 
         boolean dropRelicArm = gamepad2.x;
         if (dropRelicArm) {
             double initTime = runtime.milliseconds();
             while (runtime.milliseconds() - initTime < 1700) { // run loop for 1.7 seconds
                 if (runtime.milliseconds() - initTime < 700) { // lower arm for 0.7 second
-                    clawSpinner.setPower(0.2);
+                    clawSpinner.setPosition(clawSpinner.getPosition()+.1);
                 }
             }
         }
@@ -194,12 +202,12 @@ public class GeRMTele extends TeleSuper{
             double initTime = runtime.milliseconds();
             while (runtime.milliseconds() - initTime < 1700) { // run loop for 1.7 seconds
                 if (runtime.milliseconds() - initTime < 700) { // lower arm for 0.7 second
-                    clawSpinner.setPower(-0.2);
+                    clawSpinner.setPosition(clawSpinner.getPosition()-.1);
                 }
             }
         }
 
-            //        -------------------------------
+//      -------------------------------------------
 
 //            boolean spinClaw = gamepad2.y;
 //            double spinUp = 1;
