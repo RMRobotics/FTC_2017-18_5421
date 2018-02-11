@@ -136,24 +136,24 @@ public class GeRMTele extends TeleSuper{
 //      -------------------------------------------
 
         // JEWEL ARM
-        boolean jewelButton = gamepad1.b;
-        if (jewelButton) {
-            if (jewelArm.getPosition() <= .4) {
-                jewelArm.setPosition(.8);
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                jewelArm.setPosition(.21);
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+//        boolean jewelButton = gamepad1.b;
+//        if (jewelButton) {
+//            if (jewelArm.getPosition() <= .4) {
+//                jewelArm.setPosition(.8);
+//                try {
+//                    Thread.sleep(100);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            } else {
+//                jewelArm.setPosition(.21);
+//                try {
+//                    Thread.sleep(100);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
 
 //      -------------------------------------------
         // RELIC GRABBER
@@ -173,39 +173,39 @@ public class GeRMTele extends TeleSuper{
 
         // RELIC GRABBER: CLAMP
 
-        boolean clamp = gamepad2.a;
-        boolean unclamp = gamepad2.b;
-        double clampedPos = 1;
-        double openedPos = .4;
-        if (clamp && unclamp) {
-            claw.setPosition(claw.getPosition());
-        } else if (clamp && claw.getPosition() < clampedPos) {
-            claw.setPosition(claw.getPosition() + .05);
-        } else if (unclamp && claw.getPosition() > openedPos) {
-            claw.setPosition(claw.getPosition() - .05);
-        }
+//        boolean clamp = gamepad2.a;
+//        boolean unclamp = gamepad2.b;
+//        double clampedPos = 1;
+//        double openedPos = .4;
+//        if (clamp && unclamp) {
+//            claw.setPosition(claw.getPosition());
+//        } else if (clamp && claw.getPosition() < clampedPos) {
+//            claw.setPosition(claw.getPosition() + .05);
+//        } else if (unclamp && claw.getPosition() > openedPos) {
+//            claw.setPosition(claw.getPosition() - .05);
+//        }
 
         // RELIC GRABBER: SPIN
 
-        boolean dropRelicArm = gamepad2.x;
-        if (dropRelicArm) {
-            double initTime = runtime.milliseconds();
-            while (runtime.milliseconds() - initTime < 1700) { // run loop for 1.7 seconds
-                if (runtime.milliseconds() - initTime < 700) { // lower arm for 0.7 second
-                    clawSpinner.setPosition(clawSpinner.getPosition()+.1);
-                }
-            }
-        }
-
-        boolean raiseRelicArm = gamepad2.y;
-        if (raiseRelicArm) {
-            double initTime = runtime.milliseconds();
-            while (runtime.milliseconds() - initTime < 1700) { // run loop for 1.7 seconds
-                if (runtime.milliseconds() - initTime < 700) { // lower arm for 0.7 second
-                    clawSpinner.setPosition(clawSpinner.getPosition()-.1);
-                }
-            }
-        }
+//        boolean dropRelicArm = gamepad2.x;
+//        if (dropRelicArm) {
+//            double initTime = runtime.milliseconds();
+//            while (runtime.milliseconds() - initTime < 1700) { // run loop for 1.7 seconds
+//                if (runtime.milliseconds() - initTime < 700) { // lower arm for 0.7 second
+//                    clawSpinner.setPower(.1);
+//                }
+//            }
+//        }
+//
+//        boolean raiseRelicArm = gamepad2.y;
+//        if (raiseRelicArm) {
+//            double initTime = runtime.milliseconds();
+//            while (runtime.milliseconds() - initTime < 1700) { // run loop for 1.7 seconds
+//                if (runtime.milliseconds() - initTime < 700) { // lower arm for 0.7 second
+//                    clawSpinner.setPower(-.1);
+//                }
+//            }
+//        }
 
 //      -------------------------------------------
 
@@ -227,32 +227,11 @@ public class GeRMTele extends TeleSuper{
 //                }
 //            }
 
-            //        -------------------------------
-//
-//            boolean lock = gamepad2.x;
-//            double locked = 1;
-//            double unlocked = 0;
-//            if (lock) {
-//                if ((Math.abs(lockServo.getPosition() - locked) < .05)) {
-//                    lockServo.setPosition(unlocked);
-//                } else if ((Math.abs(lockServo.getPosition() - unlocked) < .05)) {
-//                    lockServo.setPosition(locked);
-//                } else {
-//                    lockServo.setPosition(locked);
-//                }
-//                try {
-//                    Thread.sleep(100);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-
             addTelemetry();
         }
 
     protected void setLiftPower(double power) {
         liftL.setPower(power);
         liftR.setPower(power);
-
     }
 }

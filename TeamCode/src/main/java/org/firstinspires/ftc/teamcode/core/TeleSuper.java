@@ -22,7 +22,7 @@ public abstract class TeleSuper extends OpMode {
 
     protected DcMotor relicArm;
     protected Servo claw;
-    protected Servo clawSpinner;
+    protected CRServo clawSpinner;
     protected Servo lockServo;
 
     protected DcMotor liftL;
@@ -57,21 +57,18 @@ public abstract class TeleSuper extends OpMode {
         liftR = hardwareMap.dcMotor.get("liftR");
         liftL.setDirection(DcMotorSimple.Direction.REVERSE);
         liftR.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        claw = hardwareMap.servo.get("claw");
-
-        clawSpinner = hardwareMap.servo.get("clawSpinner");
-
+//
+//        claw = hardwareMap.servo.get("claw");
+//
+//        clawSpinner = hardwareMap.crservo.get("clawSpinner");
+//
         relicArm = hardwareMap.dcMotor.get("relicArm");
         relicArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         relicArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        lockServo = hardwareMap.servo.get("lock");
-
-        jewelArm.setPosition(0.21);
-        claw.setPosition(1);
-        clawSpinner.setPosition(.25);
-        lockServo.setPosition(1);
+//        jewelArm.setPosition(0.21);
+//        claw.setPosition(1);
+//        lockServo.setPosition(1);
     }
 
     protected void addTelemetry() {
@@ -80,14 +77,6 @@ public abstract class TeleSuper extends OpMode {
         telemetry.addData("3 Glyph Harvester", glyphGrabber.getCurrentPosition());
         telemetry.addData("4 Lift Encoder Value", liftL.getCurrentPosition());
         telemetry.addData("Gamepad2 Right Joystick", -1*gamepad2.right_stick_y);
-        telemetry.addData("Gamepad2 Y (Spin claw)", gamepad2.y);
-        telemetry.addData("Gamepad2 X (Lock)", gamepad2.x);
-        telemetry.addData("Gamepad2 A (Claw)", gamepad2.a);
-        telemetry.addData("Relic Arm Power", relicArm.getPower());
-        telemetry.addData("5 Relic Arm", relicArm.getCurrentPosition());
-        telemetry.addData("6 Claw", claw.getPosition());
-        telemetry.addData("7 Claw Spinner", clawSpinner.getController().getServoPosition(0));
-        telemetry.addData("8 Lock Servo", lockServo.getPosition());
         telemetry.update();
     }
 
