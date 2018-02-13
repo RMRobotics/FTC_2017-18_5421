@@ -12,6 +12,7 @@ import org.firstinspires.ftc.teamcode.core.GeRMLinear;
 import org.firstinspires.ftc.teamcode.core.ColorValue;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
+import static org.firstinspires.ftc.teamcode.util.enums.Color.RED;
 import static org.firstinspires.ftc.teamcode.util.enums.Direction.CENTER;
 import static org.firstinspires.ftc.teamcode.util.enums.Direction.FORWARD;
 
@@ -22,17 +23,21 @@ import static org.firstinspires.ftc.teamcode.util.enums.Direction.FORWARD;
 public class ColorSensorTest extends GeRMLinear {
 
     // hsvValues is an array that will hold the hue, saturation, and value information.
-    float hsvValues[] = {0F,0F,0F};
+   // float hsvValues[] = {0F,0F,0F};
 
     // values is a reference to the hsvValues array.
-    final float values[] = hsvValues;
+   // final float values[] = hsvValues;
 
     public void runOpMode() throws InterruptedException {
-//        super.initialize(Color.RED, DcMotor.RunMode.RUN_WITHOUT_ENCODER, FORWARD);
-        jewelArm.setPosition(0.85);
+        super.initialize(RED, DcMotor.RunMode.RUN_WITHOUT_ENCODER, FORWARD);
+//        try{
+//        jewelArm.setPosition(0.85);}
+//        catch (NullPointerException e){
+//            telemetry.addData("Null Pointer", "setting jewel arm position");
+//        }
         while (opModeIsActive()) {
             try {
-                ColorValue.RGBToHSV(colorSensor.red() * 8, colorSensor.green() * 8, colorSensor.blue() * 8, hsvValues);
+//                ColorValue.RGBToHSV(colorSensor.red() * 8, colorSensor.green() * 8, colorSensor.blue() * 8, hsvValues);
                 telemetry.addData("color red:", (colorSensor.red()));
                 telemetry.addData("color blue:", (colorSensor.blue()));
                 telemetry.update();

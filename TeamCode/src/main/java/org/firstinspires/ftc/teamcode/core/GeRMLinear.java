@@ -55,15 +55,8 @@ public abstract class GeRMLinear extends LinearOpMode {
 
     protected Servo jewelArm;
 
-//  protected AHRS navx;
     BNO055IMU imu1;
-    BNO055IMU imu2;
     protected ColorSensor colorSensor;
-
-    protected DeviceInterfaceModule dim;
-//
-//    protected I2cDevice range;
-//    protected I2cDeviceSynch rangeReader;
 
     protected int scale;
     protected double initTime;
@@ -108,7 +101,7 @@ public abstract class GeRMLinear extends LinearOpMode {
 //        lockServo = hardwareMap.servo.get("lock");
 //        lockServo.setPosition(1);
 //
-//        colorSensor = hardwareMap.colorSensor.get("color");
+        colorSensor = hardwareMap.colorSensor.get("color");
 
 //        relicArm = hardwareMap.crservo.get("relicArm");
 //        relicArm.setPower(0);
@@ -126,8 +119,6 @@ public abstract class GeRMLinear extends LinearOpMode {
         // and named "imu".
         imu1 = hardwareMap.get(BNO055IMU.class, "imu1");
         imu1.initialize(parameters);
-        imu2 = hardwareMap.get(BNO055IMU.class, "imu2");
-        imu2.initialize(parameters);
 
         switch (direction) {
             case FORWARD:
@@ -140,26 +131,6 @@ public abstract class GeRMLinear extends LinearOpMode {
                 scale = -1;
                 break;
         }
-
-//         navx initialization and calibration
-//        dim = hardwareMap.deviceInterfaceModule.get("dim");
-//        navx = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get("dim"), 0, AHRS.DeviceDataType.kProcessedData);
-//        while (!navx.isConnected()) {
-//            telemetry.addData("NavX Connection", "NOT CONNECTED");
-//            telemetry.update();
-//        }
-//        while (navx.isCalibrating()) {
-//            telemetry.addData("NavX Status", "CALIBRATION IN PROCESS");
-//            telemetry.update();
-//        }
-//        telemetry.addData("VUFORIA Status", "VUFORIA STARTING UP! DONT START");
-//        telemetry.update();
-
-
-//        // range finder
-//        range = hardwareMap.i2cDevice.get("range");
-//        rangeReader = new I2cDeviceSynchImpl(range, I2cAddr.create8bit(0x60), false);
-//        rangeReader.engage();
 
 //        Vuforia Initialization
 //        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -181,7 +152,7 @@ public abstract class GeRMLinear extends LinearOpMode {
 //        runtime.reset(); // reset runtime counter
 //        navx.zeroYaw(); // reset navx yaw value
 
-//        waitForStart();
+        waitForStart();
 
         // vuforia activate
 //        relicTrackables.activate();
@@ -282,6 +253,7 @@ public abstract class GeRMLinear extends LinearOpMode {
     }
 
     protected void turnByTime(Direction dir, double power, double time) {
+        runtime.reset();
         initTime = runtime.milliseconds();
         while (runtime.milliseconds() - initTime < time) {
             switch (dir) {
@@ -294,6 +266,10 @@ public abstract class GeRMLinear extends LinearOpMode {
                 default:
                     setDrive(0, 0);
             }
+            telemetry.addData("runtime.milliseconds()-initTime", (int)(runtime.milliseconds()-initTime));
+            telemetry.addData("inittime", initTime);
+            telemetry.addData("runtime", runtime.milliseconds());
+            telemetry.update();
         }
     }
 
