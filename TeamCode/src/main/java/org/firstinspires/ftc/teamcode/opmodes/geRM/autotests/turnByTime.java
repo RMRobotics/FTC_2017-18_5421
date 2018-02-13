@@ -22,7 +22,8 @@ public class turnByTime extends GeRMLinear {
         super.initialize(Color.RED, DcMotor.RunMode.RUN_WITHOUT_ENCODER, Direction.FORWARD);
         while (opModeIsActive()) {
             try {
-               turnByTime(LEFT, 0.3, 780);
+               turnByTime(LEFT, 0.5, 780);
+               sleep(1000);
             } catch (NullPointerException e) {
                 telemetry.addData("Null pointer for navx", "");
                 telemetry.update();

@@ -253,25 +253,40 @@ public abstract class GeRMLinear extends LinearOpMode {
     }
 
     protected void turnByTime(Direction dir, double power, double time) {
-        runtime.reset();
-        initTime = runtime.milliseconds();
-        while (runtime.milliseconds() - initTime < time) {
-            switch (dir) {
-                case LEFT:
-                    setDrive(power, -power);
-                    break;
-                case RIGHT:
-                    setDrive(-power, power);
-                    break;
-                default:
-                    setDrive(0, 0);
-            }
-            telemetry.addData("runtime.milliseconds()-initTime", (int)(runtime.milliseconds()-initTime));
-            telemetry.addData("inittime", initTime);
-            telemetry.addData("runtime", runtime.milliseconds());
-            telemetry.update();
+//        ElapsedTime runtime = new ElapsedTime();
+//        runtime.reset();
+//        initTime = runtime.milliseconds();
+//        while (runtime.milliseconds() - initTime < time) {
+//            switch (dir) {
+//                case LEFT:
+//                    setDrive(power, -power);
+//                    break;
+//                case RIGHT:
+//                    setDrive(-power, power);
+//                    break;
+//                default:
+//                    setDrive(0, 0);
+//            }
+//            telemetry.addData("runtime.milliseconds()-initTime", (int)(runtime.milliseconds()-initTime));
+//            telemetry.addData("inittime", initTime);
+//            telemetry.addData("runtime", runtime.milliseconds());
+//            telemetry.update();
+        switch (dir) {
+            case LEFT:
+                setDrive(power, -power);
+                sleep((long) time);
+                break;
+            case RIGHT:
+                setDrive(-power, power);
+                sleep((long) time);
+                break;
+            default:
+                setDrive(0, 0);
         }
+        setDrive(0, 0);
     }
+
+
 
     protected void turn(Direction side, int degree, double power) {
         // fi1nds the difference between the target and the starting angle
