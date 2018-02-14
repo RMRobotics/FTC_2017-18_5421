@@ -68,6 +68,8 @@ public abstract class GeRMLinear extends LinearOpMode {
 
     protected VuforiaTrackable relicTemplate;
 
+    protected double voltageSensor;
+
     public void initialize(Color c, DcMotor.RunMode r, Direction direction) {
 
         // motor initialization
@@ -80,6 +82,8 @@ public abstract class GeRMLinear extends LinearOpMode {
         setZeroMode(DcMotor.ZeroPowerBehavior.BRAKE);
         setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         setMode(r);
+
+//        voltageSensor = hardwareMap.voltageSensor.get("Motor Controller 1").getVoltage();
 
 //        liftL = hardwareMap.dcMotor.get("liftL");
 //        liftR = hardwareMap.dcMotor.get("liftR");

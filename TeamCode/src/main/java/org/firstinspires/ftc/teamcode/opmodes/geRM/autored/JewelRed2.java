@@ -3,75 +3,95 @@ package org.firstinspires.ftc.teamcode.opmodes.geRM.autored;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.teamcode.core.GeRMLinear;
 import org.firstinspires.ftc.teamcode.util.enums.Color;
 
 import static org.firstinspires.ftc.teamcode.util.enums.Direction.CENTER;
 import static org.firstinspires.ftc.teamcode.util.enums.Direction.FORWARD;
+import static org.firstinspires.ftc.teamcode.util.enums.Direction.RIGHT;
 import static org.firstinspires.ftc.teamcode.util.enums.Drive.TIME;
 
 /**
  * Created by General on 1/5/2018.
  */
-@Autonomous(name = "Jewel Red 2")
+@Autonomous(name = "Jewel VuMark Red 2")
 public class JewelRed2 extends GeRMLinear{
     @Override
     public void runOpMode() throws InterruptedException {
         super.initialize(Color.RED, DcMotor.RunMode.RUN_WITHOUT_ENCODER, FORWARD);
 
-        // DRIVE FORWARD A LITTLE
-        driveStop(TIME, 500, .15);
-
         // LOWER JEWEL ARM
-        jewelArm.setPosition(.65);
+        jewelArm.setPosition(.85);
         sleep(750);
         jewelArm.setPosition(1);
+
+        boolean sensed = false;
+        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.UNKNOWN;
 //        setDrive(-.1);
         // SLEEP
         initTime = runtime.milliseconds();
         while (runtime.milliseconds() - initTime < 1000 && opModeIsActive()) {
             telemetry.addData("red value:", (colorSensor.red()));
             telemetry.addData("blue value:", (colorSensor.blue()));
+            if (!sensed) {
+                vuMark = RelicRecoveryVuMark.from(relicTemplate);
+                if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
+                    sensed = true;
+                    telemetry.addData("VuMark", "%s visible", vuMark);
+                } else {
+                    telemetry.addData("VuMark", "not visible");
+                }
+            } else {
+                telemetry.addData("VuMark", "%s visible", vuMark);
+            }
             telemetry.update();
         }
         setDrive(0);
 
+        int distance = 150;
         // SENSE COLOR VALUE AND TURN ROBOT TO KNOCK JEWEL (sensor is facing left)
-        String distance = "";
         if ((colorSensor.red() >= 3) || (colorSensor.blue() >= 3)){
             if (colorSensor.red() > colorSensor.blue()){
                 driveStop(TIME, 400, 0.3);
-                distance = "CLOSER";
+                distance = 0;
             } else if (colorSensor.blue() > colorSensor.red()){
-                driveStop(TIME, 300, -0.8);
-                distance = "FARTHER";
+                driveStop(TIME, 400, -0.3);
+                distance = 300;
             }
         }
+//
+//        // RAISE JEWEL ARM
+        jewelArm.setPosition(0);
 
-        // RAISE JEWEL ARM
-        jewelArm.setPosition(0.21);
-
-        sleep(1000);
+        sleep(2000);
 
         // DRIVE FORWARD TO PARK
-        switch (distance)
-        {
-            case "CLOSER":
-                driveStop(TIME, 800, 0.8);
-                break;
-            case "FARTHER":
-                driveStop(TIME, 1000, 0.8);
-                break;
-            default:
-                driveStop(TIME, 650, 0.6);
+        if (vuMark == RelicRecoveryVuMark.CENTER) {
+            driveStop(TIME, 1200+distance, .3);
+        } else if (vuMark == RelicRecoveryVuMark.LEFT) {
+            driveStop(TIME, 1400+distance, .3);
+        } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
+            driveStop(TIME, 1000+distance, .3);
+        } else {
+            driveStop(TIME, 1100+distance, .3);
         }
 
-//        turn(CENTER, -90, 0.3);
-//        driveStop(TIME, 200, 0.2);
-//        turn(CENTER, 90, 0.2);
+        turnByTime(RIGHT, 0.5, 850);
+
+        sleep(2000);
+        driveStop(TIME, 1200, .3);
+        sleep(200);
+        turnByTime(RIGHT, 0.5, 850);
+        sleep(200);
+        driveStop(TIME, 400, 0.3);
+        glyphGrabber.setPower(-1);
+        sleep(2000);
+        glyphGrabber.setPower(0);
+
+//        turnByTime(RIGHT, 0.5, 1700);
 
 
-        sleep(10000);
         // STOP
         stop();
     }

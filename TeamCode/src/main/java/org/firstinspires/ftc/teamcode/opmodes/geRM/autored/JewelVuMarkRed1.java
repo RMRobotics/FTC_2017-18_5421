@@ -72,16 +72,22 @@ public class JewelVuMarkRed1 extends GeRMLinear{
         } else if (vuMark == RelicRecoveryVuMark.LEFT) {
             driveStop(TIME, 1400+distance, .3);
         } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
-            driveStop(TIME, 1000+distance, .3);
+            driveStop(TIME, 700+distance, .3);
         } else {
             driveStop(TIME, 1100+distance, .3);
         }
 
         turnByTime(RIGHT, 0.5, 850);
 
-        sleep(10000);
+        sleep(2000);
+        driveStop(TIME, 500, .3);
+        glyphGrabber.setPower(-1);
+        sleep(1000);
+        glyphGrabber.setPower(0);
 
-        glyphGrabber.setPower();
+//        turnByTime(RIGHT, 0.5, 1700);
+
+
         // STOP
         stop();
     }

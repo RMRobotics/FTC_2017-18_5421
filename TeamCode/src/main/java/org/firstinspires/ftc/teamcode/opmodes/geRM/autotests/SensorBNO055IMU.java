@@ -119,7 +119,7 @@ public class SensorBNO055IMU extends LinearOpMode {
             telemetry.update();
             sleep(1000);
             float currAngle = angles.firstAngle;
-            while(Math.abs(currAngle - 90) > 5){
+            while(Math.abs(currAngle + 90) > 5){
                 setDrive(-.5, .5);
                 telemetry.update();
             }
