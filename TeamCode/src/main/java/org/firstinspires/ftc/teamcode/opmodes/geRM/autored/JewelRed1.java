@@ -20,9 +20,6 @@ public class JewelRed1 extends GeRMLinear{
     public void runOpMode() throws InterruptedException {
         super.initialize(Color.RED, DcMotor.RunMode.RUN_WITHOUT_ENCODER, FORWARD);
 
-        // DRIVE FORWARD A LITTLE
-        driveStop(TIME, 350, .15);
-
         // LOWER JEWEL ARM
         jewelArm.setPosition(.65);
         sleep(750);
