@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Created by Simon on 1/11/2017.
  */
 
-@TeleOp(name = "servoCalibration")
+@TeleOp(name = "servoCalibration", group = "Util")
 public class servoCalibration extends OpMode {
 
     private Servo jewelArm;
@@ -48,9 +48,9 @@ public class servoCalibration extends OpMode {
 
         //turns claw spinner servo
         if (gamepad1.y) {
-            clawSpinner.setPower(-.5);
+            clawSpinner.setPower(-.2);
         } else if (gamepad1.a) {
-            clawSpinner.setPower(.5);
+            clawSpinner.setPower(.2);
         } else{
             clawSpinner.setPower(0);
         }
@@ -58,9 +58,9 @@ public class servoCalibration extends OpMode {
         jewelArm.setPosition(jPos);
         claw.setPosition(cPos);
 
-        telemetry.addData("jewel pos (dpad)", jewelArm.getPosition());
-        telemetry.addData("claw pos (bumper)", claw.getPosition());
-        telemetry.addData("cspinner pos (y/a)", clawSpinner.getPower());
+        telemetry.addData("jewel pos (dpad)", jewelArm.getPosition() + " " + gamepad1.dpad_up + " " + gamepad1.dpad_down);
+        telemetry.addData("claw pos (bumper)", claw.getPosition() + " " + gamepad1.right_bumper + " " + gamepad1.left_bumper);
+        telemetry.addData("cspinner pos (y/a)", clawSpinner.getPower() + " " + gamepad1.y + " " + gamepad1.a);
         telemetry.update();
     }
 }

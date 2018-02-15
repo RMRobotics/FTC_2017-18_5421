@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Created by Simon on 1/11/2017.
  */
 
-@TeleOp(name = "servoTest")
+@TeleOp(name = "servoTest", group = "Util")
 @Disabled
 public class servoTest extends OpMode {
 

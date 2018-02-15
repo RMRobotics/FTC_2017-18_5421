@@ -19,7 +19,7 @@ import static org.firstinspires.ftc.teamcode.util.enums.Direction.FORWARD;
 /**
  * Created by Angela on 12/16/2017.
  */
-@Autonomous(name = "colorSensorTest")
+@Autonomous(name = "colorSensorTest", group = "Util")
 public class ColorSensorTest extends GeRMLinear {
 
     // hsvValues is an array that will hold the hue, saturation, and value information.

@@ -12,7 +12,7 @@ import static org.firstinspires.ftc.teamcode.util.enums.Direction.CENTER;
 /**
  * Created by poofs on 12/21/2017.
  */
-@Autonomous(name = "NavXTest")
+@Autonomous(name = "NavXTest", group = "Util")
 public class NavXTest extends GeRMLinear {
 
     @Override
