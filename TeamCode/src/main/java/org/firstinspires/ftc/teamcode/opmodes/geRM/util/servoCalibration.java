@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.opmodes.geRM.util;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
 
 /**
@@ -14,7 +15,7 @@ public class servoCalibration extends OpMode {
 
     private Servo jewelArm;
     private Servo claw;
-    private Servo clawSpinner;
+    private CRServo clawSpinner;
 
     private double jPos;
     private double cPos;
@@ -24,10 +25,9 @@ public class servoCalibration extends OpMode {
     public void init() {
         jewelArm = hardwareMap.servo.get("jewel");
         claw = hardwareMap.servo.get("claw");
-        clawSpinner = hardwareMap.servo.get("clawSpinner");
+        clawSpinner = hardwareMap.crservo.get("clawSpinner");
         jPos = jewelArm.getPosition();
         cPos = claw.getPosition();
-        cSPos = clawSpinner.getPosition();
     }
 
     @Override
@@ -48,18 +48,19 @@ public class servoCalibration extends OpMode {
 
         //turns claw spinner servo
         if (gamepad1.y) {
-            cSPos+=.01;
+            clawSpinner.setPower(-.5);
         } else if (gamepad1.a) {
-            cSPos -= .01;
+            clawSpinner.setPower(.5);
+        } else{
+            clawSpinner.setPower(0);
         }
 
         jewelArm.setPosition(jPos);
         claw.setPosition(cPos);
-        clawSpinner.setPosition(cSPos);
 
         telemetry.addData("jewel pos (dpad)", jewelArm.getPosition());
         telemetry.addData("claw pos (bumper)", claw.getPosition());
-        telemetry.addData("cspinner pos (y/a)", clawSpinner.getPosition());
+        telemetry.addData("cspinner pos (y/a)", clawSpinner.getPower());
         telemetry.update();
     }
 }

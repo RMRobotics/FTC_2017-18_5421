@@ -136,24 +136,24 @@ public class GeRMTele extends TeleSuper{
 //      -------------------------------------------
 
         // JEWEL ARM
-//        boolean jewelButton = gamepad1.b;
-//        if (jewelButton) {
-//            if (jewelArm.getPosition() <= .4) {
-//                jewelArm.setPosition(.8);
-//                try {
-//                    Thread.sleep(100);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            } else {
-//                jewelArm.setPosition(.21);
-//                try {
-//                    Thread.sleep(100);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
+        boolean jewelButton = gamepad1.b;
+        if (jewelButton) {
+            if (jewelArm.getPosition() <= .4) {
+                jewelArm.setPosition(.8);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                jewelArm.setPosition(.21);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
 //      -------------------------------------------
         // RELIC GRABBER

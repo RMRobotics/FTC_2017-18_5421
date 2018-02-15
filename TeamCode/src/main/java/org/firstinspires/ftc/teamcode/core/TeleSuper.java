@@ -23,7 +23,6 @@ public abstract class TeleSuper extends OpMode {
     protected DcMotor relicArm;
     protected Servo claw;
     protected CRServo clawSpinner;
-    protected Servo lockServo;
 
     protected DcMotor liftL;
     protected DcMotor liftR;
@@ -57,18 +56,17 @@ public abstract class TeleSuper extends OpMode {
         liftR = hardwareMap.dcMotor.get("liftR");
         liftL.setDirection(DcMotorSimple.Direction.REVERSE);
         liftR.setDirection(DcMotorSimple.Direction.REVERSE);
-//
-//        claw = hardwareMap.servo.get("claw");
-//
-//        clawSpinner = hardwareMap.crservo.get("clawSpinner");
+
+        claw = hardwareMap.servo.get("claw");
+
+        clawSpinner = hardwareMap.crservo.get("clawSpinner");
 //
         relicArm = hardwareMap.dcMotor.get("relicArm");
         relicArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         relicArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-//        jewelArm.setPosition(0.21);
-//        claw.setPosition(1);
-//        lockServo.setPosition(1);
+        jewelArm.setPosition(0.21);
+        claw.setPosition(1);
     }
 
     protected void addTelemetry() {
