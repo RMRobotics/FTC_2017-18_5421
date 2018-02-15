@@ -43,8 +43,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
+import org.firstinspires.ftc.teamcode.util.enums.Direction;
 
 import java.util.Locale;
+
+import static org.firstinspires.ftc.teamcode.util.enums.Direction.LEFT;
+import static org.firstinspires.ftc.teamcode.util.enums.Direction.RIGHT;
 
 /**
  *
@@ -72,6 +76,8 @@ public class testGyro extends LinearOpMode
     protected DcMotor FR;
     protected DcMotor BL;
     protected DcMotor BR;
+
+    float currAngle;
 
     //----------------------------------------------------------------------------------------------
     // Main logic
@@ -110,27 +116,60 @@ public class testGyro extends LinearOpMode
         waitForStart();
 
         // Start the logging of measured acceleration
-        imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
+        imu.startAccelerationIntegration(new Position(), new Velocity(), 500);
+
+        telemetry.update();
+        currAngle = angles.firstAngle;
 
         // Loop and update the dashboard
-        while (opModeIsActive()) {
+//        while (opModeIsActive()) {
+//            telemetry.update();
+//            float currAngle = angles.firstAngle;
+//            telemetry.addLine()
+//                    .addData("our first angle", currAngle)
+//                    .addData("90?", currAngle > 90);
+//            if (currAngle < 90){
+//                FL.setPower(-.5);
+//                FR.setPower(.5);
+//                BL.setPower(-.5);
+//                BR.setPower(.5);
+//            } else {
+//
+//                FL.setPower(0);
+//                FR.setPower(0);
+//                BL.setPower(0);
+//                BR.setPower(0);
+//                break;
+//            }
+//        }
+        stop();
+    }
+
+    void imuTurn(float power, float degree, Direction direction) {
+        int val = 1;
+        if (direction == LEFT)
+        {
+            val = 1;
+        }
+        else if (direction == RIGHT)
+        {
+            val = -1;
+        }
+        while (currAngle < degree) {
             telemetry.update();
-            float currAngle = angles.firstAngle;
+            currAngle = angles.firstAngle;
             telemetry.addLine()
                     .addData("our first angle", currAngle)
-                    .addData("90?", currAngle > 90);
-            if (currAngle < 90){
-                FL.setPower(.4);
-                FR.setPower(-.4);
-                BL.setPower(.4);
-                BR.setPower(-.4);
-            } else {
-                FL.setPower(0);
-                FR.setPower(0);
-                BL.setPower(0);
-                BR.setPower(0);
-            }
+                    .addData("90?", currAngle > degree);
+            FL.setPower(-power *val);
+            FR.setPower(power *val);
+            BL.setPower(-power *val);
+            BR.setPower(power *val);
         }
+        FL.setPower(0);
+        FR.setPower(0);
+        BL.setPower(0);
+        BR.setPower(0);
     }
 
     //----------------------------------------------------------------------------------------------
