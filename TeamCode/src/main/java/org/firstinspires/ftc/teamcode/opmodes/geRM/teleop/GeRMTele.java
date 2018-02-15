@@ -133,6 +133,17 @@ public class GeRMTele extends TeleSuper {
 //      -------------------------------------------
         // RELIC GRABBER
 
+        // RELIC GRABBER: SPIN
+
+        if(gamepad2.x) {
+            clawSpinner.setPower(1);
+        }
+        else if(gamepad2.y) {
+            clawSpinner.setPower(-1);
+        } else {
+            clawSpinner.setPower(0);
+        }
+
         // RELIC GRABBER: EXTEND
 
         boolean extend = gamepad2.right_bumper;
@@ -156,19 +167,9 @@ public class GeRMTele extends TeleSuper {
         } else if (clamp) {
             claw.setPosition(.1);
         } else if (unclamp) {
-            claw.setPosition(.4);
+            claw.setPosition(.6);
         }
 
-        // RELIC GRABBER: SPIN
-
-        if(gamepad2.dpad_down) {
-            clawSpinner.setPower(1);
-        }
-        else if(gamepad2.dpad_up) {
-            clawSpinner.setPower(-1);
-        } else{
-            clawSpinner.setPower(0);
-        }
 
 //      -------------------------------------------
 

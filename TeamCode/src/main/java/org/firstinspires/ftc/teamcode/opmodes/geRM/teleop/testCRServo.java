@@ -12,18 +12,35 @@ import org.firstinspires.ftc.teamcode.core.TeleSuper;
  * Created by Angela on 2/15/2018.
  */
 
-@TeleOp(name = "clamp test")
+@TeleOp(name = "simple crservo test")
+//public class testCRServo extends LinearOpMode{
+//    protected CRServo clawSpinner;
+
+//    @Override
+//    public void runOpMode() throws InterruptedException {
+//        clawSpinner = hardwareMap.crservo.get("clawSpinner");
+//        waitForStart();
+//        while(opModeIsActive()) {
+//            if (gamepad1.a){
+//                clawSpinner.setPower(.4);
+//            } else {
+//                clawSpinner.setPower(0);
+//            }
+//        }
+//    }
+//}
 
 public class testCRServo extends TeleSuper{
 
     @Override
     public void loop() {
-        boolean clamp = gamepad2.a;
-        boolean unclamp = gamepad2.b;
-        if (gamepad1.a) {
-            claw.setPosition(.1);
-        } else if (gamepad1.b) {
-            claw.setPosition(.4);
+        if(gamepad2.x) {
+            clawSpinner.setPower(.4);
+        }
+        else if(gamepad2.y) {
+            clawSpinner.setPower(-.4);
+        } else{
+            clawSpinner.setPower(0);
         }
     }
 }

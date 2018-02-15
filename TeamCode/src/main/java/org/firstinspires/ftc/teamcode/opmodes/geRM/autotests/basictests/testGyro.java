@@ -33,6 +33,7 @@ import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
@@ -67,6 +68,11 @@ public class testGyro extends LinearOpMode
     Orientation angles;
     Acceleration gravity;
 
+    protected DcMotor FL;
+    protected DcMotor FR;
+    protected DcMotor BL;
+    protected DcMotor BR;
+
     //----------------------------------------------------------------------------------------------
     // Main logic
     //----------------------------------------------------------------------------------------------
@@ -90,6 +96,13 @@ public class testGyro extends LinearOpMode
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
 
+        FL = hardwareMap.dcMotor.get("FL");
+        FR = hardwareMap.dcMotor.get("FR");
+        BL = hardwareMap.dcMotor.get("BL");
+        BR = hardwareMap.dcMotor.get("BR");
+        FL.setDirection(DcMotor.Direction.REVERSE);
+        BL.setDirection(DcMotor.Direction.REVERSE);
+
         // Set up our telemetry dashboard
         composeTelemetry();
 
@@ -101,16 +114,22 @@ public class testGyro extends LinearOpMode
 
         // Loop and update the dashboard
         while (opModeIsActive()) {
+            telemetry.update();
             float currAngle = angles.firstAngle;
             telemetry.addLine()
-                    .addData("our first angle", new Func<String>() {
-                        @Override
-                        public String value() {
-                            return formatAngle(angles.angleUnit, angles.firstAngle);
-                        }
-                    })
+                    .addData("our first angle", currAngle)
                     .addData("90?", currAngle > 90);
-            telemetry.update();
+            if (currAngle < 90){
+                FL.setPower(.4);
+                FR.setPower(-.4);
+                BL.setPower(.4);
+                BR.setPower(-.4);
+            } else {
+                FL.setPower(0);
+                FR.setPower(0);
+                BL.setPower(0);
+                BR.setPower(0);
+            }
         }
     }
 

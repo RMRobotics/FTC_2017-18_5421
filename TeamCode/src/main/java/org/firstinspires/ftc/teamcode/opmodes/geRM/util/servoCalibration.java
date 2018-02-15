@@ -19,7 +19,6 @@ public class servoCalibration extends OpMode {
 
     private double jPos;
     private double cPos;
-    private double cSPos;
 
     @Override
     public void init() {
@@ -48,9 +47,9 @@ public class servoCalibration extends OpMode {
 
         //turns claw spinner servo
         if (gamepad1.y) {
-            clawSpinner.setPower(-.2);
+            clawSpinner.setPower(-1);
         } else if (gamepad1.a) {
-            clawSpinner.setPower(.2);
+            clawSpinner.setPower(1);
         } else{
             clawSpinner.setPower(0);
         }

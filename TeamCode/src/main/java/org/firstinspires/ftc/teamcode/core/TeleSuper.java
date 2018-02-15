@@ -66,7 +66,7 @@ public abstract class TeleSuper extends OpMode {
         relicArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         jewelArm.setPosition(0.21);
-        claw.setPosition(1);
+        claw.setPosition(.8);
     }
 
     protected void addTelemetry() {
@@ -75,6 +75,7 @@ public abstract class TeleSuper extends OpMode {
         telemetry.addData("3 Glyph Harvester", glyphGrabber.getCurrentPosition());
         telemetry.addData("4 Lift Encoder Value", liftL.getCurrentPosition());
         telemetry.addData("Gamepad2 Right Joystick", -1*gamepad2.right_stick_y);
+        telemetry.addData("dpad values", gamepad2.dpad_down + " " + gamepad2.dpad_up);
         telemetry.update();
     }
 

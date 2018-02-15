@@ -279,7 +279,6 @@ public abstract class GeRMLinear extends LinearOpMode {
 //        float delta = degree - navx.getYaw();
         float delta = degree;
 
-
         // sets the magnitude of the turn (absolute value of delta)
         float mag = Math.abs(delta);
 
