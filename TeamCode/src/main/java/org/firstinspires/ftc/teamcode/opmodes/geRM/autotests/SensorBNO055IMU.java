@@ -91,6 +91,7 @@ public class SensorBNO055IMU extends LinearOpMode {
         // Set up the parameters with which we will use our IMU. Note that integration
         // algorithm here just reports accelerations to the logcat log; it doesn't actually
         // provide positional information.
+
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -102,7 +103,7 @@ public class SensorBNO055IMU extends LinearOpMode {
         // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
         // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
         // and named "imu".
-        imu = hardwareMap.get(BNO055IMU.class, "imu1");
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
 
         // Set up our telemetry dashboard
@@ -111,19 +112,36 @@ public class SensorBNO055IMU extends LinearOpMode {
         // Wait until we're told to go
         waitForStart();
 
-        // Start the logging of measured acceleration
-        imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
-
-        // Loop and update the dashboard
-        while (opModeIsActive()) {
+        try {
+            // Start the logging of measured acceleration
+            imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
+        } catch (NullPointerException e){
+            telemetry.addData("NullPointer imu statement","");
             telemetry.update();
-            sleep(1000);
-            float currAngle = angles.firstAngle;
-            while(Math.abs(currAngle + 90) > 5){
-                setDrive(-.5, .5);
+            sleep(5000);
+
+        }
+        // Loop and update the dashboard
+
+        sleep(1000);
+        while (opModeIsActive()) {
+            try {
+                angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+                while (angles.firstAngle < 90) {
+                    telemetry.update();
+                    setDrive(.5, -.5);
+                }
+            } catch (NullPointerException e) {
+                telemetry.addData("NullPointer driving", "");
                 telemetry.update();
+                sleep(5000);
             }
+//            while(Math.abs(currAngle + 90) > 5){
+//                setDrive(-.5, .5);
+//                telemetry.update();
+//            }
             setDrive(0, 0);
+            sleep(10000);
         }
     }
 

@@ -96,7 +96,7 @@ public abstract class GeRMLinear extends LinearOpMode {
 
 //        // servo initialization
         jewelArm = hardwareMap.servo.get("jewel");
-        jewelArm.setPosition(0.21);
+        jewelArm.setPosition(0.15);
 //
 //        claw = hardwareMap.servo.get("claw");
 //        claw.setPosition(1);

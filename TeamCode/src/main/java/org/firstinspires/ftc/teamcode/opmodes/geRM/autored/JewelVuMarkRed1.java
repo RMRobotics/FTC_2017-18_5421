@@ -47,17 +47,21 @@ public class JewelVuMarkRed1 extends GeRMLinear{
             }
             telemetry.update();
         }
-        setDrive(0);
-
         int distance = 150;
+        setDrive(0);
+        if (!sensed){
+            driveStop(TIME, 400, .3);
+            distance -= 400;
+        }
+
         // SENSE COLOR VALUE AND TURN ROBOT TO KNOCK JEWEL (sensor is facing left)
         if ((colorSensor.red() >= 3) || (colorSensor.blue() >= 3)){
             if (colorSensor.red() > colorSensor.blue()){
                 driveStop(TIME, 400, 0.3);
-                distance = 0;
+                distance -= 150;
             } else if (colorSensor.blue() > colorSensor.red()){
                 driveStop(TIME, 400, -0.3);
-                distance = 300;
+                distance -= 300;
             }
         }
 //
@@ -68,22 +72,31 @@ public class JewelVuMarkRed1 extends GeRMLinear{
 
         // DRIVE FORWARD TO PARK
         if (vuMark == RelicRecoveryVuMark.CENTER) {
-            driveStop(TIME, 1200+distance, .3);
+            telemetry.addData("VuMark", "Center");
+            telemetry.update();
+            driveStop(TIME, 1000+distance, .3);
         } else if (vuMark == RelicRecoveryVuMark.LEFT) {
+            telemetry.addData("VuMark", "Left");
+            telemetry.update();
             driveStop(TIME, 1400+distance, .3);
         } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
-            driveStop(TIME, 700+distance, .3);
+            telemetry.addData("VuMark", "Right");
+            telemetry.update();
+            driveStop(TIME, 600+distance, .3);
         } else {
+            telemetry.addData("VuMark", "Default");
+            telemetry.update();
             driveStop(TIME, 1100+distance, .3);
         }
 
         turnByTime(RIGHT, 0.5, 850);
 
         sleep(2000);
-        driveStop(TIME, 500, .3);
+        driveStop(TIME, 600, .3);
         glyphGrabber.setPower(-1);
-        sleep(1000);
+        sleep(800);
         glyphGrabber.setPower(0);
+        driveStop(TIME, 600, -.3);
 
 //        turnByTime(RIGHT, 0.5, 1700);
 
