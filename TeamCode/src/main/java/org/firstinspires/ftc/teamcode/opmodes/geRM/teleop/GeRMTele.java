@@ -114,7 +114,7 @@ public class GeRMTele extends TeleSuper {
         boolean jewelButton = gamepad1.b;
         if (jewelButton) {
             if (jewelArm.getPosition() <= .4) {
-                jewelArm.setPosition(.8);
+                jewelArm.setPosition(.55);
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
@@ -136,10 +136,10 @@ public class GeRMTele extends TeleSuper {
         // RELIC GRABBER: SPIN
 
         if(gamepad2.x) {
-            clawSpinner.setPower(1);
+            clawSpinner.setPower(.7);
         }
         else if(gamepad2.y) {
-            clawSpinner.setPower(-1);
+            clawSpinner.setPower(-.7);
         } else {
             clawSpinner.setPower(0);
         }

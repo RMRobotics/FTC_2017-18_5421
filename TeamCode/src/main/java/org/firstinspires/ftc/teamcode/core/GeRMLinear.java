@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.core;
 
-import com.kauailabs.navx.ftc.AHRS;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -8,35 +7,31 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
-import com.qualcomm.robotcore.hardware.Gyroscope;
-import com.qualcomm.robotcore.hardware.I2cAddr;
-import com.qualcomm.robotcore.hardware.I2cDevice;
-import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
-import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.vuforia.HINT;
-import com.vuforia.Vuforia;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
+import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
+import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
-import org.firstinspires.ftc.teamcode.R;
 import org.firstinspires.ftc.teamcode.util.enums.Color;
 import org.firstinspires.ftc.teamcode.util.enums.Direction;
 import org.firstinspires.ftc.teamcode.util.enums.Drive;
 
-import static org.firstinspires.ftc.teamcode.util.enums.Drive.TIME;
+import java.util.Locale;
+
+import static org.firstinspires.ftc.teamcode.util.enums.Direction.LEFT;
+import static org.firstinspires.ftc.teamcode.util.enums.Direction.RIGHT;
 
 /**
  * Created by poofs on 11/21/2017.
@@ -55,8 +50,12 @@ public abstract class GeRMLinear extends LinearOpMode {
 
     protected Servo jewelArm;
 
-    BNO055IMU imu1;
+    BNO055IMU imu;
     protected ColorSensor colorSensor;
+    Orientation angles;
+    Acceleration gravity;
+    float currAngle;
+
 
     protected int scale;
     protected double initTime;
@@ -109,19 +108,19 @@ public abstract class GeRMLinear extends LinearOpMode {
 //        relicArm = hardwareMap.crservo.get("relicArm");
 //        relicArm.setPower(0);
 
-//        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-//        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-//        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-//        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-//        parameters.loggingEnabled = true;
-//        parameters.loggingTag = "IMU";
-//        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+        BNO055IMU.Parameters imuparameters = new BNO055IMU.Parameters();
+        imuparameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        imuparameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        imuparameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        imuparameters.loggingEnabled = true;
+        imuparameters.loggingTag = "IMU";
+        imuparameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
         // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
         // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
         // and named "imu".
-        imu1 = hardwareMap.get(BNO055IMU.class, "imu1");
-//        imu1.initialize(parameters);
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(imuparameters);
 
         switch (direction) {
             case FORWARD:
@@ -156,10 +155,13 @@ public abstract class GeRMLinear extends LinearOpMode {
         telemetry.update();
         runtime.reset(); // reset runtime counter
 
+//        composeTelemetry();
+
         waitForStart();
 
 //         vuforia activate
         relicTrackables.activate();
+        imu.startAccelerationIntegration(new Position(), new Velocity(), 100);
     }
 
     protected void setLift(int val, double power) {
@@ -238,19 +240,6 @@ public abstract class GeRMLinear extends LinearOpMode {
                     setDrive(power);
                 }
                 break;
-//            case RANGE:
-//                float delta = val - rangeReader.read(0x04, 2)[0];
-//                float dir = Math.signum(delta);
-//                if (dir > 0) {
-//                    while (rangeReader.read(0x04, 2)[0] < val && opModeIsActive()) {
-//                        setDrive(-scale * power);
-//                    }
-//                } else if (dir < 0) {
-//                    while (rangeReader.read(0x04, 2)[0] > val && opModeIsActive()) {
-//                        setDrive(scale * power);
-//                    }
-//                }
-//                break;
             default:
                 break;
         }
@@ -272,13 +261,44 @@ public abstract class GeRMLinear extends LinearOpMode {
         setDrive(0, 0);
     }
 
+    protected void imuTurn(double power, double degree) {
+        // Start the logging of measured acceleration
+//        currAngle = angles.firstAngle;
+        Direction dir;
 
+        if (imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle < degree) {
+            dir = RIGHT;
+        } else {
+            dir = LEFT;
+        }
 
+        if (dir == LEFT)
+        {
+            while (imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle > degree + 10) {
+                telemetry.update();
+//                currAngle = angles.firstAngle;
+                telemetry.addLine()
+                        .addData("currAngle", imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
+                setDrive(power, -power);
+            }
+            setDrive(0);
+        }
+
+        else if (dir == RIGHT)
+        {
+            while (imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle < degree - 10) {
+                telemetry.update();
+//                currAngle = angles.firstAngle;
+                telemetry.addLine()
+                        .addData("currAngle", imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
+                setDrive(-power, power);
+            }
+            setDrive(0);
+        }
+    }
     protected void turn(Direction side, int degree, double power) {
         // fi1nds the difference between the target and the starting angle
-//        float delta = degree - navx.getYaw();
-        float delta = degree;
-
+        float delta = degree - angles.firstAngle;
         // sets the magnitude of the turn (absolute value of delta)
         float mag = Math.abs(delta);
 
@@ -317,6 +337,46 @@ public abstract class GeRMLinear extends LinearOpMode {
             dir = Math.signum(delta);
         }
         setDrive(0);
+    }
+
+    void composeTelemetry() {
+
+        // At the beginning of each telemetry update, grab a bunch of data
+        // from the IMU that we will then display in separate lines.
+        telemetry.addAction(new Runnable() { @Override public void run()
+        {
+            // Acquiring the angles is relatively expensive; we don't want
+            // to do that in each of the three items that need that info, as that's
+            // three times the necessary expense.
+            angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            gravity  = imu.getGravity();
+        }
+        });
+
+        telemetry.addLine()
+                .addData("heading", new Func<String>() {
+                    @Override public String value() {
+                        return formatAngle(angles.angleUnit, angles.firstAngle);
+                    }
+                })
+                .addData("roll", new Func<String>() {
+                    @Override public String value() {
+                        return formatAngle(angles.angleUnit, angles.secondAngle);
+                    }
+                })
+                .addData("pitch", new Func<String>() {
+                    @Override public String value() {
+                        return formatAngle(angles.angleUnit, angles.thirdAngle);
+                    }
+                });
+    }
+
+    String formatAngle(AngleUnit angleUnit, double angle) {
+        return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
+    }
+
+    String formatDegrees(double degrees){
+        return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
 
     protected void addTelemetry() {

@@ -47,24 +47,36 @@ public class JewelVuMarkRed1 extends GeRMLinear{
             }
             telemetry.update();
         }
-        int distance = 150;
-        setDrive(0);
-        if (!sensed){
-            driveStop(TIME, 400, .3);
-            distance -= 400;
-        }
-
+        int distance = 0;
         // SENSE COLOR VALUE AND TURN ROBOT TO KNOCK JEWEL (sensor is facing left)
         if ((colorSensor.red() >= 3) || (colorSensor.blue() >= 3)){
             if (colorSensor.red() > colorSensor.blue()){
                 driveStop(TIME, 400, 0.3);
-                distance -= 150;
             } else if (colorSensor.blue() > colorSensor.red()){
                 driveStop(TIME, 400, -0.3);
-                distance -= 300;
+                distance -= 150;
             }
         }
-//
+        setDrive(0);
+//        if (!sensed){
+//            driveStop(TIME, 400, .3);
+//            distance -= 400;
+//            while (runtime.milliseconds() - initTime < 1000 && opModeIsActive()) {
+//                if (!sensed) {
+//                    vuMark = RelicRecoveryVuMark.from(relicTemplate);
+//                    if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
+//                        sensed = true;
+//                        telemetry.addData("VuMark", "%s visible", vuMark);
+//                    } else {
+//                        telemetry.addData("VuMark", "not visible");
+//                    }
+//                } else {
+//                    telemetry.addData("VuMark", "%s visible", vuMark);
+//                }
+//                telemetry.update();
+//            }
+//        }
+
 //        // RAISE JEWEL ARM
         jewelArm.setPosition(0);
 
@@ -74,22 +86,22 @@ public class JewelVuMarkRed1 extends GeRMLinear{
         if (vuMark == RelicRecoveryVuMark.CENTER) {
             telemetry.addData("VuMark", "Center");
             telemetry.update();
-            driveStop(TIME, 1000+distance, .3);
+            driveStop(TIME, 1250+distance, .3);
         } else if (vuMark == RelicRecoveryVuMark.LEFT) {
             telemetry.addData("VuMark", "Left");
             telemetry.update();
-            driveStop(TIME, 1400+distance, .3);
+            driveStop(TIME, 1550+distance, .3);
         } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
             telemetry.addData("VuMark", "Right");
             telemetry.update();
-            driveStop(TIME, 600+distance, .3);
+            driveStop(TIME, 950+distance, .3);
         } else {
             telemetry.addData("VuMark", "Default");
             telemetry.update();
-            driveStop(TIME, 1100+distance, .3);
+            driveStop(TIME, 1250+distance, .3);
         }
 
-        turnByTime(RIGHT, 0.5, 850);
+        imuTurn(.5, -90);
 
         sleep(2000);
         driveStop(TIME, 600, .3);

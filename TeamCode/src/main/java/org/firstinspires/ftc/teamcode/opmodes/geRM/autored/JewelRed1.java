@@ -14,7 +14,7 @@ import static org.firstinspires.ftc.teamcode.util.enums.Drive.TIME;
 /**
  * Created by General on 1/5/2018.
  */
-//@Autonomous(name = "Jewel Red 1")
+@Autonomous(name = "Jewel Red 1")
 public class JewelRed1 extends GeRMLinear{
     @Override
     public void runOpMode() throws InterruptedException {

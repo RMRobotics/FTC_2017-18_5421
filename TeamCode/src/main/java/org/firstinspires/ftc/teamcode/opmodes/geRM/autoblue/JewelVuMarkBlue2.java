@@ -14,7 +14,7 @@ import static org.firstinspires.ftc.teamcode.util.enums.Drive.TIME;
  * Created by General on 1/5/2018.
  */
 @Autonomous(name = "Jewel Blue 2")
-public class JewelBlue2 extends GeRMLinear{
+public class JewelVuMarkBlue2 extends GeRMLinear{
     @Override
     public void runOpMode() throws InterruptedException {
         super.initialize(Color.BLUE, DcMotor.RunMode.RUN_WITHOUT_ENCODER, FORWARD);

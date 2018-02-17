@@ -20,14 +20,11 @@ public class TurnTest extends GeRMLinear{
     public void runOpMode() throws InterruptedException {
         super.initialize(Color.RED, DcMotor.RunMode.RUN_WITHOUT_ENCODER, FORWARD);
 
-        turn(CENTER, 90, .3);
-        sleep(3000);
-        turn(CENTER, 180, .3);
-        sleep(3000);
-        turn(CENTER, 90, .3);
-        sleep(5000);
-
-//        navx.close();
+        imuTurn(0.4,90);
+        sleep(2000);
+        imuTurn(0.4, -90);
+        sleep(2000);
+        imuTurn(0.4, 0);
         stop();
     }
 }

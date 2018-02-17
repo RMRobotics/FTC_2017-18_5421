@@ -35,10 +35,10 @@ public class testCRServo extends TeleSuper{
     @Override
     public void loop() {
         if(gamepad2.x) {
-            clawSpinner.setPower(.4);
+            clawSpinner.setPower(.85);
         }
         else if(gamepad2.y) {
-            clawSpinner.setPower(-.4);
+            clawSpinner.setPower(-.85);
         } else{
             clawSpinner.setPower(0);
         }

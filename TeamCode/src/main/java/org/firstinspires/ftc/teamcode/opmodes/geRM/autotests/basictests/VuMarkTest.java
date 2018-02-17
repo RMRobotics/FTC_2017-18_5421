@@ -24,19 +24,19 @@ import org.firstinspires.ftc.teamcode.util.enums.Color;
 import static org.firstinspires.ftc.teamcode.util.enums.Direction.FORWARD;
 
 @Autonomous(name = "VuMark Test")
-public class VuforiaTest extends GeRMLinear {
+public class VuMarkTest extends GeRMLinear {
     @Override
     public void runOpMode() {
         super.initialize(Color.RED, DcMotor.RunMode.RUN_WITHOUT_ENCODER, FORWARD);
-//        while (opModeIsActive()) {
-////            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-//            if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
-//
-//                telemetry.addData("VuMark", "%s visible", vuMark);
-//            } else {
-//                telemetry.addData("VuMark", "not visible");
-//            }
-//            telemetry.update();
-//        }
+        while (opModeIsActive()) {
+            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+            if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
+
+                telemetry.addData("VuMark", "%s visible", vuMark);
+            } else {
+                telemetry.addData("VuMark", "not visible");
+            }
+            telemetry.update();
+        }
     }
 }

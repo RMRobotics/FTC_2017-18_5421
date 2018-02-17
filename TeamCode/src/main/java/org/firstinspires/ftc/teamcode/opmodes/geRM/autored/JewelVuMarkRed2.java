@@ -16,7 +16,7 @@ import static org.firstinspires.ftc.teamcode.util.enums.Drive.TIME;
  * Created by General on 1/5/2018.
  */
 @Autonomous(name = "Jewel VuMark Red 2")
-public class JewelRed2 extends GeRMLinear{
+public class JewelVuMarkRed2 extends GeRMLinear{
     @Override
     public void runOpMode() throws InterruptedException {
         super.initialize(Color.RED, DcMotor.RunMode.RUN_WITHOUT_ENCODER, FORWARD);
@@ -38,7 +38,7 @@ public class JewelRed2 extends GeRMLinear{
                 vuMark = RelicRecoveryVuMark.from(relicTemplate);
                 if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
                     sensed = true;
-                    telemetry.addData("VuMark", "%s visible", vuMark);
+                    telemetry.addData("VuMark","%s visible", vuMark);
                 } else {
                     telemetry.addData("VuMark", "not visible");
                 }
@@ -49,45 +49,53 @@ public class JewelRed2 extends GeRMLinear{
         }
         setDrive(0);
 
-        int distance = 150;
+        boolean colorSensed = false;
         // SENSE COLOR VALUE AND TURN ROBOT TO KNOCK JEWEL (sensor is facing left)
         if ((colorSensor.red() >= 3) || (colorSensor.blue() >= 3)){
             if (colorSensor.red() > colorSensor.blue()){
+                colorSensed = true;
                 driveStop(TIME, 400, 0.3);
-                distance = 0;
+                jewelArm.setPosition(0);
+                sleep(2000);
+                driveStop(TIME, 960, .3);
             } else if (colorSensor.blue() > colorSensor.red()){
+                colorSensed = true;
                 driveStop(TIME, 400, -0.3);
-                distance = 300;
+                jewelArm.setPosition(0);
+                sleep(2000);
+                driveStop(TIME, 1440, .3);
             }
         }
-//
 //        // RAISE JEWEL ARM
-        jewelArm.setPosition(0);
 
-        sleep(2000);
+        if (!colorSensed){
+            jewelArm.setPosition(0);
+            sleep(2000);
+            driveStop(TIME, 1200, .3);
+        }
+
+        imuTurn(.5, 90);
+//
 
         // DRIVE FORWARD TO PARK
         if (vuMark == RelicRecoveryVuMark.CENTER) {
-            driveStop(TIME, 1200+distance, .3);
+            driveStop(TIME, 400, .3);
         } else if (vuMark == RelicRecoveryVuMark.LEFT) {
-            driveStop(TIME, 1400+distance, .3);
+            driveStop(TIME, 700, .3);
         } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
-            driveStop(TIME, 1000+distance, .3);
+            driveStop(TIME, 200, .3);
         } else {
-            driveStop(TIME, 1100+distance, .3);
+            driveStop(TIME, 400, .3);
         }
 
-        turnByTime(RIGHT, 0.5, 850);
-
+        imuTurn(.5, 0);
         sleep(2000);
-        driveStop(TIME, 1200, .3);
-        sleep(200);
-        turnByTime(RIGHT, 0.5, 850);
-        sleep(200);
-        driveStop(TIME, 400, 0.3);
+
+        driveStop(TIME, 600, 0.3);
         glyphGrabber.setPower(-1);
         sleep(2000);
         glyphGrabber.setPower(0);
+        driveStop(TIME, 600, -0.3);
 
 //        turnByTime(RIGHT, 0.5, 1700);
 
