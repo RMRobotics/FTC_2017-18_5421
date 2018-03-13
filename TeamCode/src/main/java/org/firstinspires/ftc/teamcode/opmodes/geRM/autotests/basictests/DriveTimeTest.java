@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes.geRM.autotests.basictests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.core.GeRMLinear;
@@ -14,8 +15,9 @@ import static org.firstinspires.ftc.teamcode.util.enums.Drive.TIME;
  * Created by poofs on 1/6/2018.
  */
 
-@Autonomous(name = "Drive Encoder Test")
-public class DriveEncoderTest extends GeRMLinear {
+@Autonomous(name = "Drive Time Test")
+@Disabled
+public class DriveTimeTest extends GeRMLinear {
     @Override
     public void runOpMode() throws InterruptedException {
         super.initialize(Color.RED, DcMotor.RunMode.RUN_WITHOUT_ENCODER, FORWARD);

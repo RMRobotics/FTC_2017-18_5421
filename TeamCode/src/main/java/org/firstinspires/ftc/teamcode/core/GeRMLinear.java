@@ -275,11 +275,11 @@ public abstract class GeRMLinear extends LinearOpMode {
         if (dir == LEFT)
         {
             while (imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle > degree + 10) {
-                telemetry.update();
 //                currAngle = angles.firstAngle;
                 telemetry.addLine()
                         .addData("currAngle", imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
                 setDrive(power, -power);
+                telemetry.update();
             }
             setDrive(0);
         }
@@ -287,11 +287,11 @@ public abstract class GeRMLinear extends LinearOpMode {
         else if (dir == RIGHT)
         {
             while (imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle < degree - 10) {
-                telemetry.update();
 //                currAngle = angles.firstAngle;
                 telemetry.addLine()
                         .addData("currAngle", imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
                 setDrive(-power, power);
+                telemetry.update();
             }
             setDrive(0);
         }

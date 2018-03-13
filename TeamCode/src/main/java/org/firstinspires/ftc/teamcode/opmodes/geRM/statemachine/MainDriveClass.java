@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes.geRM.statemachine;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.opmodes.geRM.statemachine.States.StateOne;
@@ -10,6 +11,7 @@ import org.firstinspires.ftc.teamcode.opmodes.geRM.statemachine.States.StateOne;
  */
 
 @Autonomous(name = "StateMachineDrive")
+@Disabled
 public class MainDriveClass extends LinearOpMode {
 
 

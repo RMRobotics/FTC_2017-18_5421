@@ -58,7 +58,7 @@ import static org.firstinspires.ftc.teamcode.util.enums.Direction.RIGHT;
  * @see <a href="http://www.adafruit.com/products/2472">Adafruit IMU</a>
  */
 @Autonomous(name = "BRAND NEW GYRO TESTING", group = "IMU")
-//@Disabled                            // Comment this out to add to the opmode list
+@Disabled                            // Comment this out to add to the opmode list
 public class testGyro extends LinearOpMode {
     //----------------------------------------------------------------------------------------------
     // State

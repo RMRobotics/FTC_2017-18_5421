@@ -49,15 +49,14 @@ public class JewelVuMarkBlue1 extends GeRMLinear{
         }
         setDrive(0);
 
-        int distance = 150;
+        int distance = 0;
         // SENSE COLOR VALUE AND TURN ROBOT TO KNOCK JEWEL (sensor is facing left)
         if ((colorSensor.red() >= 3) || (colorSensor.blue() >= 3)){
             if (colorSensor.red() > colorSensor.blue()){
                 driveStop(TIME, 400, -0.3);
-                distance = 0;
+                distance -= 150;
             } else if (colorSensor.blue() > colorSensor.red()){
                 driveStop(TIME, 400, 0.3);
-                distance = 300;
             }
         }
 //
@@ -68,22 +67,24 @@ public class JewelVuMarkBlue1 extends GeRMLinear{
 
         // DRIVE FORWARD TO PARK
         if (vuMark == RelicRecoveryVuMark.CENTER) {
-            driveStop(TIME, 1200+distance, -.3);
+            driveStop(TIME, 1250+distance, -.3);
         } else if (vuMark == RelicRecoveryVuMark.LEFT) {
-            driveStop(TIME, 1400+distance, -.3);
+            driveStop(TIME, 950+distance, -.3);
         } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
-            driveStop(TIME, 1000+distance, -.3);
+            driveStop(TIME, 1550+distance, -.3);
         } else {
-            driveStop(TIME, 1100+distance, -.3);
+            driveStop(TIME, 1250+distance, -.3);
         }
 
-        turnByTime(RIGHT, 0.5, 850);
+        imuTurn(.5, -90);
 
         sleep(2000);
-        driveStop(TIME, 200, .3);
+        driveStop(TIME, 600, .3);
         glyphGrabber.setPower(-1);
         sleep(2000);
         glyphGrabber.setPower(0);
+        driveStop(TIME, 600, -.3);
+
 
 //        turnByTime(RIGHT, 0.5, 1700);
 

@@ -24,6 +24,7 @@ import org.firstinspires.ftc.teamcode.util.enums.Color;
 import static org.firstinspires.ftc.teamcode.util.enums.Direction.FORWARD;
 
 @Autonomous(name = "VuMark Test")
+@Disabled
 public class VuMarkTest extends GeRMLinear {
     @Override
     public void runOpMode() {

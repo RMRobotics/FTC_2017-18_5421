@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes.geRM.autotests.basictests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.core.GeRMLinear;

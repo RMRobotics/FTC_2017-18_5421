@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  */
 
 @TeleOp(name = "servoCalibration", group = "Util")
+@Disabled
 public class servoCalibration extends OpMode {
 
     private Servo jewelArm;

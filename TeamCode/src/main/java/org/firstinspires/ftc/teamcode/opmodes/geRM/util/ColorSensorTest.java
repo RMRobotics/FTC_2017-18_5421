@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.view.View;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.core.GeRMAuto;
@@ -20,6 +21,7 @@ import static org.firstinspires.ftc.teamcode.util.enums.Direction.FORWARD;
  * Created by Angela on 12/16/2017.
  */
 @Autonomous(name = "colorSensorTest", group = "Util")
+@Disabled
 public class ColorSensorTest extends GeRMLinear {
 
     // hsvValues is an array that will hold the hue, saturation, and value information.

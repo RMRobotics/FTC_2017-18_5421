@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes.geRM.autotests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.core.GeRMLinear;
@@ -15,6 +16,7 @@ import static org.firstinspires.ftc.teamcode.util.enums.Direction.LEFT;
  */
 
 @Autonomous(name = "Turn By Time")
+@Disabled
 public class turnByTime extends GeRMLinear {
 
     @Override

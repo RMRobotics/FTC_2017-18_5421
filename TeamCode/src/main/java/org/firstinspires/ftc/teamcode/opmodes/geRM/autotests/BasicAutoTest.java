@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes.geRM.autotests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.core.GeRMLinear;
@@ -14,6 +15,7 @@ import static org.firstinspires.ftc.teamcode.util.enums.Drive.TIME;
  * Created by General on 1/5/2018.
  */
 @Autonomous(name = "Basic Auto Test")
+@Disabled
 public class BasicAutoTest extends GeRMLinear{
     @Override
     public void runOpMode() throws InterruptedException {

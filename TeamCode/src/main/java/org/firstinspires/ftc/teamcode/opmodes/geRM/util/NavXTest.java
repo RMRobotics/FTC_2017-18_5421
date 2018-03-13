@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes.geRM.util;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.core.GeRMLinear;
@@ -13,6 +14,7 @@ import static org.firstinspires.ftc.teamcode.util.enums.Direction.CENTER;
  * Created by poofs on 12/21/2017.
  */
 @Autonomous(name = "NavXTest", group = "Util")
+@Disabled
 public class NavXTest extends GeRMLinear {
 
     @Override
