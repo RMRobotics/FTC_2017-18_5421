@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.worldsCode;
+package org.firstinspires.ftc.teamcode.WorldsGeRM;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -13,7 +13,7 @@ import java.util.Collections;
  * Created by ur mum xd
  */
 @TeleOp(name="dumpBotTele", group="dumpBotConfig")
-public class dumpBotTele extends dumpBotTeleSuper {
+public class dumpBotTele extends org.firstinspires.ftc.teamcode.WorldsGeRM.dumpBotTeleSuper {
 
     public void loop()
     {
@@ -56,13 +56,13 @@ public class dumpBotTele extends dumpBotTeleSuper {
         if (gamepad2.right_trigger > 0)
             relicClaw.setPosition(1);
 
-        if (gamepad1.left_trigger > 0)
+        if (gamepad2.left_trigger > 0)
             relicClaw.setPosition(0);
 
-        if (gamepad1.right_bumper)
+        if (gamepad2.right_bumper)
             relicArm.setPosition(1);
 
-        if (gamepad1.left_bumper)
+        if (gamepad2.left_bumper)
             relicArm.setPosition(0);
 
     }

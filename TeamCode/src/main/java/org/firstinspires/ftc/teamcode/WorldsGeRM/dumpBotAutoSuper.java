@@ -1,9 +1,11 @@
-package org.firstinspires.ftc.teamcode.worldsCode;
+package org.firstinspires.ftc.teamcode.WorldsGeRM;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -38,13 +40,23 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
     //for toggling flipper
     protected boolean flipped;
 
+    //timer
+    protected ElapsedTime timer = new ElapsedTime();
+
+    //color sensors on the jewel arm and bottom of the collection mechanism
+    protected ColorSensor colorSensorJewel;
+    protected ColorSensor colorSensorCollect;
+
     protected VuforiaLocalizer vuforia;
     protected VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
     protected int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
     protected VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
     protected VuforiaTrackable relicTemplate = relicTrackables.get(0);
 
-
+    //wheelDiameterInches = 4;
+    //ticksPerRotation = 1120;
+    //gear ratio 1.5 to 1
+    static double CPI = (1120.0 * 0.66666)/(4.0 * Math.PI); //CALCULATIONS FOR THE COUNTS PER INCH
 
     public void initialize(Boolean initVuforia, Boolean encoders){
         wheelFL = hardwareMap.dcMotor.get("wheelFL");
@@ -77,6 +89,10 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
         relicArm.setPosition(0);
         relicClaw.setPosition(0);
 
+        colorSensorCollect = hardwareMap.colorSensor.get("colorSensorCollect");
+        colorSensorJewel = hardwareMap.colorSensor.get("colorSensorJewel");
+
+
         if (encoders){
             wheelFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             wheelFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -94,12 +110,47 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
             relicTrackables.activate();
         }
 
+
         waitForStart();
     }
 
 
 
     protected void addTelemetry() {
+    }
+
+    protected void moveEncoders(double distanceInches, int rotate){
+        //if rotate is one then the left drive train's target will be set to negative
+        rotate = -rotate;
+        double speed = 0.5;
+        int currentPos = wheelFL.getCurrentPosition();
+        int distanceTics = (int)(distanceInches * CPI);
+        double tickRatio;
+
+        wheelBL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        wheelFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        wheelBR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        wheelFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        wheelBL.setTargetPosition(currentPos + distanceTics);
+        wheelFL.setTargetPosition(currentPos + distanceTics);
+        wheelBR.setTargetPosition(currentPos + distanceTics);
+        wheelFR.setTargetPosition(currentPos + distanceTics);
+
+        wheelBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        wheelFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        wheelBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        wheelFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+        while(wheelFR.isBusy() && wheelBL.isBusy() && wheelBR.isBusy() && wheelFL.isBusy()){
+            tickRatio = (wheelFL.getCurrentPosition() - currentPos) / distanceTics;
+            speed = (-0.5 * (tickRatio * tickRatio) + 0.5);
+            wheelFR.setPower(speed*rotate);
+            wheelFL.setPower(speed);
+            wheelBR.setPower(speed*rotate);
+            wheelBL.setPower(speed);
+        }
     }
 
 }

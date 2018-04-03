@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.worldsCode;
+package org.firstinspires.ftc.teamcode.WorldsGeRM;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -11,7 +11,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
  */
 
 @Autonomous(name="dumpBotAutoBluePerp", group="dumpBotConfig")
-public class dumpBotAutoBluePerp extends  dumpBotAutoSuper{
+public class dumpBotAutoBluePerp extends org.firstinspires.ftc.teamcode.WorldsGeRM.dumpBotAutoSuper {
+
+
+    //wheelDiameterInches = 4;
+    //ticksPerRotation = 1120;
+    //gear ratio 1.5 to 1
+    static double CPI = (1120.0 * 0.66666)/(4.0 * Math.PI); //CALCULATIONS FOR THE COUNTS PER INCH
+
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -31,6 +38,13 @@ public class dumpBotAutoBluePerp extends  dumpBotAutoSuper{
         //put the servo arm down slight, straighten arm for jewel pushing
 
         //color sensor stuff
+        timer.reset();
+        Boolean notDetected = true;
+        while (notDetected && timer.seconds() < 5){
+            if (colorSensorJewel.red() > 0){
+
+            }
+        }
 
         //retract arm
 
@@ -38,19 +52,12 @@ public class dumpBotAutoBluePerp extends  dumpBotAutoSuper{
 
 
 
-
     }
 
-    public void moveEncoders(int target, int rotate){
-        //if rotate is one then the left drive train's target will be set to negative
-        rotate = -rotate;
-        wheelBL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        wheelBL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        wheelBL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        wheelBL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        wheelBL.setTargetPosition();
-    }
+
+
+
 
 
 }
