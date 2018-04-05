@@ -215,9 +215,10 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
         setDrive(0);
     }
 
-    protected void wiggle (int driveDistance, double wiggleDistance) {
-        int wiggleCount = (int)(driveDistance/wiggleDistance);
-        int distanceTics = (int) (wiggleDistance * CPI);
+    protected void wiggle (int driveDistance) {
+        // travel 0.5 every time while wiggling
+        int wiggleCount = (int)(driveDistance/0.5);
+        int distanceTics = (int) (0.5 * CPI);
         int count = 0;
 
         wheelBL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -228,8 +229,8 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
         while ((wheelFR.getCurrentPosition() < driveDistance) && (wheelFL.getCurrentPosition() < driveDistance)) {
             if (count == 0) {
                 for (int x = 1; x <= wiggleCount; x++) {
-                    wheelBL.setTargetPosition((int)(wheelBL.getCurrentPosition()-0.1));
-                    wheelFL.setTargetPosition((int)(wheelFL.getCurrentPosition()-0.1));
+                    wheelBL.setTargetPosition(wheelBL.getCurrentPosition());
+                    wheelFL.setTargetPosition(wheelFL.getCurrentPosition());
                     wheelBR.setTargetPosition(distanceTics * wiggleCount);
                     wheelFR.setTargetPosition(distanceTics * wiggleCount);
                 }
@@ -238,8 +239,8 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
                 for (int x = 0; x < wiggleCount; x++) {
                     wheelBL.setTargetPosition(distanceTics * wiggleCount);
                     wheelFL.setTargetPosition(distanceTics * wiggleCount);
-                    wheelBR.setTargetPosition((int)(wheelBR.getCurrentPosition()-0.1));
-                    wheelFR.setTargetPosition((int)(wheelFR.getCurrentPosition()-0.1));
+                    wheelBR.setTargetPosition(wheelBR.getCurrentPosition());
+                    wheelFR.setTargetPosition(wheelFR.getCurrentPosition());
                 }
             }
 
@@ -247,13 +248,13 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
                 if (count == 0) {
                     wheelFR.setPower(0.3);
                     wheelBR.setPower(0.3);
-                    wheelFL.setPower(-0.2);
-                    wheelBL.setPower(-0.2);
+                    wheelFL.setPower(0);
+                    wheelBL.setPower(0);
                     count++;
                 } else if (count == 1) {
-                    wheelFR.setPower(-0.2);
+                    wheelFR.setPower(0);
                     wheelFL.setPower(0.3);
-                    wheelBR.setPower(-0.2);
+                    wheelBR.setPower(0);
                     wheelBL.setPower(0.3);
                     count--;
                 }
