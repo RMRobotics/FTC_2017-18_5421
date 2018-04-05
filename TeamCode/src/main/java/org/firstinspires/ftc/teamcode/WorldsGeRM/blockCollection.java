@@ -24,7 +24,7 @@ public class blockCollection extends dumpBotAutoSuper{
         unvisited.remove(initPos);
 
         // todo: find distance to changePos from left/right to center.
-        int a = 300;
+        int a = 3;
 
 
 
@@ -43,28 +43,28 @@ public class blockCollection extends dumpBotAutoSuper{
             }
 
             // todo: find distance from cryptoboxes to block pit
-            int b = 300;
-            drive(-b);
+            int b = 3;
+            moveEncoders(-b,0);
 
             // start harvesting
             harvest(true, 1.0);
 
             // todo: find distance to drive while wiggling
-            int c = 50;
+            int c = 1;
             wiggle(c);
 
             changePos(unvisited.get(0));
             unvisited.remove(0);
 
-            drive(b + c);
+            moveEncoders(b + c,0);
 
             flipBlocks();
 
             // todo: find distance to nudge blocks in
-            int d = 40;
-            drive(d);
+            int d = 2;
+            moveEncoders(d,0);
 
-            drive(-d);
+            moveEncoders(-d,0);
         }
 
     }
