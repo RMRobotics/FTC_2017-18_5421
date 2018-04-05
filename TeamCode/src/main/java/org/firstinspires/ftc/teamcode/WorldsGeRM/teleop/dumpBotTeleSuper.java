@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.WorldsGeRM;
+package org.firstinspires.ftc.teamcode.WorldsGeRM.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;

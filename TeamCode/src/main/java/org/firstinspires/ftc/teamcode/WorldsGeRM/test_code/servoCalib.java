@@ -1,14 +1,15 @@
-package org.firstinspires.ftc.teamcode.opmodes.geRM.teleop;
+package org.firstinspires.ftc.teamcode.WorldsGeRM.test_code;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.WorldsGeRM.teleop.dumpBotTele;
 import org.firstinspires.ftc.teamcode.core.TeleSuper;
 
 /**
  * Created by Angela on 3/13/2018.
  */
 
-public class servoCalib extends dumpBotTele{
+public class servoCalib extends dumpBotTele {
 
     /**
      * Created by Angela on 2/15/2018.
@@ -19,13 +20,6 @@ public class servoCalib extends dumpBotTele{
 
         @Override
         public void loop() {
-            if(gamepad2.x) {
-                relicArm.setPosition(relicArm.getPosition()+.01);
-            }
-            else if(gamepad2.y) {
-                relicArm.setPosition(relicArm.getPosition()-.01);
-            }
-
             if(gamepad2.a) {
                 relicClaw.setPosition(relicClaw.getPosition() + .01);
             }
