@@ -167,14 +167,29 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
         }
     }
 
-    protected void flipBlocks(){
+    protected void unloadBlocks(){
+        // raise lift
+        lift.setPower(1);
+        lift.setPower(0);
+        sleep(100);
+        flipBlocks(true);
+        sleep(500);
+        flipBlocks(false);
+        lift.setPower(-1);
+        sleep(100);
+        lift.setPower(0);
+    }
+
+    protected void flipBlocks(boolean flip){
         //TODO test to figure out servo min position and max position
-        if(!flipped){
-            //Go up to high position
-            setFlipMotors(90);
-        }else{
-            //Go down to start Position
-            setFlipMotors(0);
+        if(flip != flipped){
+            if (flip == true){
+                setFlipMotors(90);
+                flipped = true;
+            } else{
+                setFlipMotors(0);
+                flipped = false;
+            }
         }
     }
 
@@ -182,6 +197,89 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
     private void setFlipMotors(double pos){
         flipBack.setPosition(pos);
         flipForw.setPosition(1-pos);
+    }
+
+    public void strafe(int distance) {
+        // DRIVE
+        double strafe = gamepad1.left_stick_x;
+        float dir = Math.signum(distance);
+        int encoderStrafeFactor = 10;
+        int currPos = wheelFL.getCurrentPosition();
+        int endPos = distance*encoderStrafeFactor;
+        while (Math.abs(endPos - currPos) > 0){
+            wheelFL.setPower(strafe*dir);
+            wheelFR.setPower(-strafe*dir);
+            wheelBL.setPower(-strafe*dir);
+            wheelBR.setPower(strafe*dir);
+        }
+        setDrive(0);
+    }
+
+    protected void wiggle (int driveDistance, double wiggleDistance) {
+        int wiggleCount = (int)(driveDistance/wiggleDistance);
+        int distanceTics = (int) (wiggleDistance * CPI);
+        int count = 0;
+
+        wheelBL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        wheelFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        wheelBR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        wheelFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        while ((wheelFR.getCurrentPosition() < driveDistance) && (wheelFL.getCurrentPosition() < driveDistance)) {
+            if (count == 0) {
+                for (int x = 1; x <= wiggleCount; x++) {
+                    wheelBL.setTargetPosition((int)(wheelBL.getCurrentPosition()-0.1));
+                    wheelFL.setTargetPosition((int)(wheelFL.getCurrentPosition()-0.1));
+                    wheelBR.setTargetPosition(distanceTics * wiggleCount);
+                    wheelFR.setTargetPosition(distanceTics * wiggleCount);
+                }
+            }
+            else if (count == 1) {
+                for (int x = 0; x < wiggleCount; x++) {
+                    wheelBL.setTargetPosition(distanceTics * wiggleCount);
+                    wheelFL.setTargetPosition(distanceTics * wiggleCount);
+                    wheelBR.setTargetPosition((int)(wheelBR.getCurrentPosition()-0.1));
+                    wheelFR.setTargetPosition((int)(wheelFR.getCurrentPosition()-0.1));
+                }
+            }
+
+            while (wheelFR.isBusy() && wheelBL.isBusy() && wheelBR.isBusy() && wheelFL.isBusy()) {
+                if (count == 0) {
+                    wheelFR.setPower(0.3);
+                    wheelBR.setPower(0.3);
+                    wheelFL.setPower(-0.2);
+                    wheelBL.setPower(-0.2);
+                    count++;
+                } else if (count == 1) {
+                    wheelFR.setPower(-0.2);
+                    wheelFL.setPower(0.3);
+                    wheelBR.setPower(-0.2);
+                    wheelBL.setPower(0.3);
+                    count--;
+                }
+            }
+        }
+    }
+
+    protected void setDrive(double p) {
+        wheelFL.setPower(p);
+        wheelFR.setPower(p);
+        wheelBL.setPower(p);
+        wheelBR.setPower(p);
+    }
+
+    protected void setDrive(double p1, double p2) {
+        wheelFL.setPower(p1);
+        wheelFR.setPower(p2);
+        wheelBL.setPower(p1);
+        wheelBR.setPower(p2);
+    }
+
+    protected void setDrive(double p1, double p2, double p3, double p4) {
+        wheelFL.setPower(p1);
+        wheelFR.setPower(p2);
+        wheelBL.setPower(p3);
+        wheelBR.setPower(p4);
     }
 
 }

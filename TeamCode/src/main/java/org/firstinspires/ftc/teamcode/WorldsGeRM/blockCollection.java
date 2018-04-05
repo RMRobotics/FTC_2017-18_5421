@@ -58,7 +58,7 @@ public class blockCollection extends dumpBotAutoSuper{
 
             moveEncoders(b + c,0);
 
-            flipBlocks();
+            unloadBlocks();
 
             // todo: find distance to nudge blocks in
             int d = 2;
@@ -66,7 +66,6 @@ public class blockCollection extends dumpBotAutoSuper{
 
             moveEncoders(-d,0);
         }
-
     }
 
 
