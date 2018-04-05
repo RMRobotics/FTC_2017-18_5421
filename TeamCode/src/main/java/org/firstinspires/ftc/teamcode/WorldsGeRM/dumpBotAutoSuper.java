@@ -67,7 +67,7 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
         wheelBL.setDirection(DcMotorSimple.Direction.REVERSE);
 
         intakeLeft = hardwareMap.dcMotor.get("intakeLeft");
-        intakeRight = hardwareMap.dcMotor.get("intakeLeft");
+        intakeRight = hardwareMap.dcMotor.get("intakeRight");
         intakeRight.setDirection(DcMotorSimple.Direction.REVERSE); //opposite direction
 
         lift = hardwareMap.dcMotor.get("lift");
@@ -151,6 +151,37 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
             wheelBR.setPower(speed*rotate);
             wheelBL.setPower(speed);
         }
+    }
+
+    protected void harvest(boolean harvestMode, double power){
+        if(!flipped){
+            if(harvestMode){
+                //Harvest Block
+                intakeLeft.setPower(power);
+                intakeRight.setPower(-power);
+            }else{
+                //Eject Block
+                intakeRight.setPower(-power);
+                intakeLeft.setPower(power);
+            }
+        }
+    }
+
+    protected void flipBlocks(){
+        //TODO test to figure out servo min position and max position
+        if(!flipped){
+            //Go up to high position
+            setFlipMotors(90);
+        }else{
+            //Go down to start Position
+            setFlipMotors(0);
+        }
+    }
+
+
+    private void setFlipMotors(double pos){
+        flipBack.setPosition(pos);
+        flipForw.setPosition(1-pos);
     }
 
 }
