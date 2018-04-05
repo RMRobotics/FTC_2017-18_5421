@@ -97,7 +97,7 @@ public class blockCollection extends dumpBotAutoSuper{
                 break;
         }
 
-        strafe(finalPos - intPos);
+        strafe(currPosInt - intPos);
         currPos = finalPos;
     }
 }

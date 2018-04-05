@@ -1,19 +1,12 @@
-package org.firstinspires.ftc.teamcode.WorldsGeRM;
+package org.firstinspires.ftc.teamcode.WorldsGeRM.teleop;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
+
 /**
  * Created by ur mum xd
  */
 @TeleOp(name="dumpBotTele", group="dumpBotConfig")
-public class dumpBotTele extends org.firstinspires.ftc.teamcode.WorldsGeRM.dumpBotTeleSuper {
+public class dumpBotTele extends dumpBotTeleSuper {
 
     public void loop()
     {
