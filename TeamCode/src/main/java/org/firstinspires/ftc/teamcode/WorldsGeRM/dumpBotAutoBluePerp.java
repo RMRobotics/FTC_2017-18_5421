@@ -55,14 +55,4 @@ public class dumpBotAutoBluePerp extends org.firstinspires.ftc.teamcode.WorldsGe
     }
 
 
-<<<<<<< HEAD
-        wheelBL.setTargetPosition(target);
-    }
-=======
-
-
-
->>>>>>> 94d50408e0e9249450c460feecbbdc7f57abeded
-
-
 }
