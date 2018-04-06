@@ -43,7 +43,7 @@ public class imuTurn extends LinearOpMode
 
         waitForStart();
 
-        double num = 0.4, err = 0.5;
+        double num = 1, err = 0.5;
 
         double count = 0.1;
         boolean flag = true;

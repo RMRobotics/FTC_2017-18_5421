@@ -4,6 +4,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.WorldsGeRM.IIMU;
 import org.firstinspires.ftc.teamcode.WorldsGeRM.RevIMU;
@@ -36,25 +37,34 @@ public class testOffRamp extends LinearOpMode
 
         waitForStart();
 
-        FL.setPower(1);
-        BL.setPower(1);
-        FR.setPower(1);
-        BR.setPower(1);
+        FL.setPower(.6);
+        BL.setPower(.6);
+        FR.setPower(.6);
+        BR.setPower(.6);
 
-        try {
-            wait(1500);
-        }
-        catch (InterruptedException e){}
+        holdUp(1.5);
 
         FL.setPower(-0.4);
         BL.setPower(-0.4);
         FR.setPower(-0.4);
         BR.setPower(-0.4);
+        
+        holdUp(1.5);
 
         FL.setPower(0);
         BL.setPower(0);
         FR.setPower(0);
         BR.setPower(0);
 
+    }
+
+    public void holdUp(double time)
+    {
+        ElapsedTime timer = new ElapsedTime();
+        timer.reset();
+        while (timer.seconds()<time) {
+            telemetry.log().add("hold up");
+            telemetry.clear();
+        }
     }
 }
