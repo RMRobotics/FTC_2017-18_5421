@@ -31,7 +31,7 @@ public class imuTurn extends LinearOpMode
         BL = hardwareMap.dcMotor.get("BL");
         BR = hardwareMap.dcMotor.get("BR");
         FL.setDirection(DcMotor.Direction.REVERSE);
-        BL.setDirection(DcMotor.Direction.REVERSE);
+        //BL.setDirection(DcMotor.Direction.REVERSE);
         FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -43,17 +43,38 @@ public class imuTurn extends LinearOpMode
 
         waitForStart();
 
-        double num = 0.75;
+        double num = 0.4, err = 0.5;
 
+        double count = 0.1;
         boolean flag = true;
-        FL.setPower(.75);
-        BL.setPower(.75);
-        FR.setPower(-.75);
-        BR.setPower(-.75);
+        boolean dir_cw = true;
+        FL.setPower(num);
+        BL.setPower(num);
+        FR.setPower(-1*num);
+        BR.setPower(-1*num);
         while (flag)
         {
-            if (imu.getZAngle()==degree)
+            telemetry.addData("Z angle",imu.getZAngle());
+            if (Math.abs(imu.getZAngle()-degree)<=err)
                 flag = false;
+            else if (dir_cw && imu.getZAngle()>degree)
+            {
+                FL.setPower(-1*(num-count));
+                BL.setPower(-1*(num-count));
+                FR.setPower(num-count);
+                BR.setPower(num-count);
+                count+=0.1;
+                dir_cw = !dir_cw;
+            }
+            else if (!dir_cw && imu.getZAngle()<degree)
+            {
+                FL.setPower(-1*(num-count));
+                BL.setPower(-1*(num-count));
+                FR.setPower(num-count);
+                BR.setPower(num-count);
+                count+=0.1;
+                dir_cw = !dir_cw;
+            }
         }
 
         FL.setPower(0);
