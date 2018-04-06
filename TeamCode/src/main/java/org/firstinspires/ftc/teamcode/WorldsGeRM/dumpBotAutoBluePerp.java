@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.worldsCode;
+package org.firstinspires.ftc.teamcode.WorldsGeRM;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -49,7 +49,7 @@ public class dumpBotAutoBluePerp extends  dumpBotAutoSuper{
         wheelBL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         wheelBL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        wheelBL.setTargetPosition();
+        wheelBL.setTargetPosition(target);
     }
 
 

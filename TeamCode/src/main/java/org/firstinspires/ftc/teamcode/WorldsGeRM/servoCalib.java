@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes.geRM.teleop;
+package org.firstinspires.ftc.teamcode.WorldsGeRM;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -15,7 +15,7 @@ public class servoCalib extends dumpBotTele{
      */
 
     @TeleOp(name = "servo calib test")
-    public class testServo extends TeleSuper {
+    public class testServo extends dumpBotTeleSuper {
 
         @Override
         public void loop() {

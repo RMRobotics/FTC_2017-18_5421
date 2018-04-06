@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.worldsCode;
+package org.firstinspires.ftc.teamcode.WorldsGeRM;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -13,6 +13,13 @@ public class oneMotor extends LinearOpMode {
     protected DcMotor wheel1;
     protected DcMotor wheel2;
     protected DcMotor wheel3;
+
+    public String wheelState(boolean flag)
+    {
+        if (flag)
+            return "Not Done";
+        return "Done";
+    }
 
 
     public void runOpMode() {
@@ -40,22 +47,24 @@ public class oneMotor extends LinearOpMode {
         wheel1.setPower(0.1);
         wheel2.setPower(0.1);
         wheel3.setPower(0.1);
-        while (true) {
+        boolean flag = true;
+        while (flag) {
             telemetry.addData("Wheel 1 position at ", wheel1.getCurrentPosition());
             telemetry.addData("Wheel 2 position at ", wheel2.getCurrentPosition());
             telemetry.addData("Wheel 3 position at ", wheel3.getCurrentPosition());
 
+            telemetry.addData("Wheel 1",   wheelState(wheel1.isBusy()));
+            telemetry.addData("Wheel 2",  wheelState(wheel2.isBusy()));
+            telemetry.addData("Wheel 3",    wheelState(wheel3.isBusy()));
+
             if(!wheel1.isBusy()){
                 wheel1.setPower(0);
-                telemetry.addData("Wheel 1 done", "");
             }
             if(!wheel2.isBusy()) {
                 wheel2.setPower(0);
-                telemetry.addData("Wheel 2 done", "");
             }
             if(!wheel3.isBusy()) {
                 wheel3.setPower(0);
-                telemetry.addData("Wheel 3 done", "");
             }
             telemetry.update();
             if (!wheel1.isBusy() && !wheel2.isBusy() && !wheel3.isBusy()) {
@@ -63,8 +72,12 @@ public class oneMotor extends LinearOpMode {
                 wheel1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 wheel2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 wheel3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                stop();
+                flag = !flag;
             }
+        }
+        while (true)
+        {
+
         }
     }
 }
