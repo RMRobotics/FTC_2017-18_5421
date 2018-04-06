@@ -1,20 +1,6 @@
-<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/WorldsGeRM/dumpBotTele.java
-package org.firstinspires.ftc.teamcode.WorldsGeRM;
-=======
 package org.firstinspires.ftc.teamcode.WorldsGeRM.teleop;
->>>>>>> 94d50408e0e9249450c460feecbbdc7f57abeded:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/WorldsGeRM/teleop/dumpBotTele.java
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/WorldsGeRM/dumpBotTele.java
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
-=======
->>>>>>> 94d50408e0e9249450c460feecbbdc7f57abeded:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/WorldsGeRM/teleop/dumpBotTele.java
 
 /**
  * Created by ur mum xd

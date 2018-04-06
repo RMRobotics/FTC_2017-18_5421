@@ -1,26 +1,20 @@
-<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/WorldsGeRM/servoCalib.java
-package org.firstinspires.ftc.teamcode.WorldsGeRM;
-=======
 package org.firstinspires.ftc.teamcode.WorldsGeRM.test_code;
->>>>>>> 94d50408e0e9249450c460feecbbdc7f57abeded:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/WorldsGeRM/test_code/servoCalib.java
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.WorldsGeRM.teleop.dumpBotTele;
-import org.firstinspires.ftc.teamcode.core.TeleSuper;
 
 /**
  * Created by Angela on 3/13/2018.
  */
 
-public class servoCalib extends dumpBotTele {
+public class servoCalib extends org.firstinspires.ftc.teamcode.WorldsGeRM.teleop.dumpBotTele {
 
     /**
      * Created by Angela on 2/15/2018.
      */
 
     @TeleOp(name = "servo calib test")
-    public class testServo extends dumpBotTeleSuper {
+    public class testServo extends org.firstinspires.ftc.teamcode.WorldsGeRM.teleop.dumpBotTeleSuper {
 
         @Override
         public void loop() {
