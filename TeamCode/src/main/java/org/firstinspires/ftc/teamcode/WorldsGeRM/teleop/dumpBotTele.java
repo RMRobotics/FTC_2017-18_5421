@@ -1,7 +1,11 @@
+<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/WorldsGeRM/dumpBotTele.java
 package org.firstinspires.ftc.teamcode.WorldsGeRM;
+=======
+package org.firstinspires.ftc.teamcode.WorldsGeRM.teleop;
+>>>>>>> 94d50408e0e9249450c460feecbbdc7f57abeded:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/WorldsGeRM/teleop/dumpBotTele.java
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/WorldsGeRM/dumpBotTele.java
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -9,6 +13,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+=======
+>>>>>>> 94d50408e0e9249450c460feecbbdc7f57abeded:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/WorldsGeRM/teleop/dumpBotTele.java
 
 /**
  * Created by ur mum xd
@@ -57,13 +63,13 @@ public class dumpBotTele extends dumpBotTeleSuper {
         if (gamepad2.right_trigger > 0)
             relicClaw.setPosition(1);
 
-        if (gamepad1.left_trigger > 0)
+        if (gamepad2.left_trigger > 0)
             relicClaw.setPosition(0);
 
-        if (gamepad1.right_bumper)
+        if (gamepad2.right_bumper)
             relicArm.setPosition(1);
 
-        if (gamepad1.left_bumper)
+        if (gamepad2.left_bumper)
             relicArm.setPosition(0);
 
     }

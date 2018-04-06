@@ -1,4 +1,8 @@
+<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/WorldsGeRM/dumpBotTeleSuper.java
 package org.firstinspires.ftc.teamcode.WorldsGeRM;
+=======
+package org.firstinspires.ftc.teamcode.WorldsGeRM.teleop;
+>>>>>>> 94d50408e0e9249450c460feecbbdc7f57abeded:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/WorldsGeRM/teleop/dumpBotTeleSuper.java
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -71,6 +75,8 @@ public abstract class dumpBotTeleSuper extends OpMode {
 
     protected void addTelemetry() {
     }
+
+
 }
 
 

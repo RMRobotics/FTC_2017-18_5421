@@ -1,14 +1,19 @@
+<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/WorldsGeRM/servoCalib.java
 package org.firstinspires.ftc.teamcode.WorldsGeRM;
+=======
+package org.firstinspires.ftc.teamcode.WorldsGeRM.test_code;
+>>>>>>> 94d50408e0e9249450c460feecbbdc7f57abeded:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/WorldsGeRM/test_code/servoCalib.java
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.WorldsGeRM.teleop.dumpBotTele;
 import org.firstinspires.ftc.teamcode.core.TeleSuper;
 
 /**
  * Created by Angela on 3/13/2018.
  */
 
-public class servoCalib extends dumpBotTele{
+public class servoCalib extends dumpBotTele {
 
     /**
      * Created by Angela on 2/15/2018.
@@ -19,13 +24,6 @@ public class servoCalib extends dumpBotTele{
 
         @Override
         public void loop() {
-            if(gamepad2.x) {
-                relicArm.setPosition(relicArm.getPosition()+.01);
-            }
-            else if(gamepad2.y) {
-                relicArm.setPosition(relicArm.getPosition()-.01);
-            }
-
             if(gamepad2.a) {
                 relicClaw.setPosition(relicClaw.getPosition() + .01);
             }
