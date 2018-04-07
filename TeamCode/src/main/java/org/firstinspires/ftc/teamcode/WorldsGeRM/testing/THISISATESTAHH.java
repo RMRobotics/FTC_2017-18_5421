@@ -28,8 +28,8 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
  * Created by altra on 4/2/2018.
  */
 
-@TeleOp(name = "TestTele", group = "twoMotor")
-public class testTele extends OpMode{
+@TeleOp(name = "THISISATESTAHH", group = "twoMotor")
+public class THISISATESTAHH extends OpMode{
 
     private DcMotor FL;
     private DcMotor FR;
@@ -81,13 +81,13 @@ public class testTele extends OpMode{
         if (gamepad1.y)
         {
             dumpR.setPosition(0.5);
-            dumpL.setPosition(0.35);
+            dumpL.setPosition(0.36);
         }
 
         if (gamepad1.a)
         {
             dumpR.setPosition(1);
-            dumpL.setPosition(0.85);
+            dumpL.setPosition(0.86);
         }
 
         if (gamepad1.x)
