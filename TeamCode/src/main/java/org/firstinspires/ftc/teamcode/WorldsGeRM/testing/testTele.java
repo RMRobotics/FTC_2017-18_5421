@@ -80,14 +80,14 @@ public class testTele extends OpMode{
 
         if (gamepad1.y)
         {
-            dumpR.setPosition(0.5);
-            dumpL.setPosition(0.35);
+            dumpL.setPosition(0.5);
+            dumpR.setPosition(0.36);
         }
 
         if (gamepad1.a)
         {
-            dumpR.setPosition(1);
-            dumpL.setPosition(0.85);
+            dumpL.setPosition(1);
+            dumpR.setPosition(0.86);
         }
 
         if (gamepad1.x)
@@ -135,3 +135,4 @@ public class testTele extends OpMode{
         return String.format("%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
 }
+

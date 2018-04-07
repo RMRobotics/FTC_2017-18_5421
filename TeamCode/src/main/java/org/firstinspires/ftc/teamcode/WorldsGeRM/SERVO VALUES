@@ -1,0 +1,19 @@
+EVERYONE PLEASE LIST ALL OF THE SERVO VALUES HERE SO THAT WE HAVE A COMPREHENSIVE LIST OF VALUES
+YOU CAN ALSO PUT OTHER VALUES HERE, LIKE IMPORTANT DISTANCES COLOR SENSOR STUFF ETC.
+
+Flipper:
+
+Straight up
+left side:  0.5
+right side: 0.36
+Flat:
+left side:  1
+right side: 0.86
+
+
+Field:
+
+one square: 24 inches
+block: 6 inches
+3 columns per square
+https://www.firstinspires.org/sites/default/files/uploads/resource_library/ftc/2017-2018/game-manual-part-2.pdf (Appendix)
