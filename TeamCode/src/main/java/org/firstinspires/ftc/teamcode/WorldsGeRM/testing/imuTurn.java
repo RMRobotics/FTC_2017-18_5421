@@ -45,7 +45,7 @@ public class imuTurn extends LinearOpMode
 
         double num = 1, err = 0.5;
 
-        double count = 0.1;
+        int count = 1;
         boolean flag = true;
         boolean dir_cw = true;
         FL.setPower(num);
@@ -54,25 +54,26 @@ public class imuTurn extends LinearOpMode
         BR.setPower(-1*num);
         while (flag)
         {
+            double pwr = num/(Math.pow(2,count));
             telemetry.addData("Z angle",imu.getZAngle());
             if (Math.abs(imu.getZAngle()-degree)<=err)
                 flag = false;
             else if (dir_cw && imu.getZAngle()>degree)
             {
-                FL.setPower(-1*(num-count));
-                BL.setPower(-1*(num-count));
-                FR.setPower(num-count);
-                BR.setPower(num-count);
-                count+=0.1;
+                FL.setPower(-1*pwr);
+                BL.setPower(-1*pwr);
+                FR.setPower(pwr);
+                BR.setPower(pwr);
+                count+=1;
                 dir_cw = !dir_cw;
             }
             else if (!dir_cw && imu.getZAngle()<degree)
             {
-                FL.setPower(-1*(num-count));
-                BL.setPower(-1*(num-count));
-                FR.setPower(num-count);
-                BR.setPower(num-count);
-                count+=0.1;
+                FL.setPower(-1*(pwr));
+                BL.setPower(-1*(pwr));
+                FR.setPower(pwr);
+                BR.setPower(pwr);
+                count+=1;
                 dir_cw = !dir_cw;
             }
         }
