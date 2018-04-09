@@ -40,6 +40,9 @@ public class testTele extends OpMode{
     private Servo dumpL;
     private Servo dumpR;
 
+    private Servo drop;
+    private Servo kick;
+
     BNO055IMU rev;
     IIMU imu;
 
@@ -57,6 +60,12 @@ public class testTele extends OpMode{
 
         dumpL = hardwareMap.servo.get("dumpL");
         dumpR = hardwareMap.servo.get("dumpR");
+
+        drop = hardwareMap.servo.get("drop");
+        kick = hardwareMap.servo.get("kick");
+        drop.setPosition(0);
+        kick.setPosition(0);
+
         dumpL.setDirection(Servo.Direction.REVERSE);
         dumpL.setPosition(1);
         dumpR.setPosition(1);
@@ -77,6 +86,19 @@ public class testTele extends OpMode{
         forward = -gamepad1.right_stick_y;
         strafe = gamepad1.right_stick_x;
         rotate = gamepad1.left_stick_x;
+
+        if (gamepad2.a)
+            drop.setPosition(1);
+        //up
+        if (gamepad2.b)
+            drop.setPosition(0);
+        //down
+        if (gamepad2.x)
+            kick.setPosition(1);
+        //left
+        if (gamepad2.y)
+            kick.setPosition(0);
+        //right
 
         if (gamepad1.y)
         {
@@ -135,4 +157,3 @@ public class testTele extends OpMode{
         return String.format("%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
 }
-

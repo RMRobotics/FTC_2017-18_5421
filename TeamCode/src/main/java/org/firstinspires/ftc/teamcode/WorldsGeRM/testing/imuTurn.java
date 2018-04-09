@@ -20,7 +20,7 @@ public class imuTurn extends LinearOpMode
     public DcMotor FR;
     public DcMotor BL;
     public DcMotor BR;
-    int degree = 90;
+    int degree = -90;
     BNO055IMU rev;
     IIMU imu;
 
@@ -43,7 +43,7 @@ public class imuTurn extends LinearOpMode
 
         waitForStart();
 
-        double num = 1, err = 0.5;
+        double num = 0.5, err = 0.5;
 
         int count = 1;
         boolean flag = true;
