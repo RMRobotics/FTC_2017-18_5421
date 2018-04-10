@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.WorldsGeRM.test_code;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.R;
 import org.firstinspires.ftc.teamcode.WorldsGeRM.dumpBotAutoSuper;
@@ -24,47 +25,84 @@ public class testEncoders extends LinearOpMode {
         BL = hardwareMap.dcMotor.get("BL");
         BR = hardwareMap.dcMotor.get("BR");
         FL.setDirection(DcMotor.Direction.REVERSE);
+        //FR.setDirection(DcMotor.Direction.REVERSE);
 
-        FL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        FR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        FL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        FR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        BL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        moveEncoders(12,0);
+//        FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+//        BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+//        BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+//        FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
+        waitForStart();
+        moveEncoders(24, 1);
+        holdUp(5);
+//        moveEncoders(6, 1);
+//        holdUp(5);
+//        moveEncoders(12, 1);
+//        holdUp(5);
+
     }
 
     protected void moveEncoders(double distanceInches, int rotate){
         //if rotate is one then the left drive train's target will be set to negative
         rotate = -rotate;
         double speed = 0.5;
-        int currentPos = FL.getCurrentPosition();
+        int currentPos = BR.getCurrentPosition();
         int distanceTics = (int)(distanceInches * CPI);
         double tickRatio;
 
-        BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
-        BL.setTargetPosition(currentPos + distanceTics);
-        FL.setTargetPosition(currentPos + distanceTics);
+        //BL.setTargetPosition(currentPos + distanceTics);
+        //FL.setTargetPosition(currentPos + distanceTics);
         BR.setTargetPosition(currentPos + distanceTics);
-        FR.setTargetPosition(currentPos + distanceTics);
+        //FR.setTargetPosition(currentPos + distanceTics);
 
-        BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BR.setPower(speed);
+        BL.setPower(speed);
+        FL.setPower(speed);
+        FR.setPower(speed);
 
 
-        while(FR.isBusy() && BL.isBusy() && BR.isBusy() && FL.isBusy()){
-            tickRatio = (FL.getCurrentPosition() - currentPos) / distanceTics;
-            speed = (-0.5 * (tickRatio * tickRatio) + 0.5);
-            FR.setPower(speed*rotate);
-            FL.setPower(speed);
-            BR.setPower(speed*rotate);
+        while(BR.isBusy() /*&& BL.isBusy() && BR.isBusy() && FL.isBusy()*/){
+            tickRatio = ((double)BR.getCurrentPosition() - (double)currentPos) / distanceTics;
+            speed = ((-0.5) * (tickRatio) + 0.5);
+            if (speed < 0.15)
+                speed = 0.15;
+            telemetry.addData("" + speed, "");
+            telemetry.addData("tickRatio" + tickRatio, "GetPos" + BR.getCurrentPosition());
+            telemetry.update();
+            BR.setPower(speed);
             BL.setPower(speed);
+            FL.setPower(speed);
+            FR.setPower(speed);
+        }
+    }
+
+    public void holdUp(double time)
+    {
+        FR.setPower(0);
+        BR.setPower(0);
+        FL.setPower(0);
+        BL.setPower(0);
+        ElapsedTime timer = new ElapsedTime();
+        timer.reset();
+        while (timer.seconds()<time) {
+            telemetry.log().add("hold up");
+            telemetry.clear();
         }
     }
 
