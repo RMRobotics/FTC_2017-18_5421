@@ -45,37 +45,59 @@ public class imuTurn extends LinearOpMode
 
         double num = 0.5, err = 0.5;
 
-        int count = 1;
+        int count = 0;
         boolean flag = true;
-        boolean dir_cw = true;
-        FL.setPower(num);
-        BL.setPower(num);
-        FR.setPower(-1*num);
-        BR.setPower(-1*num);
+        boolean dir_cw;
+
+        if (degree>0)
+        {
+            dir_cw = true;
+            FL.setPower(num);
+            BL.setPower(num);
+            FR.setPower(-1*num);
+            BR.setPower(-1*num);
+        }
+        else
+        {
+            dir_cw = false;
+            FL.setPower(-1*num);
+            BL.setPower(-1*num);
+            FR.setPower(num);
+            BR.setPower(num);
+        }
+
         while (flag)
         {
-            double pwr = num/(Math.pow(2,count));
+//            tickRatio = (FL.getCurrentPosition() - currentPos) / distanceTics;
+//            speed = (-0.5 * (tickRatio * tickRatio) + 0.5);
+//            double pwr = num-0.1*count;
+            double ratio = imu.getZAngle()/degree;
+            double pwr = (-1* num * (ratio * ratio) + num);
             telemetry.addData("Z angle",imu.getZAngle());
             if (Math.abs(imu.getZAngle()-degree)<=err)
                 flag = false;
-            else if (dir_cw && imu.getZAngle()>degree)
-            {
-                FL.setPower(-1*pwr);
-                BL.setPower(-1*pwr);
-                FR.setPower(pwr);
-                BR.setPower(pwr);
-                count+=1;
-                dir_cw = !dir_cw;
-            }
-            else if (!dir_cw && imu.getZAngle()<degree)
-            {
-                FL.setPower(-1*(pwr));
-                BL.setPower(-1*(pwr));
-                FR.setPower(pwr);
-                BR.setPower(pwr);
-                count+=1;
-                dir_cw = !dir_cw;
-            }
+            FL.setPower(pwr);
+            FR.setPower(pwr);
+            BL.setPower(pwr);
+            BR.setPower(pwr);
+//            else if (dir_cw && imu.getZAngle()>degree)
+//            {
+//                FL.setPower(-1*pwr);
+//                BL.setPower(-1*pwr);
+//                FR.setPower(pwr);
+//                BR.setPower(pwr);
+//                count+=1;
+//                dir_cw = !dir_cw;
+//            }
+//            else if (!dir_cw && imu.getZAngle()<degree)
+//            {
+//                FL.setPower(pwr);
+//                BL.setPower(pwr);
+//                FR.setPower(-1*pwr);
+//                BR.setPower(-1*pwr);
+//                count+=1;
+//                dir_cw = !dir_cw;
+//            }
         }
 
         FL.setPower(0);

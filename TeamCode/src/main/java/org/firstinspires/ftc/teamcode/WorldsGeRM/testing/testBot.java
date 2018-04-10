@@ -54,47 +54,49 @@ public class testBot extends LinearOpMode{
         colorSensor = hardwareMap.colorSensor.get("color");
         drop.setPosition(1);
         kick.setPosition(0.8);
-        boolean flag = false;
-        int red = 0;
+        AutoFxns autoboi = new AutoFxns(FL,FR,BL,BR,null,null,null,drop,kick,colorSensor,telemetry,null);
 
         waitForStart();
 
-        drop.setPosition(0.1);
-        holdUp(.25);
-        kick.setPosition(0.4);
+        autoboi.knockJewel("blue");
 
-        holdUp(2);
-
-        timer.reset();
-        while (timer.seconds()<5 && !flag) {
-            if ((colorSensor.red() >= 3) || (colorSensor.blue() >= 3) && !flag) {
-                if (colorSensor.red() > colorSensor.blue()) {
-                    //turn right
-                    kick.setPosition(0);
-                    telemetry.addData("i see", "red");
-                    flag = true;
-                    holdUp(0.25);
-                    red = 1;
-                } else if (colorSensor.blue() > colorSensor.red()) {
-                    //turn left
-                    kick.setPosition(1);
-                    telemetry.addData("i see", "blue");
-                    flag = true;
-                    holdUp(0.25);
-                    red = -1;
-                }
-                telemetry.update();
-            }
-        }
-
-        telemetry.addData("red?",red);
-        telemetry.update();
-
-        kick.setPosition(0.4);
-        drop.setPosition(1);
-        holdUp(.25);
-        kick.setPosition(0.8);
-        holdUp(1);
+//        holdUp(.25);
+//
+//        drop.setPosition(0.1);
+//        kick.setPosition(0.4);
+//
+//        holdUp(2);
+//
+//        timer.reset();
+//        while (timer.seconds()<5 && !flag) {
+//            if ((colorSensor.red() >= 3) || (colorSensor.blue() >= 3) && !flag) {
+//                if (colorSensor.red() > colorSensor.blue()) {
+//                    //turn right
+//                    kick.setPosition(0);
+//                    telemetry.addData("i see", "red");
+//                    flag = true;
+//                    holdUp(0.25);
+//                    red = 1;
+//                } else if (colorSensor.blue() > colorSensor.red()) {
+//                    //turn left
+//                    kick.setPosition(1);
+//                    telemetry.addData("i see", "blue");
+//                    flag = true;
+//                    holdUp(0.25);
+//                    red = -1;
+//                }
+//                telemetry.update();
+//            }
+//        }
+//
+//        telemetry.addData("red?",red);
+//        telemetry.update();
+//
+//        kick.setPosition(0.4);
+//        drop.setPosition(1);
+//        holdUp(.25);
+//        kick.setPosition(0.8);
+//        holdUp(1);
 
     }
 }
