@@ -33,13 +33,14 @@ public class testEncoders extends LinearOpMode {
         BL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+//        BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+//        BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+//        FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
+        waitForStart();
         moveEncoders(24, 1);
-//        holdUp(5);
+        holdUp(5);
 //        moveEncoders(6, 1);
 //        holdUp(5);
 //        moveEncoders(12, 1);
@@ -70,17 +71,24 @@ public class testEncoders extends LinearOpMode {
         //FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         //FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        BR.setPower(0.5);
-        BL.setPower(0.5);
-        FL.setPower(0.5);
-        FR.setPower(0.5);
+        BR.setPower(speed);
+        BL.setPower(speed);
+        FL.setPower(speed);
+        FR.setPower(speed);
 
 
         while(BR.isBusy() /*&& BL.isBusy() && BR.isBusy() && FL.isBusy()*/){
-            tickRatio = (BR.getCurrentPosition() - currentPos) / distanceTics;
-            speed = (-0.5 * (tickRatio * tickRatio) + 0.5);
+            tickRatio = ((double)BR.getCurrentPosition() - (double)currentPos) / distanceTics;
+            speed = ((-0.5) * (tickRatio) + 0.5);
+            if (speed < 0.15)
+                speed = 0.15;
             telemetry.addData("" + speed, "");
+            telemetry.addData("tickRatio" + tickRatio, "GetPos" + BR.getCurrentPosition());
             telemetry.update();
+            BR.setPower(speed);
+            BL.setPower(speed);
+            FL.setPower(speed);
+            FR.setPower(speed);
         }
     }
 
