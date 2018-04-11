@@ -2,21 +2,19 @@ package org.firstinspires.ftc.teamcode.WorldsGeRM.test_code;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.WorldsGeRM.teleop.dumpBotTele;
-import org.firstinspires.ftc.teamcode.core.TeleSuper;
 
 /**
  * Created by Angela on 3/13/2018.
  */
 
-public class servoCalib extends dumpBotTele {
+public class servoCalib extends org.firstinspires.ftc.teamcode.WorldsGeRM.teleop.dumpBotTele {
 
     /**
      * Created by Angela on 2/15/2018.
      */
 
     @TeleOp(name = "servo calib test")
-    public class testServo extends TeleSuper {
+    public class testServo extends org.firstinspires.ftc.teamcode.WorldsGeRM.teleop.dumpBotTeleSuper {
 
         @Override
         public void loop() {
@@ -28,17 +26,17 @@ public class servoCalib extends dumpBotTele {
             }
 
             if(gamepad2.dpad_up) {
-                flipForw.setPosition(flipForw.getPosition() + .01);
+                flipLeft.setPosition(flipLeft.getPosition() + .01);
             }
             else if(gamepad2.dpad_down) {
-                flipForw.setPosition(flipForw.getPosition() - .01);
+                flipLeft.setPosition(flipLeft.getPosition() - .01);
             }
 
             if(gamepad2.dpad_left) {
-                flipBack.setPosition(flipBack.getPosition() + .01);
+                flipRight.setPosition(flipRight.getPosition() + .01);
             }
             else if(gamepad2.dpad_right) {
-                flipBack.setPosition(flipBack.getPosition() - .01);
+                flipRight.setPosition(flipRight.getPosition() - .01);
             }
 
             if(gamepad2.left_bumper) {

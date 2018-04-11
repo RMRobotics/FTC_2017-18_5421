@@ -17,7 +17,7 @@ public abstract class dumpBotTeleSuper extends OpMode {
     protected DcMotor wheelFL, wheelFR, wheelBL, wheelBR;
 
     //two servos for the flipper - going in opposite directions
-    protected Servo flipForw, flipBack;
+    protected Servo flipRight, flipLeft;
 
     //two servos for gem bar
     protected Servo gemBarWrist, gemBarShoulder;
@@ -43,30 +43,30 @@ public abstract class dumpBotTeleSuper extends OpMode {
         wheelBL = hardwareMap.dcMotor.get("wheelBL");
         wheelBR = hardwareMap.dcMotor.get("wheelBR");
         wheelFL.setDirection(DcMotorSimple.Direction.REVERSE);
-        wheelBL.setDirection(DcMotorSimple.Direction.REVERSE);
+
 
         intakeLeft = hardwareMap.dcMotor.get("intakeLeft");
-        intakeRight = hardwareMap.dcMotor.get("intakeLeft");
-        intakeRight.setDirection(DcMotorSimple.Direction.REVERSE); //opposite direction
+        intakeRight = hardwareMap.dcMotor.get("intakeRight");
+        //intakeRight.setDirection(DcMotorSimple.Direction.REVERSE); //opposite direction
 
         lift = hardwareMap.dcMotor.get("lift");
 
-        flipForw = hardwareMap.servo.get("flipForw");
-        flipBack = hardwareMap.servo.get("flipBack");
-        flipBack.setDirection(Servo.Direction.REVERSE); //flip back goes in the opposite direction
-        flipForw.setPosition(0);
-        flipBack.setPosition(0);
+        flipLeft = hardwareMap.servo.get("flipLeft");
+        flipRight = hardwareMap.servo.get("flipRight");
+        flipLeft.setDirection(Servo.Direction.REVERSE); //flip back goes in the opposite direction
+        flipLeft.setPosition(0.3);
+        flipRight.setPosition(0.32);
 
-        gemBarShoulder = hardwareMap.servo.get("gemBarShoulder");
-        gemBarWrist = hardwareMap.servo.get("gemBarWrist");
-        gemBarShoulder.setPosition(0);
-        gemBarWrist.setPosition(0);
-
-        relicExtend = hardwareMap.dcMotor.get("relicExtend");
-        relicArm = hardwareMap.servo.get("relicArm");
-        relicClaw = hardwareMap.servo.get("relicClaw");
-        relicArm.setPosition(0);
-        relicClaw.setPosition(0);
+//        gemBarShoulder = hardwareMap.servo.get("gemBarShoulder");
+//        gemBarWrist = hardwareMap.servo.get("gemBarWrist");
+//        gemBarShoulder.setPosition(0);
+//        gemBarWrist.setPosition(0);
+//
+//        relicExtend = hardwareMap.dcMotor.get("relicExtend");
+//        relicArm = hardwareMap.servo.get("relicArm");
+//        relicClaw = hardwareMap.servo.get("relicClaw");
+//        relicArm.setPosition(0);
+//        relicClaw.setPosition(0);
     }
 
     protected void addTelemetry() {
