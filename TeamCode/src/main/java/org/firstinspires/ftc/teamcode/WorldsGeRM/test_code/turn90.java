@@ -19,7 +19,7 @@ public class turn90 extends org.firstinspires.ftc.teamcode.WorldsGeRM.dumpBotAut
     @Override
     public void runOpMode() throws InterruptedException {
         super.initialize(false, false);
-        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+//        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         float initialAngle = angles.thirdAngle;
         float finalAngle =  0;
         wheelBL.setPower(1);
@@ -27,7 +27,7 @@ public class turn90 extends org.firstinspires.ftc.teamcode.WorldsGeRM.dumpBotAut
         wheelFL.setPower(1);
         wheelFR.setPower(-1);
         while (finalAngle - initialAngle < 90){
-            angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+//            angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             finalAngle = angles.thirdAngle;
         }
         wheelBL.setPower(0);
