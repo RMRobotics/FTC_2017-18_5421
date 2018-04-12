@@ -23,10 +23,8 @@ public class blockCollection extends dumpBotAutoSuper{
         unvisited.add("CENTER");
         unvisited.remove(initPos);
 
-        // todo: find distance to changePos from left/right to center.
-        int a = 3;
-
-
+        //approx distance to changePos from left/right to center.
+        int a = 8;
 
         for (int i = 0; i < 3; i++){
             // signs depend on red or blue team
@@ -42,8 +40,8 @@ public class blockCollection extends dumpBotAutoSuper{
                     break;
             }
 
-            // todo: find distance from cryptoboxes to block pit
-            int b = 3;
+            //approx distance from cryptoboxes to block pit
+            int b = 44;
             moveEncoders(-b,0);
 
             // start harvesting

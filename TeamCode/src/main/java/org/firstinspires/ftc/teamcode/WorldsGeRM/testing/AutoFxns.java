@@ -71,7 +71,7 @@ public class AutoFxns {
         else
             knockRed = false;
 
-        drop.setPosition(0.1);
+        drop.setPosition(0);
         holdUp(.25);
         kick.setPosition(0.4);
 
