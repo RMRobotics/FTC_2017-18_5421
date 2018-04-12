@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 /**
  * Created by Kameron on 3/15/2018.
  */
-@Autonomous(name="testEncoders", group="oneMotor")
+//@Autonomous(name="testEncoders", group="oneMotor")
 public class oneMotor extends LinearOpMode {
 
     protected DcMotor wheel1;
