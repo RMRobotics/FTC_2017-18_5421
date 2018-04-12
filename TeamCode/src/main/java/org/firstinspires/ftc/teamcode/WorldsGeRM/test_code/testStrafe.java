@@ -25,30 +25,30 @@ public class testStrafe extends LinearOpMode {
         BL = hardwareMap.dcMotor.get("BL");
         BR = hardwareMap.dcMotor.get("BR");
         FL.setDirection(DcMotor.Direction.REVERSE);
-        //FR.setDirection(DcMotor.Direction.REVERSE);
 
-
-        BL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        FR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        BR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        FL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         waitForStart();
 
         simpleStrafeEncoders(24, 1);
         sleep(5000);
-        simpleStrafeEncoders(24, -1);
+        strafeEncoders(24, -1);
         sleep(5000);
     }
 
     protected void strafeEncoders(double distanceInches, int dir) {
         //if rotate is one then the left drive train's target will be set to negative
-        double speed = 1;
-        int currentPos = FL.getCurrentPosition();
+        double speed = .5;
         int distanceTics = (int) (distanceInches * CPI);
         double tickRatio;
+
         FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        FL.setTargetPosition(currentPos + distanceTics);
+        int currentPos = FL.getCurrentPosition();
+        FL.setTargetPosition(currentPos + distanceTics*dir);
 
         while (FL.isBusy()) {
             tickRatio = ((double) FL.getCurrentPosition() - (double) currentPos) / distanceTics;
@@ -68,39 +68,36 @@ public class testStrafe extends LinearOpMode {
 
     protected void simpleStrafeEncoders(double distanceInches, int dir) {
         //if rotate is one then the left drive train's target will be set to negative
-        double speed = 1;
+        double speed = .7;
+        FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         int currentPos = FL.getCurrentPosition();
         int distanceTics = (int) (distanceInches * CPI);
-        FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         FL.setTargetPosition(currentPos + distanceTics*dir);
 
+        strafeTelemetry();
         while (FL.isBusy()) {
-            telemetry.addData("" + speed, "");
+            telemetry.addData("motor: ", speed);
             telemetry.update();
 
             FL.setPower(speed * dir);
             FR.setPower(-speed * dir);
             BL.setPower(-speed * dir);
             BR.setPower(speed * dir);
+            strafeTelemetry();
         }
         FR.setPower(0);
         BR.setPower(0);
         FL.setPower(0);
         BL.setPower(0);
+        strafeTelemetry();
     }
 
-    public void holdUp(double time) {
-        FR.setPower(0);
-        BR.setPower(0);
-        FL.setPower(0);
-        BL.setPower(0);
-        ElapsedTime timer = new ElapsedTime();
-        timer.reset();
-        while (timer.seconds() < time) {
-            telemetry.log().add("hold up");
-            telemetry.clear();
-        }
+    public void strafeTelemetry(){
+        telemetry.addData("FL curr pos:", FL.getCurrentPosition());
+        telemetry.addData("FL target pos:", FL.getTargetPosition());
+        telemetry.addData("8 Motor", FL.getPower() + " " + FR.getPower() + " " + BL.getPower() + " " + BR.getPower());
+        telemetry.update();
     }
-
 }
