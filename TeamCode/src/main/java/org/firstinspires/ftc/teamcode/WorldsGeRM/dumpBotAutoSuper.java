@@ -15,6 +15,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+import org.firstinspires.ftc.teamcode.WorldsGeRM.IIMU;
+import org.firstinspires.ftc.teamcode.WorldsGeRM.RevIMU;
 
 /**
  * Created by ur mum gey xd on 3/22/2018.
@@ -62,7 +64,8 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
     //gear ratio 1.5 to 1
     static double CPI = (1120.0 * 0.66666)/(4.0 * Math.PI); //CALCULATIONS FOR THE COUNTS PER INCH
 
-    protected BNO055IMU imu;
+    protected BNO055IMU rev;
+    protected IIMU imu;
 
     // State used for updating telemetry
     protected Orientation angles;
@@ -128,17 +131,167 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
         parameters.loggingEnabled      = true;
         parameters.loggingTag          = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-        imu.initialize(parameters);
+        rev = hardwareMap.get(BNO055IMU.class, "imu");
+        imu = new RevIMU(rev);
+        imu.initialize();
+        imu.setOffset(0);
 
 
 
         waitForStart();
     }
 
+    protected void holdUp(double num)
+    {
+        timer.reset();
+        while (timer.seconds()<num)
+        {}
+    }
 
+    protected void imuTurn(double degree)
+    {
+        imu.setOffset(0);
+        double num = 0.75, err = 0.5, pwr = 0;
+
+        int count = 0;
+        boolean flag = true;
+        boolean dir_cw;
+
+        if (degree>0)
+        {
+            dir_cw = true;
+            wheelFL.setPower(num);
+            wheelBL.setPower(num);
+            wheelFR.setPower(-1*num);
+            wheelBR.setPower(-1*num);
+        }
+        else
+        {
+            dir_cw = false;
+            wheelFL.setPower(-1*num);
+            wheelBL.setPower(-1*num);
+            wheelFR.setPower(num);
+            wheelBR.setPower(num);
+        }
+
+        while (flag)
+        {
+//            tickRatio = (FL.getCurrentPosition() - currentPos) / distanceTics;
+//            speed = (-0.5 * (tickRatio * tickRatio) + 0.5);
+            pwr = num-0.15*count;
+
+//            double ratio = imu.getZAngle()/degree;
+//            double pwr = (-1* num * (ratio * ratio) + num);
+//            if (Math.abs(pwr)<0.2) {
+//                if (pwr > 0)
+//                    pwr = 0.2;
+//                if (pwr < 0)
+//                    pwr = -0.2;
+//            }
+//
+//            telemetry.addData("Z angle",imu.getZAngle());
+//            telemetry.addData("ratio",ratio);
+//            telemetry.addData("power",pwr);
+//            if (Math.abs(imu.getZAngle()-degree)<=err)
+//                flag = false;
+//            FL.setPower(pwr);
+//            FR.setPower(-1*pwr);
+//            BL.setPower(pwr);
+//            BR.setPower(-1*pwr);
+
+            if (Math.abs(imu.getZAngle()-degree)<err) {
+                flag = false;
+                wheelFL.setPower(0);
+                wheelBL.setPower(0);
+                wheelFR.setPower(0);
+                wheelBR.setPower(0);
+            }
+            else if (dir_cw && imu.getZAngle()>degree)
+            {
+                wheelFL.setPower(-1*pwr);
+                wheelBL.setPower(-1*pwr);
+                wheelFR.setPower(pwr);
+                wheelBR.setPower(pwr);
+                count+=1;
+                dir_cw = !dir_cw;
+            }
+            else if (!dir_cw && imu.getZAngle()<degree)
+            {
+                wheelFL.setPower(pwr);
+                wheelBL.setPower(pwr);
+                wheelFR.setPower(-1*pwr);
+                wheelBR.setPower(-1*pwr);
+                count+=1;
+                dir_cw = !dir_cw;
+            }
+        }
+
+        wheelFL.setPower(0);
+        wheelBL.setPower(0);
+        wheelFR.setPower(0);
+        wheelBR.setPower(0);
+        telemetry.addData("power",pwr);
+    }
 
     protected void addTelemetry() {
+    }
+
+    protected void knockJewel(String jcolor)
+    {
+        boolean flag = false;
+        boolean seeRed, knockRed;
+
+        if (jcolor.equals("red"))
+            knockRed = true;
+        else
+            knockRed = false;
+
+        gemBarShoulder.setPosition(0);
+        holdUp(.25);
+        gemBarWrist.setPosition(0.4);
+
+        holdUp(2);
+
+        timer.reset();
+        while (timer.seconds()<5 && !flag) {
+            if ((colorSensorJewel.red() >= 3) || (colorSensorJewel.blue() >= 3) && !flag) {
+                if (colorSensorJewel.red() > colorSensorJewel.blue())
+                    seeRed=true;
+                else
+                    seeRed=false;
+                flag = true;
+
+                if (seeRed && knockRed)
+                {
+                    gemBarWrist.setPosition(1);
+                    telemetry.addData("i see", "red");
+                }
+                else if (seeRed && !knockRed)
+                {
+                    gemBarWrist.setPosition(0);
+                    telemetry.addData("i see", "red");
+                }
+                else if (!seeRed && knockRed)
+                {
+                    gemBarWrist.setPosition(0);
+                    telemetry.addData("i see", "blue");
+                }
+                else
+                {
+                    gemBarWrist.setPosition(1);
+                    telemetry.addData("i see", "blue");
+                }
+                holdUp(0.25);
+
+                telemetry.update();
+            }
+        }
+
+        gemBarWrist.setPosition(0.4);
+        gemBarShoulder.setPosition(1);
+        holdUp(.25);
+        gemBarWrist.setPosition(0.8);
+        holdUp(1);
     }
 
     protected void moveEncoders(double distanceInches, int rotate){
