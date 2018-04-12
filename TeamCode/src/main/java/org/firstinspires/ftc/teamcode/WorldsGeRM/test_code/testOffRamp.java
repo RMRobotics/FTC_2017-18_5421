@@ -37,19 +37,19 @@ public class testOffRamp extends LinearOpMode
 
         waitForStart();
 
-        FL.setPower(.6);
-        BL.setPower(.6);
-        FR.setPower(.6);
-        BR.setPower(.6);
+        FL.setPower(-.46);
+        BL.setPower(-.46);
+        FR.setPower(-.46);
+        BR.setPower(-.46);
 
-        holdUp(1.5);
+        holdUp(0.7);
 
-        FL.setPower(-0.4);
-        BL.setPower(-0.4);
-        FR.setPower(-0.4);
-        BR.setPower(-0.4);
+        FL.setPower(0.35);
+        BL.setPower(0.35);
+        FR.setPower(0.35);
+        BR.setPower(0.35);
         
-        holdUp(1.5);
+        holdUp(1);
 
         FL.setPower(0);
         BL.setPower(0);

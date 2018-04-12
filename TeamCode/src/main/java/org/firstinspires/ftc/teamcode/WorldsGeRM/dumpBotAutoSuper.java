@@ -74,7 +74,6 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
         wheelBL = hardwareMap.dcMotor.get("wheelBL");
         wheelBR = hardwareMap.dcMotor.get("wheelBR");
         wheelFL.setDirection(DcMotorSimple.Direction.REVERSE);
-        wheelBL.setDirection(DcMotorSimple.Direction.REVERSE);
 
         intakeLeft = hardwareMap.dcMotor.get("intakeLeft");
         intakeRight = hardwareMap.dcMotor.get("intakeRight");
@@ -104,11 +103,15 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
 
 
         if (encoders){
-            wheelFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            wheelFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            wheelBL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             wheelBR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         }
+        else{
+            wheelBR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        }
+
+        wheelFL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        wheelFR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        wheelBL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         if (initVuforia){
             parameters.vuforiaLicenseKey = "AckoWtn/////AAAAGan7WAnq/0UVmQZG3sp7smBgRCNBnU1p+HmsTrC+W9TyxqaMlhFirDXglelvJCX4yBiO8oou6n7UWBfdRFbKHDqz0NIo5VcNHyhelmm0yK0vGKxoU0NZbQzjh5qVWnI/HRoFjM3JOq/LB/FTXgCcEaNGhXAqnz7nalixMeP8oRQlgX5nRVX4uE6w0K4yqIc5/FIDh1tn7PldiflmvNPhOW6FukPQD3d02wEnZB/JEchSSBzDbFA10XSgtYzXiweQI5tj+D5llLRrLh0mcWeouv55oSmya5RxUC26uEuO7bCAwyolWIuUr2Wh5oAG483nTD4vFhdjVMT7f0ovLO73C6xr2AXpNwen9IExRxBeosQ4";
@@ -219,6 +222,31 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
     private void setFlipMotors(double pos){
         flipBack.setPosition(pos);
         flipForw.setPosition(1-pos);
+    }
+
+
+    protected void strafeEncoders(double distance){
+        //if rotate is one then the left drive train's target will be set to negative
+        double speed = 0.5;
+        int dir = (int) Math.signum(distance);
+        int currentPos = wheelBR.getCurrentPosition();
+        int distanceTics = (int)(distance * CPI);
+        double tickRatio;
+
+        wheelBR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        wheelBR.setTargetPosition(currentPos + distanceTics);
+        wheelBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        while(wheelBR.isBusy() /*&& BL.isBusy() && BR.isBusy() && FL.isBusy()*/){
+            tickRatio = ((double)wheelBR.getCurrentPosition() - (double)currentPos) / distanceTics;
+            speed = ((-0.5) * (tickRatio) + 0.5);
+            if (speed < 0.15)
+                speed = 0.15;
+            wheelFL.setPower(speed*dir);
+            wheelFR.setPower(-speed*dir);
+            wheelBL.setPower(-speed*dir);
+            wheelBR.setPower(speed*dir);
+        }
     }
 
     public void strafe(int distance) {

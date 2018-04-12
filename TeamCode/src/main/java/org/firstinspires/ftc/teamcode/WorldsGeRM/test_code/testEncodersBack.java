@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.R;
 import org.firstinspires.ftc.teamcode.WorldsGeRM.dumpBotAutoSuper;
 
-@Autonomous(name="testEncodersSimple", group="twoMotor")
-public class testEncoders extends LinearOpMode {
+@Autonomous(name="testEncodersBack", group="twoMotor")
+public class testEncodersBack extends LinearOpMode {
 
     static double CPI = (1120.0 * 0.66666)/(4.0 * Math.PI);
 
@@ -41,7 +41,7 @@ public class testEncoders extends LinearOpMode {
 //        FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         waitForStart();
-        moveEncoders(24, 1);
+        moveEncoders(-24, 1);
         holdUp(5);
 //        moveEncoders(6, 1);
 //        holdUp(5);
@@ -52,7 +52,7 @@ public class testEncoders extends LinearOpMode {
 
     protected void moveEncoders(double distanceInches, int rotate){
         //if rotate is one then the left drive train's target will be set to negative
-        double speed = 0.5;
+        double speed = -0.5;
         int currentPos = FL.getCurrentPosition();
         int distanceTics = (int)(distanceInches * CPI);
         double tickRatio;
@@ -80,9 +80,9 @@ public class testEncoders extends LinearOpMode {
 
         while(FL.isBusy() /*&& BL.isBusy() && BR.isBusy() && FL.isBusy()*/){
             tickRatio = ((double)FL.getCurrentPosition() - (double)currentPos) / distanceTics;
-            speed = ((-0.5) * (tickRatio) + 0.5);
-            if (speed < 0.15)
-                speed = 0.15;
+            speed = -((-0.5) * (tickRatio) + 0.5);
+            if (speed > -0.15)
+                speed = -0.15;
             telemetry.addData("" + speed, "");
             telemetry.addData("tickRatio" + tickRatio, "GetPos" + FL.getCurrentPosition());
             telemetry.update();

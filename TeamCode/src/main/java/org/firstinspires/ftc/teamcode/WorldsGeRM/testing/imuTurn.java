@@ -76,9 +76,9 @@ public class imuTurn extends LinearOpMode
             telemetry.addData("Z angle",imu.getZAngle());
             if (Math.abs(imu.getZAngle()-degree)<=err)
                 flag = false;
-            FL.setPower(pwr);
+            FL.setPower(pwr*-1);
             FR.setPower(pwr);
-            BL.setPower(pwr);
+            BL.setPower(pwr*-1);
             BR.setPower(pwr);
 //            else if (dir_cw && imu.getZAngle()>degree)
 //            {

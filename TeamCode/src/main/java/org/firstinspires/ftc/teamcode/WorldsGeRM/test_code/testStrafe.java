@@ -3,13 +3,14 @@ package org.firstinspires.ftc.teamcode.WorldsGeRM.test_code;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.R;
 import org.firstinspires.ftc.teamcode.WorldsGeRM.dumpBotAutoSuper;
 
-@Autonomous(name="testEncodersSimple", group="twoMotor")
-public class testEncoders extends LinearOpMode {
+@Autonomous(name="testEncoderStrafe", group="twoMotor")
+public class testStrafe extends LinearOpMode {
 
     static double CPI = (1120.0 * 0.66666)/(4.0 * Math.PI);
 
@@ -25,14 +26,12 @@ public class testEncoders extends LinearOpMode {
         BL = hardwareMap.dcMotor.get("BL");
         BR = hardwareMap.dcMotor.get("BR");
         FL.setDirection(DcMotor.Direction.REVERSE);
-        //BR.setDirection(DcMotor.Direction.REVERSE);
-
         //FR.setDirection(DcMotor.Direction.REVERSE);
 
 
+        BL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         FR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        BL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         FL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 //        FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -41,7 +40,9 @@ public class testEncoders extends LinearOpMode {
 //        FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         waitForStart();
-        moveEncoders(24, 1);
+
+
+        strafeEncoders(24, 1);
         holdUp(5);
 //        moveEncoders(6, 1);
 //        holdUp(5);
@@ -50,7 +51,7 @@ public class testEncoders extends LinearOpMode {
 
     }
 
-    protected void moveEncoders(double distanceInches, int rotate){
+    protected void strafeEncoders(double distanceInches, int dir){
         //if rotate is one then the left drive train's target will be set to negative
         double speed = 0.5;
         int currentPos = FL.getCurrentPosition();
@@ -72,24 +73,20 @@ public class testEncoders extends LinearOpMode {
         //FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         //FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        BR.setPower(speed);
-        BL.setPower(speed);
-        FL.setPower(speed);
-        FR.setPower(speed);
-
 
         while(FL.isBusy() /*&& BL.isBusy() && BR.isBusy() && FL.isBusy()*/){
             tickRatio = ((double)FL.getCurrentPosition() - (double)currentPos) / distanceTics;
-            speed = ((-0.5) * (tickRatio) + 0.5);
-            if (speed < 0.15)
-                speed = 0.15;
+            speed = ((-0.8) * (tickRatio) + 0.8);
+            if (speed < 0.4)
+                speed = 0.4;
             telemetry.addData("" + speed, "");
             telemetry.addData("tickRatio" + tickRatio, "GetPos" + FL.getCurrentPosition());
             telemetry.update();
-            BR.setPower(speed);
-            BL.setPower(speed);
-            FL.setPower(speed);
-            FR.setPower(speed);
+
+            FL.setPower(speed*dir);
+            FR.setPower(-speed*dir);
+            BL.setPower(-speed*dir);
+            BR.setPower(speed*dir);
         }
     }
 
