@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
@@ -28,7 +29,7 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
     protected DcMotor wheelFL, wheelFR, wheelBL, wheelBR;
 
     //two servos for the flipper - going in opposite directions
-    protected Servo flipForw, flipBack;
+    protected Servo flipLeft, flipRight;
 
     //two servos for gem bar
     protected Servo gemBarWrist, gemBarShoulder;
@@ -56,7 +57,7 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
     protected VuforiaLocalizer vuforia;
     protected VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
     protected int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-    protected VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+    protected VuforiaLocalizer.Parameters parameter = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
     protected VuforiaTrackable relicTemplate = relicTrackables.get(0);
 
     //wheelDiameterInches = 4;
@@ -80,51 +81,40 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
 
         intakeLeft = hardwareMap.dcMotor.get("intakeLeft");
         intakeRight = hardwareMap.dcMotor.get("intakeRight");
-        intakeRight.setDirection(DcMotorSimple.Direction.REVERSE); //opposite direction
 
         lift = hardwareMap.dcMotor.get("lift");
 
-        flipForw = hardwareMap.servo.get("flipForw");
-        flipBack = hardwareMap.servo.get("flipBack");
-        flipBack.setDirection(Servo.Direction.REVERSE); //flip back goes in the opposite direction
-        flipForw.setPosition(0);
-        flipBack.setPosition(0);
+        flipLeft = hardwareMap.servo.get("flipLeft");
+        flipRight = hardwareMap.servo.get("flipRight");
+        flipLeft.setDirection(Servo.Direction.REVERSE); //flip back goes in the opposite direction
+        flipLeft.setPosition(0.3);
+        flipRight.setPosition(0.32);
 
-        gemBarShoulder = hardwareMap.servo.get("gemBarShoulder");
-        gemBarWrist = hardwareMap.servo.get("gemBarWrist");
-        gemBarShoulder.setPosition(0);
-        gemBarWrist.setPosition(0);
-
-        relicExtend = hardwareMap.dcMotor.get("relicExtend");
-        relicArm = hardwareMap.servo.get("relicArm");
-        relicClaw = hardwareMap.servo.get("relicClaw");
-        relicArm.setPosition(0);
-        relicClaw.setPosition(0);
-
-        colorSensorCollect = hardwareMap.colorSensor.get("colorSensorCollect");
+        gemBarShoulder = hardwareMap.servo.get("drop");
+        gemBarWrist = hardwareMap.servo.get("kick");
+        gemBarShoulder.setPosition(1);
+        gemBarWrist.setPosition(0.8);
+//
+//        relicExtend = hardwareMap.dcMotor.get("relicExtend");
+//        relicArm = hardwareMap.servo.get("relicArm");
+//        relicClaw = hardwareMap.servo.get("relicClaw");
+//        relicArm.setPosition(0);
+//        relicClaw.setPosition(0);
+//
+//        colorSensorCollect = hardwareMap.colorSensor.get("colorSensorCollect");
         colorSensorJewel = hardwareMap.colorSensor.get("colorSensorJewel");
 
+        wheelFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         if (encoders){
-            wheelBR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         }
         else{
-            wheelBR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            wheelFL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
 
         wheelFL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         wheelFR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         wheelBL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        if (initVuforia){
-            parameters.vuforiaLicenseKey = "AckoWtn/////AAAAGan7WAnq/0UVmQZG3sp7smBgRCNBnU1p+HmsTrC+W9TyxqaMlhFirDXglelvJCX4yBiO8oou6n7UWBfdRFbKHDqz0NIo5VcNHyhelmm0yK0vGKxoU0NZbQzjh5qVWnI/HRoFjM3JOq/LB/FTXgCcEaNGhXAqnz7nalixMeP8oRQlgX5nRVX4uE6w0K4yqIc5/FIDh1tn7PldiflmvNPhOW6FukPQD3d02wEnZB/JEchSSBzDbFA10XSgtYzXiweQI5tj+D5llLRrLh0mcWeouv55oSmya5RxUC26uEuO7bCAwyolWIuUr2Wh5oAG483nTD4vFhdjVMT7f0ovLO73C6xr2AXpNwen9IExRxBeosQ4";
-            parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
-            vuforia = ClassFactory.createVuforiaLocalizer(parameters);
-            relicTemplate.setName("relicVuMarkTemplate");
-            telemetry.update();
-            waitForStart();
-            relicTrackables.activate();
-        }
 
         // gyro setup
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -138,6 +128,16 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
         imu = new RevIMU(rev);
         imu.initialize();
         imu.setOffset(0);
+
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        parameter = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+        parameter.vuforiaLicenseKey = "AckoWtn/////AAAAGan7WAnq/0UVmQZG3sp7smBgRCNBnU1p+HmsTrC+W9TyxqaMlhFirDXglelvJCX4yBiO8oou6n7UWBfdRFbKHDqz0NIo5VcNHyhelmm0yK0vGKxoU0NZbQzjh5qVWnI/HRoFjM3JOq/LB/FTXgCcEaNGhXAqnz7nalixMeP8oRQlgX5nRVX4uE6w0K4yqIc5/FIDh1tn7PldiflmvNPhOW6FukPQD3d02wEnZB/JEchSSBzDbFA10XSgtYzXiweQI5tj+D5llLRrLh0mcWeouv55oSmya5RxUC26uEuO7bCAwyolWIuUr2Wh5oAG483nTD4vFhdjVMT7f0ovLO73C6xr2AXpNwen9IExRxBeosQ4";
+        parameter.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
+        this.vuforia = ClassFactory.createVuforiaLocalizer(parameter);
+        VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+        VuforiaTrackable relicTemplate = relicTrackables.get(0);
+        relicTemplate.setName("relicVuMarkTemplate");
+        relicTrackables.activate();
 
 
 
@@ -297,38 +297,46 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
         holdUp(1);
     }
 
-    protected void moveEncoders(double distanceInches, int rotate){
-        //if rotate is one then the left drive train's target will be set to negative
-        rotate = -rotate;
-        double speed = 0.5;
+    protected void moveEncoders(double distanceInches, int dir){
+
+        double speed = 0.5 * dir;
         int currentPos = wheelFL.getCurrentPosition();
         int distanceTics = (int)(distanceInches * CPI);
         double tickRatio;
 
-        wheelBL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         wheelFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        wheelBR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        wheelFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        wheelBL.setTargetPosition(currentPos + distanceTics);
         wheelFL.setTargetPosition(currentPos + distanceTics);
-        wheelBR.setTargetPosition(currentPos + distanceTics);
-        wheelFR.setTargetPosition(currentPos + distanceTics);
-
-        wheelBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         wheelFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        wheelBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        wheelFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        wheelBR.setPower(speed);
+        wheelBL.setPower(speed);
+        wheelFL.setPower(speed);
+        wheelFR.setPower(speed);
 
 
-        while(wheelFR.isBusy() && wheelBL.isBusy() && wheelBR.isBusy() && wheelFL.isBusy()){
-            tickRatio = (wheelFL.getCurrentPosition() - currentPos) / distanceTics;
-            speed = (-0.5 * (tickRatio * tickRatio) + 0.5);
-            wheelFR.setPower(speed*rotate);
-            wheelFL.setPower(speed);
-            wheelBR.setPower(speed*rotate);
+        while(wheelFL.isBusy() /*&& BL.isBusy() && BR.isBusy() && FL.isBusy()*/){
+            tickRatio = ((double)wheelFL.getCurrentPosition() - (double)currentPos) / distanceTics;
+            speed = dir * ((-0.5) * (tickRatio) + 0.5);
+            if (dir > 0){
+                if (speed < 0.15)
+                    speed = 0.15;
+            }
+            if (dir < 0){
+                if (speed > -0.15)
+                    speed = -0.15;
+            }
+            telemetry.addData("" + speed, "");
+            telemetry.addData("tickRatio" + tickRatio, "GetPos" + wheelFL.getCurrentPosition());
+            telemetry.update();
+            wheelBR.setPower(speed);
             wheelBL.setPower(speed);
+            wheelFL.setPower(speed);
+            wheelFR.setPower(speed);
         }
+        wheelFR.setPower(0);
+        wheelBR.setPower(0);
+        wheelFL.setPower(0);
+        wheelBL.setPower(0);
     }
 
     protected void harvest(boolean harvestMode, double power){
@@ -373,8 +381,8 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
 
 
     private void setFlipMotors(double pos){
-        flipBack.setPosition(pos);
-        flipForw.setPosition(1-pos);
+//        flipBack.setPosition(pos);
+//        flipForw.setPosition(1-pos);
     }
 
 
@@ -485,5 +493,18 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
         wheelBL.setPower(p3);
         wheelBR.setPower(p4);
     }
+
+    public RelicRecoveryVuMark scanVuforia(){
+        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+        while (vuMark == RelicRecoveryVuMark.UNKNOWN){
+            vuMark = RelicRecoveryVuMark.from(relicTemplate);
+            if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
+                parameter = new VuforiaLocalizer.Parameters();
+                return vuMark;
+            }
+        }
+        return vuMark;
+    }
+
 
 }
