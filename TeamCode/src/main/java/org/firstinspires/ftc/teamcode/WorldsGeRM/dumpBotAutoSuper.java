@@ -44,6 +44,8 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
     //two motors for collector thingy
     protected DcMotor intakeLeft, intakeRight;
 
+    protected Servo glyphPusher;
+
     //for toggling flipper
     protected boolean flipped;
 
@@ -81,6 +83,8 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
 
         intakeLeft = hardwareMap.dcMotor.get("intakeLeft");
         intakeRight = hardwareMap.dcMotor.get("intakeRight");
+
+        glyphPusher = hardwareMap.servo.get("glyphPusher");
 
         lift = hardwareMap.dcMotor.get("lift");
 

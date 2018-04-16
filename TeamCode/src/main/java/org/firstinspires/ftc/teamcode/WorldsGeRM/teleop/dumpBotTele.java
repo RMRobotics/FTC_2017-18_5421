@@ -57,6 +57,14 @@ public class dumpBotTele extends dumpBotTeleSuper {
             flipRight.setPosition(0.51);
         }
 
+        if (gamepad2.left_bumper){
+            glyphPusher.setPosition(.8);
+        }
+
+        if(gamepad2.right_bumper) {
+            glyphPusher.setPosition(.2);
+        }
+
 
         lift.setPower(-gamepad2.left_stick_y);
 

@@ -32,6 +32,8 @@ public abstract class dumpBotTeleSuper extends OpMode {
     //two motors for collector thingy
     protected DcMotor intakeLeft, intakeRight;
 
+    protected Servo glyphPusher;
+
     //for toggling flipper
     protected boolean flipped;
 
@@ -48,6 +50,8 @@ public abstract class dumpBotTeleSuper extends OpMode {
         intakeLeft = hardwareMap.dcMotor.get("intakeLeft");
         intakeRight = hardwareMap.dcMotor.get("intakeRight");
         //intakeRight.setDirection(DcMotorSimple.Direction.REVERSE); //opposite direction
+
+        glyphPusher = hardwareMap.servo.get("glyphPusher");
 
         lift = hardwareMap.dcMotor.get("lift");
 
