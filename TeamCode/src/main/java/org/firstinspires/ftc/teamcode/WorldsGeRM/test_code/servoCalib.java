@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode.WorldsGeRM.test_code;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
 /**
  * Created by Angela on 3/13/2018.
  */
-
+@Disabled
 public class servoCalib extends org.firstinspires.ftc.teamcode.WorldsGeRM.teleop.dumpBotTele {
 
     /**

@@ -25,123 +25,130 @@ import org.firstinspires.ftc.teamcode.WorldsGeRM.RevIMU;
 
 public abstract class dumpBotAutoSuper extends LinearOpMode{
 
-    //Four mecanum wheels
     protected DcMotor wheelFL, wheelFR, wheelBL, wheelBR;
 
-    //two servos for the flipper - going in opposite directions
-    protected Servo flipLeft, flipRight;
+    protected DcMotor intakeLeft, intakeRight, lift;
 
-    //two servos for gem bar
-    protected Servo gemBarWrist, gemBarShoulder;
+    protected Servo gemBarShoulder, gemBarWrist, pushBoy;
 
-    //hopefully we end up using a servo for the relic arm, but for now its a cr
-    protected Servo relicArm;
-    protected Servo relicClaw;
-    protected DcMotor relicExtend;
-
-    protected DcMotor lift;
-
-    //two motors for collector thingy
-    protected DcMotor intakeLeft, intakeRight;
-
-    //for toggling flipper
-    protected boolean flipped;
-
-    //timer
     protected ElapsedTime timer = new ElapsedTime();
 
-    //color sensors on the jewel arm and bottom of the collection mechanism
     protected ColorSensor colorSensorJewel;
-    protected ColorSensor colorSensorCollect;
 
-    protected VuforiaLocalizer vuforia;
-    protected VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
-    protected int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-    protected VuforiaLocalizer.Parameters parameter = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
-    protected VuforiaTrackable relicTemplate = relicTrackables.get(0);
+    protected Servo flipRight, flipLeft;
 
-    //wheelDiameterInches = 4;
-    //ticksPerRotation = 1120;
-    //gear ratio 1.5 to 1
     static double CPI = (1120.0 * 0.66666)/(4.0 * Math.PI); //CALCULATIONS FOR THE COUNTS PER INCH
 
     protected BNO055IMU rev;
     protected IIMU imu;
 
-    // State used for updating telemetry
     protected Orientation angles;
     protected Acceleration gravity;
 
-    public void initialize(Boolean initVuforia, Boolean encoders){
+    VuforiaLocalizer vuforia;
+
+
+    public void initialize(Boolean i){
+
+        pushBoy = hardwareMap.servo.get("pushBoy");
+
         wheelFL = hardwareMap.dcMotor.get("wheelFL");
         wheelFR = hardwareMap.dcMotor.get("wheelFR");
         wheelBL = hardwareMap.dcMotor.get("wheelBL");
         wheelBR = hardwareMap.dcMotor.get("wheelBR");
         wheelFL.setDirection(DcMotorSimple.Direction.REVERSE);
+        wheelBL.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        lift = hardwareMap.dcMotor.get("lift");
 
         intakeLeft = hardwareMap.dcMotor.get("intakeLeft");
         intakeRight = hardwareMap.dcMotor.get("intakeRight");
 
-        lift = hardwareMap.dcMotor.get("lift");
-
         flipLeft = hardwareMap.servo.get("flipLeft");
         flipRight = hardwareMap.servo.get("flipRight");
-        flipLeft.setDirection(Servo.Direction.REVERSE); //flip back goes in the opposite direction
-        flipLeft.setPosition(0.3);
-        flipRight.setPosition(0.32);
+        flipLeft.setDirection(Servo.Direction.REVERSE);
 
-        gemBarShoulder = hardwareMap.servo.get("drop");
-        gemBarWrist = hardwareMap.servo.get("kick");
-        gemBarShoulder.setPosition(1);
-        gemBarWrist.setPosition(0.8);
-//
-//        relicExtend = hardwareMap.dcMotor.get("relicExtend");
-//        relicArm = hardwareMap.servo.get("relicArm");
-//        relicClaw = hardwareMap.servo.get("relicClaw");
-//        relicArm.setPosition(0);
-//        relicClaw.setPosition(0);
-//
-//        colorSensorCollect = hardwareMap.colorSensor.get("colorSensorCollect");
+        pushBoy = hardwareMap.servo.get("pushBoy");
+
         colorSensorJewel = hardwareMap.colorSensor.get("colorSensorJewel");
 
         wheelFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        if (encoders){
-        }
-        else{
-            wheelFL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        }
 
         wheelFL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         wheelFR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         wheelBL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        // gyro setup
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        parameters.loggingEnabled      = true;
-        parameters.loggingTag          = "IMU";
-        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
         rev = hardwareMap.get(BNO055IMU.class, "imu");
         imu = new RevIMU(rev);
         imu.initialize();
         imu.setOffset(0);
 
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        parameter = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
-        parameter.vuforiaLicenseKey = "AckoWtn/////AAAAGan7WAnq/0UVmQZG3sp7smBgRCNBnU1p+HmsTrC+W9TyxqaMlhFirDXglelvJCX4yBiO8oou6n7UWBfdRFbKHDqz0NIo5VcNHyhelmm0yK0vGKxoU0NZbQzjh5qVWnI/HRoFjM3JOq/LB/FTXgCcEaNGhXAqnz7nalixMeP8oRQlgX5nRVX4uE6w0K4yqIc5/FIDh1tn7PldiflmvNPhOW6FukPQD3d02wEnZB/JEchSSBzDbFA10XSgtYzXiweQI5tj+D5llLRrLh0mcWeouv55oSmya5RxUC26uEuO7bCAwyolWIuUr2Wh5oAG483nTD4vFhdjVMT7f0ovLO73C6xr2AXpNwen9IExRxBeosQ4";
-        parameter.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
-        this.vuforia = ClassFactory.createVuforiaLocalizer(parameter);
-        VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
-        VuforiaTrackable relicTemplate = relicTrackables.get(0);
-        relicTemplate.setName("relicVuMarkTemplate");
-        relicTrackables.activate();
+        if (i)
+            pushBoy.setPosition(0.1);
+        else
+            pushBoy.setPosition(1);
 
+        flipLeft.setPosition(0.8);
+        flipRight.setPosition(0.8);
 
+        gemBarShoulder = hardwareMap.servo.get("drop");
+        gemBarWrist = hardwareMap.servo.get("kick");
+        gemBarShoulder.setPosition(0.93);
+        gemBarWrist.setPosition(0.835);
 
         waitForStart();
+    }
+
+    public void moveOffRamp1(){
+
+        setDrive(-0.25);
+
+        holdUp(0.8);
+
+        setDrive(0.2);
+
+        holdUp(1.2);
+
+        setDrive(0);
+    }
+
+    protected void flip(double l){
+
+        flipLeft.setPosition(0.63);
+        flipRight.setPosition(0.63);
+
+        telemetry.update();
+
+        holdUp(0.7);
+
+        pushBoy.setPosition(0.9);
+
+        lift.setPower(1);
+
+        holdUp(0.7);
+
+        lift.setPower(0);
+
+        flipLeft.setPosition(0.13);
+        flipRight.setPosition(0.13);
+
+        holdUp(0.7);
+
+        lift.setPower(-1);
+
+        holdUp(0.7);
+
+        lift.setPower(0);
+
+        flipLeft.setPosition(0.83);
+        flipRight.setPosition(0.83);
+    }
+
+    protected void print(String message, double time)
+    {
+        telemetry.log().add(message);
+        holdUp(time);
     }
 
     protected void holdUp(double num)
@@ -151,10 +158,124 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
         {}
     }
 
-    protected void imuTurn(double degree)
+    protected void shakeItOff(double time){
+        moveEncoders(32.5,1);
+        intakeRight.setPower(-1);
+        intakeLeft.setPower(1);
+        ElapsedTime timer1 = new ElapsedTime();
+        timer1.reset();
+        double angle = imu.getZAngle();
+        boolean b = true;
+        wheelFL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        while(timer1.seconds() < time){
+            //intakeLeft.setPower(0);
+            //intakeRight.setPower(0);
+            if (b) {
+//                wheelBL.setPower(0.5);
+//                wheelFL.setPower(0.5);
+//                wheelBR.setPower(-0.5);
+//                wheelFR.setPower(-0.5);
+                setDrive(0.4);
+                holdUp(0.5);
+                setDrive(0);
+//                wheelBL.setPower(-0.5);
+//                wheelFL.setPower(-0.5);
+//                wheelBR.setPower(0.5);
+//                wheelFR.setPower(0.5);
+                setDrive(0.4);
+                holdUp(0.5);
+                setDrive(0);
+            }
+            else
+            {
+//                wheelBL.setPower(-0.5);
+//                wheelFL.setPower(-0.5);
+//                wheelBR.setPower(0.5);
+//                wheelFR.setPower(0.5);
+//                setDrive(0.3);
+//                holdUp(0.5);
+//                setDrive(0);
+//                wheelBL.setPower(0.5);
+//                wheelFL.setPower(0.5);
+//                wheelBR.setPower(-0.5);
+//                wheelFR.setPower(-0.5);
+//                setDrive(0.3);
+//                holdUp(0.5);
+//                setDrive(0);
+            }
+            //intakeRight.setPower(-1);
+            //intakeLeft.setPower(1);
+            //setDrive(0);
+            b = !b;
+        }
+        pushBoy.setPosition(0);
+        moveEncoders(-46.5,-1);
+        intakeLeft.setPower(0);
+        intakeRight.setPower(0);
+    }
+
+    protected void strafeEncoders(double distanceInches, int dir){
+
+        double angle = imu.getZAngle();
+        int currentPos = wheelFL.getCurrentPosition(), pos;
+        int distanceTics = dir*(int)(distanceInches * CPI);
+        double tickRatio;
+
+        wheelFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        wheelFL.setTargetPosition(currentPos + distanceTics);
+        wheelFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        if (dir == 1) {
+            wheelBR.setPower(1);
+            wheelBL.setPower(-1);
+            wheelFL.setPower(1);
+            wheelFR.setPower(-1);
+        }
+
+        if (dir == -1) {
+            wheelBR.setPower(-1);
+            wheelBL.setPower(1);
+            wheelFL.setPower(-1);
+            wheelFR.setPower(1);
+        }
+
+
+        while(wheelFL.isBusy() /*&& BL.isBusy() && BR.isBusy() && FL.isBusy()*/){
+            if (Math.abs(-imu.getZAngle() - angle) >= 15){
+                pos = wheelFL.getCurrentPosition();
+                imuTurn(-(imu.getZAngle() - angle),0.3);
+                //wheelFL.setTargetPosition(wheelFL.getTargetPosition() + wheelFL.getCurrentPosition() - pos);
+                angle = imu.getZAngle();
+                if (dir == 1) {
+                    wheelBR.setPower(1);
+                    wheelBL.setPower(-1);
+                    wheelFL.setPower(1);
+                    wheelFR.setPower(-1);
+                }
+
+                if (dir == -1) {
+                    wheelBR.setPower(-1);
+                    wheelBL.setPower(1);
+                    wheelFL.setPower(-1);
+                    wheelFR.setPower(1);
+                }
+            }
+
+        }
+        wheelFR.setPower(0);
+        wheelBR.setPower(0);
+        wheelFL.setPower(0);
+        wheelBL.setPower(0);
+        double angleFinal = -(imu.getZAngle() - angle);
+        imuTurn(angleFinal,0.3);
+    }
+
+
+
+    protected void imuTurn(double degree, double num)
     {
         imu.setOffset(0);
-        double num = 0.75, err = 0.5, pwr = 0;
+        double err = 1.2, pwr = 0;
 
         int count = 0;
         boolean flag = true;
@@ -179,29 +300,6 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
 
         while (flag)
         {
-//            tickRatio = (FL.getCurrentPosition() - currentPos) / distanceTics;
-//            speed = (-0.5 * (tickRatio * tickRatio) + 0.5);
-            pwr = num-0.15*count;
-
-//            double ratio = imu.getZAngle()/degree;
-//            double pwr = (-1* num * (ratio * ratio) + num);
-//            if (Math.abs(pwr)<0.2) {
-//                if (pwr > 0)
-//                    pwr = 0.2;
-//                if (pwr < 0)
-//                    pwr = -0.2;
-//            }
-//
-//            telemetry.addData("Z angle",imu.getZAngle());
-//            telemetry.addData("ratio",ratio);
-//            telemetry.addData("power",pwr);
-//            if (Math.abs(imu.getZAngle()-degree)<=err)
-//                flag = false;
-//            FL.setPower(pwr);
-//            FR.setPower(-1*pwr);
-//            BL.setPower(pwr);
-//            BR.setPower(-1*pwr);
-
             if (Math.abs(imu.getZAngle()-degree)<err) {
                 flag = false;
                 wheelFL.setPower(0);
@@ -233,10 +331,6 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
         wheelBL.setPower(0);
         wheelFR.setPower(0);
         wheelBR.setPower(0);
-        telemetry.addData("power",pwr);
-    }
-
-    protected void addTelemetry() {
     }
 
     protected void knockJewel(String jcolor)
@@ -249,14 +343,16 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
         else
             knockRed = false;
 
-        gemBarShoulder.setPosition(0);
-        holdUp(.25);
-        gemBarWrist.setPosition(0.4);
+        gemBarShoulder.setPosition(0.5);
+        holdUp(0.3);
+        gemBarWrist.setPosition(0.3);
+        holdUp(0.5);
+        gemBarShoulder.setPosition(0.12);
 
-        holdUp(2);
+        holdUp(0.5);
 
         timer.reset();
-        while (timer.seconds()<5 && !flag) {
+        while (timer.seconds()<2 && !flag) {
             if ((colorSensorJewel.red() >= 3) || (colorSensorJewel.blue() >= 3) && !flag) {
                 if (colorSensorJewel.red() > colorSensorJewel.blue())
                     seeRed=true;
@@ -271,12 +367,12 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
                 }
                 else if (seeRed && !knockRed)
                 {
-                    gemBarWrist.setPosition(0);
+                    gemBarWrist.setPosition(-1);
                     telemetry.addData("i see", "red");
                 }
                 else if (!seeRed && knockRed)
                 {
-                    gemBarWrist.setPosition(0);
+                    gemBarWrist.setPosition(-1);
                     telemetry.addData("i see", "blue");
                 }
                 else
@@ -292,9 +388,9 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
 
         gemBarWrist.setPosition(0.4);
         gemBarShoulder.setPosition(1);
-        holdUp(.25);
+        holdUp(0.8);
         gemBarWrist.setPosition(0.8);
-        holdUp(1);
+        holdUp(0.8);
     }
 
     protected void moveEncoders(double distanceInches, int dir){
@@ -313,6 +409,7 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
         wheelFL.setPower(speed);
         wheelFR.setPower(speed);
 
+        print("ooga booga",0.5);
 
         while(wheelFL.isBusy() /*&& BL.isBusy() && BR.isBusy() && FL.isBusy()*/){
             tickRatio = ((double)wheelFL.getCurrentPosition() - (double)currentPos) / distanceTics;
@@ -325,9 +422,6 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
                 if (speed > -0.15)
                     speed = -0.15;
             }
-            telemetry.addData("" + speed, "");
-            telemetry.addData("tickRatio" + tickRatio, "GetPos" + wheelFL.getCurrentPosition());
-            telemetry.update();
             wheelBR.setPower(speed);
             wheelBL.setPower(speed);
             wheelFL.setPower(speed);
@@ -337,174 +431,20 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
         wheelBR.setPower(0);
         wheelFL.setPower(0);
         wheelBL.setPower(0);
+
+        print("check 1.5",0.5);
     }
 
-    protected void harvest(boolean harvestMode, double power){
-        if(!flipped){
-            if(harvestMode){
-                //Harvest Block
-                intakeLeft.setPower(power);
-                intakeRight.setPower(-power);
-            }else{
-                //Eject Block
-                intakeRight.setPower(-power);
-                intakeLeft.setPower(power);
-            }
-        }
-    }
-
-    protected void unloadBlocks(){
-        // raise lift
-        lift.setPower(1);
-        lift.setPower(0);
-        sleep(100);
-        flipBlocks(true);
-        sleep(500);
-        flipBlocks(false);
-        lift.setPower(-1);
-        sleep(100);
-        lift.setPower(0);
-    }
-
-    protected void flipBlocks(boolean flip){
-        //TODO test to figure out servo min position and max position
-        if(flip != flipped){
-            if (flip == true){
-                setFlipMotors(90);
-                flipped = true;
-            } else{
-                setFlipMotors(0);
-                flipped = false;
-            }
-        }
+    public void setDrive(double power){
+        wheelFL.setPower(power);
+        wheelBL.setPower(power);
+        wheelFR.setPower(power);
+        wheelBR.setPower(power);
     }
 
 
-    private void setFlipMotors(double pos){
-//        flipBack.setPosition(pos);
-//        flipForw.setPosition(1-pos);
-    }
 
 
-    protected void strafeEncoders(double distance){
-        //if rotate is one then the left drive train's target will be set to negative
-        double speed = 0.5;
-        int dir = (int) Math.signum(distance);
-        int currentPos = wheelBR.getCurrentPosition();
-        int distanceTics = (int)(distance * CPI);
-        double tickRatio;
-
-        wheelBR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        wheelBR.setTargetPosition(currentPos + distanceTics);
-        wheelBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        while(wheelBR.isBusy() /*&& BL.isBusy() && BR.isBusy() && FL.isBusy()*/){
-            tickRatio = ((double)wheelBR.getCurrentPosition() - (double)currentPos) / distanceTics;
-            speed = ((-0.5) * (tickRatio) + 0.5);
-            if (speed < 0.15)
-                speed = 0.15;
-            wheelFL.setPower(speed*dir);
-            wheelFR.setPower(-speed*dir);
-            wheelBL.setPower(-speed*dir);
-            wheelBR.setPower(speed*dir);
-        }
-    }
-
-    public void strafe(int distance) {
-        // DRIVE
-        double strafe = gamepad1.left_stick_x;
-        float dir = Math.signum(distance);
-        int encoderStrafeFactor = 10;
-        int currPos = wheelFL.getCurrentPosition();
-        int endPos = distance*encoderStrafeFactor;
-        while (Math.abs(endPos - currPos) > 0){
-            wheelFL.setPower(strafe*dir);
-            wheelFR.setPower(-strafe*dir);
-            wheelBL.setPower(-strafe*dir);
-            wheelBR.setPower(strafe*dir);
-        }
-        setDrive(0);
-    }
-
-    protected void wiggle (int driveDistance) {
-        // travel 0.5 every time while wiggling
-        int wiggleCount = (int)(driveDistance/0.5);
-        int distanceTics = (int) (0.5 * CPI);
-        int count = 0;
-
-        wheelBL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        wheelFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        wheelBR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        wheelFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        while ((wheelFR.getCurrentPosition() < driveDistance) && (wheelFL.getCurrentPosition() < driveDistance)) {
-            if (count == 0) {
-                for (int x = 1; x <= wiggleCount; x++) {
-                    wheelBL.setTargetPosition(wheelBL.getCurrentPosition());
-                    wheelFL.setTargetPosition(wheelFL.getCurrentPosition());
-                    wheelBR.setTargetPosition(distanceTics * wiggleCount);
-                    wheelFR.setTargetPosition(distanceTics * wiggleCount);
-                }
-            }
-            else if (count == 1) {
-                for (int x = 0; x < wiggleCount; x++) {
-                    wheelBL.setTargetPosition(distanceTics * wiggleCount);
-                    wheelFL.setTargetPosition(distanceTics * wiggleCount);
-                    wheelBR.setTargetPosition(wheelBR.getCurrentPosition());
-                    wheelFR.setTargetPosition(wheelFR.getCurrentPosition());
-                }
-            }
-
-            while (wheelFR.isBusy() && wheelBL.isBusy() && wheelBR.isBusy() && wheelFL.isBusy()) {
-                if (count == 0) {
-                    wheelFR.setPower(0.3);
-                    wheelBR.setPower(0.3);
-                    wheelFL.setPower(0);
-                    wheelBL.setPower(0);
-                    count++;
-                } else if (count == 1) {
-                    wheelFR.setPower(0);
-                    wheelFL.setPower(0.3);
-                    wheelBR.setPower(0);
-                    wheelBL.setPower(0.3);
-                    count--;
-                }
-            }
-        }
-    }
-
-    protected void setDrive(double p) {
-        wheelFL.setPower(p);
-        wheelFR.setPower(p);
-        wheelBL.setPower(p);
-        wheelBR.setPower(p);
-    }
-
-    protected void setDrive(double p1, double p2) {
-        wheelFL.setPower(p1);
-        wheelFR.setPower(p2);
-        wheelBL.setPower(p1);
-        wheelBR.setPower(p2);
-    }
-
-    protected void setDrive(double p1, double p2, double p3, double p4) {
-        wheelFL.setPower(p1);
-        wheelFR.setPower(p2);
-        wheelBL.setPower(p3);
-        wheelBR.setPower(p4);
-    }
-
-    public RelicRecoveryVuMark scanVuforia(){
-        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-        while (vuMark == RelicRecoveryVuMark.UNKNOWN){
-            vuMark = RelicRecoveryVuMark.from(relicTemplate);
-            if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
-                parameter = new VuforiaLocalizer.Parameters();
-                return vuMark;
-            }
-        }
-        return vuMark;
-    }
 
 
 }

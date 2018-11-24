@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.WorldsGeRM.testing;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -11,7 +12,7 @@ import org.firstinspires.ftc.teamcode.WorldsGeRM.RevIMU;
 /**
  * Created by altra on 4/5/2018.
  */
-
+@Disabled
 @Autonomous(name="ImuTurn", group="twoMotor")
 public class imuTurn extends LinearOpMode
 {

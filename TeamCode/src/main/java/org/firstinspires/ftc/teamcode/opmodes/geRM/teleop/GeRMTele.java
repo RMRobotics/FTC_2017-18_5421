@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes.geRM.teleop;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -18,6 +19,7 @@ import static org.firstinspires.ftc.teamcode.util.enums.Direction.LEFT;
  * Created by poofs on 11/28/2017.
  */
 
+@Disabled
 @TeleOp(name = "geRM - TELEOP", group = "geRM")
 public class GeRMTele extends TeleSuper {
 

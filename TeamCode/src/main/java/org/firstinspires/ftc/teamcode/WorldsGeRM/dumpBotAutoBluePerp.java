@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.WorldsGeRM;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -22,6 +23,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  * Created by ur mum xd on 3/22/2018.
  */
 
+@Disabled
 @Autonomous(name="dumpBotAutoBluePerp", group="dumpBotConfig")
 public class dumpBotAutoBluePerp extends LinearOpMode {
 
@@ -30,11 +32,13 @@ public class dumpBotAutoBluePerp extends LinearOpMode {
 
     protected DcMotor intakeLeft, intakeRight;
 
-    protected Servo gemBarShoulder, gemBarWrist;
+    protected Servo gemBarShoulder, gemBarWrist, pushBoy;
 
     protected ElapsedTime timer = new ElapsedTime();
 
     protected ColorSensor colorSensorJewel;
+
+    protected Servo flipRight, flipLeft;
 
     static double CPI = (1120.0 * 0.66666)/(4.0 * Math.PI); //CALCULATIONS FOR THE COUNTS PER INCH
 
@@ -55,9 +59,16 @@ public class dumpBotAutoBluePerp extends LinearOpMode {
         wheelBL = hardwareMap.dcMotor.get("wheelBL");
         wheelBR = hardwareMap.dcMotor.get("wheelBR");
         wheelFL.setDirection(DcMotorSimple.Direction.REVERSE);
+        wheelBL.setDirection(DcMotorSimple.Direction.REVERSE);
+
 
         intakeLeft = hardwareMap.dcMotor.get("intakeLeft");
         intakeRight = hardwareMap.dcMotor.get("intakeRight");
+
+        flipLeft = hardwareMap.servo.get("flipLeft");
+        flipRight = hardwareMap.servo.get("flipRight");
+
+        pushBoy = hardwareMap.servo.get("pushBoy");
 
         colorSensorJewel = hardwareMap.colorSensor.get("colorSensorJewel");
 
@@ -83,7 +94,15 @@ public class dumpBotAutoBluePerp extends LinearOpMode {
         telemetry.update();
         relicTrackables.activate();
 
+        flipLeft.setPosition(0.75);
+        flipRight.setPosition(0.77);
+
         waitForStart();
+
+
+
+
+
 
 
         gemBarShoulder = hardwareMap.servo.get("drop");
@@ -103,6 +122,14 @@ public class dumpBotAutoBluePerp extends LinearOpMode {
 //
 //        setDrive(0);
 
+//        imuTurn(-5,0.4);
+
+
+
+//        imuTurn(5,0.4);
+
+
+
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
         while (vuMark == RelicRecoveryVuMark.UNKNOWN){
             vuMark = RelicRecoveryVuMark.from(relicTemplate);
@@ -115,9 +142,9 @@ public class dumpBotAutoBluePerp extends LinearOpMode {
 
         holdUp(0.7);
 
-        setDrive(1);
+        setDrive(0.5);
 
-        holdUp(0.75);
+        holdUp(1.05);
 
         setDrive(-0.3);
 
@@ -125,29 +152,37 @@ public class dumpBotAutoBluePerp extends LinearOpMode {
 
         setDrive(0);
 
-        holdUp(3);
-
         moveEncoders(6, 1);
 
         if (vuMark == RelicRecoveryVuMark.LEFT){
-            strafeEncoders(15, 1);
+            strafeEncoders(8, 1);
         }
         if (vuMark == RelicRecoveryVuMark.CENTER){
-            strafeEncoders(25, 1);
+            strafeEncoders(15, 1);
         }
         if (vuMark == RelicRecoveryVuMark.RIGHT){
-            strafeEncoders(35, 1);
+            strafeEncoders(20, 1);
         }
 
-        moveEncoders(4, 1);
+        moveEncoders(8, 1);
 
         intakeRight.setPower(1);
         intakeLeft.setPower(-1);
 
-        holdUp(0.5);
+        moveEncoders(-3, -1);
 
         intakeRight.setPower(0);
         intakeLeft.setPower(0);
+
+        imuTurn(145.0, 0.4);
+
+        moveEncoders(12, 1);
+
+        moveEncoders(-8, -1);
+
+        imuTurn(135,0.5);
+
+        moveEncoders(36,1);
 
 
 
@@ -165,7 +200,7 @@ public class dumpBotAutoBluePerp extends LinearOpMode {
     protected void strafeEncoders(double distanceInches, int dir){
 
         double angle = imu.getZAngle();
-        int currentPos = wheelFL.getCurrentPosition();
+        int currentPos = wheelFL.getCurrentPosition(), pos;
         int distanceTics = dir*(int)(distanceInches * CPI);
         double tickRatio;
 
@@ -189,14 +224,32 @@ public class dumpBotAutoBluePerp extends LinearOpMode {
 
 
         while(wheelFL.isBusy() /*&& BL.isBusy() && BR.isBusy() && FL.isBusy()*/){
+            if (Math.abs(-imu.getZAngle() - angle) >= 15){
+                pos = wheelFL.getCurrentPosition();
+                imuTurn(-(imu.getZAngle() - angle),0.4);
+                wheelFL.setTargetPosition(wheelFL.getTargetPosition() + wheelFL.getCurrentPosition() - pos);
+                if (dir == 1) {
+                    wheelBR.setPower(1);
+                    wheelBL.setPower(-1);
+                    wheelFL.setPower(1);
+                    wheelFR.setPower(-1);
+                }
+
+                if (dir == -1) {
+                    wheelBR.setPower(-1);
+                    wheelBL.setPower(1);
+                    wheelFL.setPower(-1);
+                    wheelFR.setPower(1);
+                }
+            }
 
         }
         wheelFR.setPower(0);
         wheelBR.setPower(0);
         wheelFL.setPower(0);
         wheelBL.setPower(0);
-        double angleFinal = imu.getZAngle() - angle;
-        imuTurn(angleFinal);
+        double angleFinal = -(imu.getZAngle() - angle);
+        imuTurn(angleFinal,0.4);
 //        if (angleFinal > 0){
 //            wheelFR.setPower(0.5);
 //            wheelBR.setPower(0.5);
@@ -219,10 +272,10 @@ public class dumpBotAutoBluePerp extends LinearOpMode {
 
 
 
-    protected void imuTurn(double degree)
+    protected void imuTurn(double degree, double num)
     {
         imu.setOffset(0);
-        double num = 0.75, err = 1, pwr = 0;
+        double err = 1.2, pwr = 0;
 
         int count = 0;
         boolean flag = true;
@@ -313,9 +366,11 @@ public class dumpBotAutoBluePerp extends LinearOpMode {
         else
             knockRed = false;
 
-        gemBarShoulder.setPosition(0);
-        holdUp(.25);
+        gemBarShoulder.setPosition(0.5);
         gemBarWrist.setPosition(0.3);
+        holdUp(2);
+        holdUp(.25);
+        gemBarShoulder.setPosition(0.12);
 
         holdUp(2);
 
@@ -335,12 +390,12 @@ public class dumpBotAutoBluePerp extends LinearOpMode {
                 }
                 else if (seeRed && !knockRed)
                 {
-                    gemBarWrist.setPosition(0);
+                    gemBarWrist.setPosition(-1);
                     telemetry.addData("i see", "red");
                 }
                 else if (!seeRed && knockRed)
                 {
-                    gemBarWrist.setPosition(0);
+                    gemBarWrist.setPosition(-1);
                     telemetry.addData("i see", "blue");
                 }
                 else

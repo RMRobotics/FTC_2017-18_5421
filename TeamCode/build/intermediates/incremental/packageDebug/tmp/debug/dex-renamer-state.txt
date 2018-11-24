@@ -1,0 +1,4 @@
+#Fri Apr 27 06:10:58 EDT 2018
+base.0=C\:\\Users\\Kameron\\Desktop\\RoboFinal2\\FTC_2017-18_5421\\TeamCode\\build\\intermediates\\transforms\\dexMerger\\debug\\0
+path.0=classes.dex
+renamed.0=classes.dex

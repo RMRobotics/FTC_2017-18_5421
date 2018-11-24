@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="navx_ftc-release:@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/navx_ftc-release.aar/eea6b4114d9fa9eb3a0b360774e6d4e9/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/navx_ftc-release.aar/eea6b4114d9fa9eb3a0b360774e6d4e9/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

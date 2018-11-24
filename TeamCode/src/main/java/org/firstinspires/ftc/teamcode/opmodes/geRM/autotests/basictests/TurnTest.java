@@ -14,7 +14,7 @@ import static org.firstinspires.ftc.teamcode.util.enums.Direction.RIGHT;
 /**
  * Created by General on 1/5/2018.
  */
-
+@Disabled
 @Autonomous(name = "Turn Test")
 public class TurnTest extends GeRMLinear{
     @Override

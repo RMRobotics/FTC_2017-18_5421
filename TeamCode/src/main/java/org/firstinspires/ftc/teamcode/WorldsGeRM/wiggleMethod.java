@@ -3,12 +3,14 @@ package org.firstinspires.ftc.teamcode.WorldsGeRM;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
  * Created by Angela on 4/11/2018.
  */
+@Disabled
 @Autonomous (name = "wiggle", group="twoMotor")
 public class wiggleMethod extends LinearOpMode {
     static double CPI = (1120.0 * 0.66666)/(4.0 * Math.PI);

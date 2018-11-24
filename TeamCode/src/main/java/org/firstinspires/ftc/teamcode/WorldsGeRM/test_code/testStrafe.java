@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.WorldsGeRM.test_code;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -9,6 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.R;
 import org.firstinspires.ftc.teamcode.WorldsGeRM.dumpBotAutoSuper;
 
+@Disabled
 @Autonomous(name = "testEncoderStrafe", group = "twoMotor")
 public class testStrafe extends LinearOpMode {
 

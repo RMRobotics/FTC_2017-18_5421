@@ -39,40 +39,59 @@ public class dumpBotTele extends dumpBotTeleSuper {
         }
 
         //changes from flipped to not flipped and vice versa when a is pressed
-        if (gamepad2.y) {
+        if (gamepad2.a) { //down
             //implement flipper here
-            flipLeft.setPosition(0.9);
-            flipRight.setPosition(0.92);
+            flipLeft.setPosition(0.83);
+            flipRight.setPosition(0.83);
         }
 
-        if (gamepad2.a) {
+        if (gamepad2.y) {
             //implement flipper here
-            flipLeft.setPosition(0.1);
-            flipRight.setPosition(0.12);
+            flipLeft.setPosition(0.13);
+            flipRight.setPosition(0.13);
         }
 
         if (gamepad2.x) {
             //implement flipper here
-            flipLeft.setPosition(0.49);
-            flipRight.setPosition(0.51);
+            flipLeft.setPosition(0.63);
+            flipRight.setPosition(0.63);
         }
+
+        if (gamepad1.x){
+            pushBoy.setPosition(0.9);
+        }
+        if (gamepad1.a){ //closes
+            pushBoy.setPosition(0.1);
+        }
+        if (gamepad2.left_trigger!=0){          //up
+            relicWrist.setPosition(1);
+        }
+        else if (gamepad2.right_trigger!=0){    //down
+            relicWrist.setPosition(0.18);
+        }
+        if (gamepad2.right_bumper){
+            relicClaw.setPosition(1);
+        }
+        if (gamepad2.left_bumper){
+            relicClaw.setPosition(0);
+        }
+//        telemetry.addData(relicWrist.getPower() + "","");
+        telemetry.update();
+
+        if (gamepad1.y)
+            gemBarShoulder.setPosition(0.93);
+        if (gamepad1.b)
+            gemBarShoulder.setPosition(0.12);
+
+        if (gamepad1.right_trigger!=0)
+            gemBarWrist.setPosition(0.3);
+        if (gamepad1.left_trigger!=0)
+            gemBarWrist.setPosition(0.84);
 
 
         lift.setPower(-gamepad2.left_stick_y);
 
-        //relicExtend.setPower(gamepad2.right_stick_y);
-
-//        if (gamepad2.right_trigger > 0)
-//            relicClaw.setPosition(1);
-//
-//        if (gamepad2.left_trigger > 0)
-//            relicClaw.setPosition(0);
-//
-//        if (gamepad2.right_bumper)
-//            relicArm.setPosition(1);
-//
-//        if (gamepad2.left_bumper)
-//            relicArm.setPosition(0);
+        relicExtend.setPower(-gamepad2.right_stick_y);
 
     }
 }

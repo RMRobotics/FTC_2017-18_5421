@@ -5,7 +5,8 @@ package org.firstinspires.ftc.teamcode.opmodes.geRM.autotests.basictests;
  */
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-        import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
         import com.qualcomm.robotcore.hardware.CRServo;
         import com.qualcomm.robotcore.hardware.ColorSensor;
         import com.qualcomm.robotcore.hardware.DcMotor;
@@ -30,6 +31,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  */
 
 //red easy
+    @Disabled
 @Autonomous(name="autoMark1", group ="woRMholeConfig")
 public class automarktest1 extends LinearOpMode {
 

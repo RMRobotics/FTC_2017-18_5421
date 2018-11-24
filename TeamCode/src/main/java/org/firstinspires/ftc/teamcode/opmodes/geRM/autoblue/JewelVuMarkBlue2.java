@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes.geRM.autoblue;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
@@ -15,6 +16,7 @@ import static org.firstinspires.ftc.teamcode.util.enums.Drive.TIME;
 /**
  * Created by General on 1/5/2018.
  */
+@Disabled
 @Autonomous(name = "Jewel VuMark Blue 2")
 public class JewelVuMarkBlue2 extends GeRMLinear {
     @Override

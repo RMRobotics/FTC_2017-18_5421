@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.WorldsGeRM.test_code;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -13,6 +14,7 @@ import org.firstinspires.ftc.teamcode.WorldsGeRM.RevIMU;
  * Created by Kameron on 4/6/2018.
  */
 
+@Disabled
 @Autonomous(name="testOffRamp", group="twoMotor")
 public class testOffRamp extends LinearOpMode
 {
