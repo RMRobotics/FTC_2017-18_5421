@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\Angela\\Documents\\Code\\FTC_2017-18_5421\\TeamCode\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-w820dp-v13\\values-w820dp-v13.xml",
+            "outputFile": "C:\\Users\\Angela\\Documents\\Code\\FTC 2017-2018\\FTC_2017-18_5421\\TeamCode\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-w820dp-v13\\values-w820dp-v13.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Angela\\Documents\\Code\\FTC_2017-18_5421\\FtcRobotController\\build\\intermediates\\packaged_res\\debug\\values-w820dp-v13\\values-w820dp-v13.xml",
+                    "source": "C:\\Users\\Angela\\Documents\\Code\\FTC 2017-2018\\FTC_2017-18_5421\\FtcRobotController\\build\\intermediates\\packaged_res\\debug\\values-w820dp-v13\\values-w820dp-v13.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

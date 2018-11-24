@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\Angela\\Documents\\Code\\FTC_2017-18_5421\\FtcRobotController\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-v14\\values-v14.xml",
+            "outputFile": "C:\\Users\\Angela\\Documents\\Code\\FTC 2017-2018\\FTC_2017-18_5421\\FtcRobotController\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-v14\\values-v14.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Angela\\.gradle\\caches\\transforms-1\\files-1.1\\RobotCore-release.aar\\d3d938fdd9c1a0064bbaec29f7c01b1e\\res\\values-v14\\values-v14.xml",
+                    "source": "C:\\Users\\Angela\\.gradle\\caches\\transforms-1\\files-1.1\\RobotCore-release.aar\\de450ebe40a7f7eb194c4a4723d5a6ff\\res\\values-v14\\values-v14.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

@@ -88,6 +88,14 @@ public class dumpBotTele extends dumpBotTeleSuper {
         if (gamepad1.left_trigger!=0)
             gemBarWrist.setPosition(0.84);
 
+        if (gamepad2.left_bumper){
+            glyphPusher.setPosition(.8);
+        }
+
+        if(gamepad2.right_bumper) {
+            glyphPusher.setPosition(.2);
+        }
+
 
         lift.setPower(-gamepad2.left_stick_y);
 
