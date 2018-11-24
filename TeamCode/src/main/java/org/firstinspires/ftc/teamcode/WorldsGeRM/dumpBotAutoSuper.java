@@ -270,8 +270,6 @@ public abstract class dumpBotAutoSuper extends LinearOpMode{
         imuTurn(angleFinal,0.3);
     }
 
-
-
     protected void imuTurn(double degree, double num)
     {
         imu.setOffset(0);
